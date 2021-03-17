@@ -36,7 +36,20 @@ class LeadController extends Controller
         return redirect()->back()->with(['success' => 'Lead Created Successfully']);
 
     }
-    public function updateLead(LeadRequest $request , Lead $lead){
+    public function updateLead(Request $request , Lead $lead){
+        dd($request->developer);
+        $request->validate([
+            "name" => "required|string|max:255",
+            "firstPhone" => "required|string|unique:leads,firstPhone,".$lead->id."|unique:leads,secondPhone,".$lead->id."|unique:employees,phone",
+            "secondPhone" => "required|string|unique:leads,firstPhone,".$lead->id."|unique:leads,secondPhone,".$lead->id."|unique:employees,phone",
+            "address" => "required|string",
+            "city" => "required|string",
+            "country" => "required|string",
+            "bestTime" => "required|integer",
+            "comment" => "required|string",
+            "developer" => "required|string|exists:developers,id",
+            "project" => "required|string|exists:projects,id",
+        ]);
         if ($this->authorize('create',User::class)){
             $request->validate([
                 "assignedEmail" => "required|email|exists:users,email",
@@ -47,16 +60,18 @@ class LeadController extends Controller
             $data=$request->except(['developer','project']);
             $user=User::auth()->user();
         }
-        $lead=Lead::create($data);
-        $user->leads()->save($lead);
+
+        $lead->update($data)->save();
         $lead->project()->associate($request->project)->save();
+        $lead->project()->associate($user->id)->save();
         $lead->developer()->associate($request->developer)->save();
-        return redirect()->back()->with(['success' => 'Lead Created Successfully']);
+        return redirect()->back()->with(['success' => 'Lead Updated Successfully']);
+
 
     }
     public function deleteLead(Lead $lead){
-
-        dd($lead);
+        Lead::find($lead->id)->delete();
+        return redirect()->back()->with(['success' => 'Deleted Successfully']);
 
     }
 

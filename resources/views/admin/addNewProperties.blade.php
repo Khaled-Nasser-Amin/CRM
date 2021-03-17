@@ -131,16 +131,6 @@
                                                         </label>
                                                     </div>
                                                     <div class="checkbox checkbox-secondary mb-3">
-                                                        <input id="checkbox8" type="checkbox">
-                                                        <label for="checkbox8" class="mb-0">
-                                                            Grill
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <!-- end col -->
-
-                                                <div class="col-6">
-                                                    <div class="checkbox checkbox-secondary mb-3">
                                                         <input id="checkbox9" type="checkbox">
                                                         <label for="checkbox9" class="mb-0">
                                                             Dishwasher
@@ -188,8 +178,15 @@
                                                             Cofee pot
                                                         </label>
                                                     </div>
+                                                    <div class="checkbox checkbox-secondary mb-3">
+                                                        <input id="checkbox8" type="checkbox">
+                                                        <label for="checkbox8" class="mb-0">
+                                                            Grill
+                                                        </label>
+                                                    </div>
                                                 </div>
                                                 <!-- end col -->
+
 
                                             </div>
                                             <!-- end row -->

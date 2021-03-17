@@ -36,6 +36,12 @@ class EmployeeRequest extends FormRequest
             "area" => "required|string|max:255",
             "email" => "required|email|max:255|unique:users|unique:employees",
             "academicStudy" => "required|string|max:255",
+<<<<<<< HEAD
+            'serial'=> 'required|digits:4|integer|unique:employees',
+            'documentation'=> 'required|mimes:pdf,docx,doc',
+
+=======
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
         ];
     }
 }

@@ -27,8 +27,8 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::get('/ViewLeads',[LeadController::class,'ViewLeads'])->name('ViewLeads');
     Route::post('/addNewLead',[LeadController::class,'addNewLead'])->name('addNewLead');
-    Route::post('/updateLead/{$lead}',[LeadController::class,'updateLead'])->name('updateLead');
-    Route::post('/deleteLead/{$lead}',[LeadController::class,'deleteLead'])->name('deleteLead');
+    Route::post('/updateLead/{lead}',[LeadController::class,'updateLead'])->name('updateLead');
+    Route::post('/deleteLead/{lead}',[LeadController::class,'deleteLead'])->name('deleteLead');
 
     Route::get('/ViewUser',[UserController::class,'ViewUser'])->name('ViewUser');
     Route::get('/deleteUser/{user}',[UserController::class,'deleteUser'])->name('deleteUser');
@@ -46,6 +46,12 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::get('/viewHumanResource',[EmployeeController::class,'viewHumanResource'])->name('viewHumanResource');
     Route::post('/addNewEmployee',[EmployeeController::class,'addNewEmployee'])->name('addNewEmployee');
+<<<<<<< HEAD
+    Route::post('/updateEmployee/{employee}',[EmployeeController::class,'updateEmployee'])->name('updateEmployee');
+    Route::get('/deleteEmployee/{employee}',[EmployeeController::class,'deleteEmployee'])->name('deleteEmployee');
+    Route::get('/downloadDocumentation/{employee}',[EmployeeController::class,'downloadDocumentation'])->name('downloadDocumentation');
+=======
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
 });
 
 

@@ -42,9 +42,15 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- sample modal content -->
+<<<<<<< HEAD
+
+=======
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                 <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
+
+
                                             <div class="modal-header">
                                                 <h4 class="modal-title mt-0">EMPLOYEE</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -53,7 +59,11 @@
                                             </div>
 
                                             <div class="modal-body">
+<<<<<<< HEAD
+                                                <form action="{{route('addNewEmployee')}}" method="post" id="addNewEmployee" enctype="multipart/form-data">
+=======
                                                 <form action="{{route('addNewEmployee')}}" method="post" id="addNewEmployee">
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -73,7 +83,11 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="field-1" class="control-label">Phone number</label>
+<<<<<<< HEAD
+                                                                <input type="text" class="form-control" id="field-1" name="phone" placeholder="01302533">
+=======
                                                                 <input type="text" class="form-control" id="field-1" name="phoneNumber" placeholder="01302533">
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -131,6 +145,7 @@
                                                                 <label for="field-5" class="control-label">Country</label>
                                                                 <input type="text" class="form-control" id="field-5" name="country" placeholder="United States">
                                                             </div>
+<<<<<<< HEAD
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
@@ -144,6 +159,27 @@
                                                             <div class="form-group no-margin">
                                                                 <label for="field-7" class="control-label">comment</label>
                                                                 <textarea class="form-control autogrow" id="field-7" name="comment" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+=======
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="field-6" class="control-label">Zip</label>
+                                                                <input type="text" class="form-control" id="field-6" name="zip" placeholder="123456">
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+<<<<<<< HEAD
+                                                            <div class="form-group mb-4">
+                                                                <label>File Uploads</label>
+                                                                <input type="file" name="documentation" class="dropify" data-height="210" />
+=======
+                                                            <div class="form-group no-margin">
+                                                                <label for="field-7" class="control-label">comment</label>
+                                                                <textarea class="form-control autogrow" id="field-7" name="comment" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                                             </div>
                                                         </div>
                                                     </div>
@@ -174,68 +210,36 @@
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <form class="row">
+                                    <form class="row" method="get" action="{{route('viewHumanResource')}}">
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
-                                                <select class="selectpicker show-tick" data-style="btn-secondary">
-                                                    <option value="0" >Position</option>
-                                                    <option value="1">Sales Manager</option>
-                                                    <option value="2">Sales Team Leader</option>
-                                                    <option value="3">Sales Consultant</option>
-                                                    <option value="4">Sales Admin</option>
-                                                    <option value="5">Digital Markter</option>
-                                                </select>
+                                                <label for="field-1" class="control-label">Position</label>
+                                                <input type="text" class="form-control" id="field-1" name="position" placeholder="Back-end developer" value="{{request()->query('position')}}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
-                                                <select class="selectpicker show-tick" data-style="btn-secondary">
-                                                    <option value="0">Location</option>
-                                                    <option value="1">New Cairo</option>
-                                                    <option value="2">6th of October</option>
-                                                    <option value="3">Nasr city</option>
-
-
-                                                </select>
+                                                <label for="field-1" class="control-label">Experience</label>
+                                                <input type="text" class="form-control" id="field-1" name="experience" placeholder="Number of Years" value="{{request()->query('experience')}}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
-                                                <select class="selectpicker show-tick" data-style="btn-secondary">
-                                                    <option value="0"> Experience</option>
-                                                    <option value="1">Without Experience</option>
-                                                    <option value="2">1 Years</option>
-                                                    <option value="3">2Years</option>
-                                                    <option value="4">3Years</option>
-                                                    <option value="5">4Years</option>
-                                                    <option value="6">More than 4 Years</option>
-                                                </select>
+                                                <label for="field-1" class="control-label">Area</label>
+                                                <input type="text" class="form-control" id="field-1" name="area" placeholder="New Cairo" value="{{request()->query('area')}}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-3">
-                                            <div class="row">
-                                                <div class="col-lg-8">
-
-                                                    <div>
-                                                        <form action="#">
-                                                            <div class="form-group">
-                                                                <div>
-                                                                    <div class="input-group">
-                                                                        <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker">
-                                                                        <div class="input-group-append">
-                                                                            <span class="input-group-text bg-secondary text-white b-0"><i class="mdi mdi-calendar"></i></span>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <!-- input-group -->
-                                                                </div>
-                                                            </div>
-                                                        </form></div>
+                                            <div class="form-group">
+                                                <label for="field-1" class="control-label">date</label>
+                                                <div class="input-group">
+                                                    <input type="text" name="date" class="form-control" placeholder="mm/dd/yyyy" id="datepicker" value="{{request()->query('date')}}">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text bg-secondary text-white b-0"><i class="mdi mdi-calendar"></i></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
                                         <div class="col-12 mb-4 text-center mt-2">
                                             <button type="submit" class="btn btn-secondary waves-effect waves-light"><i class="mdi mdi-magnify mr-1"></i>Search</button>
                                         </div>
@@ -272,6 +276,141 @@
                                                     <td><img src="{{asset('images/users/avatar-7.jpg')}}" alt="user" class="avatar-sm rounded-circle" /> {{$employee->name}}</td>
                                                     <td>{{$employee->phone}}</td>
                                                     <td>{{$employee->position}}</td>
+<<<<<<< HEAD
+                                                    <td>{{$employee->area}}</td>
+                                                    <td>{{$employee->experience}}</td>
+                                                    <td>{{$employee->created_at}}</td>
+                                                    <td>{{$employee->email}}</td>
+                                                    <td><a href="{{route('downloadDocumentation',$employee->id)}}" class="btn btn-secondary btn-rounded width-md waves-effect">Download</a></td>
+                                                    <td>
+                                                        <button class="btn btn-secondary btn-sm btn-rounded width-md waves-effect d-block" data-toggle="modal" data-target="#edit-employee-{{$employee->id}}">Edit</button>
+                                                        <a href="{{route('deleteEmployee',$employee->id)}}" class="btn btn-danger btn-sm btn-rounded width-md waves-effect">Delete</a>
+                                                    </td>
+                                                </tr>
+                                                <div id="edit-employee-{{$employee->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title mt-0">EMPLOYEE</h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-body">
+                                                                <form action="{{route('updateEmployee',$employee->id)}}" method="post" id="updateEmployee" enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="field-1" class="control-label">Name</label>
+                                                                                <input type="text" class="form-control" id="field-1" name="name" value="{{$employee->name}}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="field-2" class="control-label"> Serial</label>
+                                                                                <input type="text" class="form-control" id="field-2" name="serial" value="{{$employee->serial}}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="field-1" class="control-label">Phone number</label>
+                                                                                <input type="text" class="form-control" id="field-1" name="phone" value="{{$employee->phone}}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="field-2" class="control-label">Position</label>
+                                                                                <input type="text" class="form-control" id="field-2" name="position" value="{{$employee->position}}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="field-1" class="control-label">Area</label>
+                                                                                <input type="text" class="form-control" id="field-1" name="area" value="{{$employee->area}}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="field-2" class="control-label">Experience</label>
+                                                                                <input type="text" class="form-control" id="field-2" name="experience" value="{{$employee->experience}}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="field-1" class="control-label">Email</label>
+                                                                                <input type="text" class="form-control" id="field-1" name="email" value="{{$employee->email}}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group">
+                                                                                <label for="field-2" class="control-label">Academic Study</label>
+                                                                                <input type="text" class="form-control" id="field-2" name="academicStudy" value="{{$employee->academicStudy}}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label for="field-3" class="control-label">Address</label>
+                                                                                <input type="text" class="form-control" id="field-3" name="address" value="{{$employee->address}}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label for="field-4" class="control-label">City</label>
+                                                                                <input type="text" class="form-control" id="field-4" name="city" value="{{$employee->city}}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label for="field-5" class="control-label">Country</label>
+                                                                                <input type="text" class="form-control" id="field-5" name="country" value="{{$employee->country}}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label for="field-6" class="control-label">Zip</label>
+                                                                                <input type="text" class="form-control" id="field-6" name="zip" value="{{$employee->zip}}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group no-margin">
+                                                                                <label for="field-7" class="control-label">comment</label>
+                                                                                <textarea class="form-control autogrow" id="field-7" name="comment"  style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">{{$employee->comment}}</textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group mb-4">
+                                                                                <label>File Uploads</label>
+                                                                                <input type="file" name="documentation" class="dropify" data-height="210" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-info waves-effect waves-light" onclick="document.getElementById('updateEmployee').submit()">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+=======
                                                     <td>{{$employee->aria}}</td>
                                                     <td>{{$employee->experience}}</td>
                                                     <td>{{$employee->created_at}}</td>
@@ -282,12 +421,17 @@
                                                         <a href="#" class="btn btn-danger bth-sm btn-rounded width-md waves-effect">Delete</a>
                                                     </td>
                                                 </tr>
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                             @empty
                                                 <tr><td>No Records Yet</td></tr>
                                             @endforelse
 
                                             </tbody>
                                         </table>
+                                        <div class="customPagination">
+                                            {{$employees->links()}}
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>

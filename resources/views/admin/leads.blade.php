@@ -660,129 +660,127 @@
                                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit-lead-{{$lead->id}}">
                                             Edit
                                         </button>
-                                        <div id="edit-lead-{{$lead->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title mt-0"></h4>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="{{route('updateLead',$lead->id)}}" method="post" id="updateLead">
-                                                            @csrf
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="field-1" class="control-label">Name</label>
-                                                                        <input type="text" name="name" class="form-control" id="field-1" value="{{$lead->name}}">
-                                                                    </div>
-                                                                </div>
-                                                                @can('create',App\Models\User::class) {{--Assign--}}
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="field-2" class="control-label">Assign</label>
-                                                                        <input type="text" name="assignedEmail" class="form-control" id="field-2" value="{{$lead->user->email}}">
-                                                                    </div>
-                                                                </div>
-                                                                @endcan
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="field-1" class="control-label">1st Numbe</label>
-                                                                        <input type="text" name="firstPhone" class="form-control" id="field-1" value="{{$lead->firstPhone}}">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="field-2" class="control-label">Second Number</label>
-                                                                        <input type="text" name="secondPhone" class="form-control" id="field-2" value="{{$lead->secondPhone}}">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                        <label for="field-3" class="control-label">Address</label>
-                                                                        <input type="text" name="address" class="form-control" id="field-3" value="{{$lead->address}}">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group">
-                                                                        <label for="field-4" class="control-label">City</label>
-                                                                        <input type="text" name="city" class="form-control" id="field-4" value="{{$lead->city}}">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group">
-                                                                        <label for="field-5" class="control-label">Country</label>
-                                                                        <input type="text" name="country" class="form-control" id="field-5" value="{{$lead->country}}">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group">
-                                                                        <label for="field-6" class="control-label">Best Time</label>
-                                                                        <input type="text" name="bestTime" class="form-control" id="field-6" value="{{$lead->bestTime}}">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group no-margin">
-                                                                        <label for="field-7" class="control-label">comment</label>
-                                                                        <textarea class="form-control autogrow" name="comment" id="field-7" value="{{$lead->comment}}" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <form action=""></form>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="field-2" class="control-label">Project</label>
-                                                                        <select class="selectpicker show-tick" name="project" data-style="btn-secondary">
-                                                                            @forelse($projects as $project)
-                                                                                <option value="{{$project->id}}">{{$project->name}}</option>
-                                                                            @empty
-                                                                                <option value="">No Projects Yet</option>
-                                                                            @endforelse
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="field-1" class="control-label">Developer</label>
-                                                                        <select class="selectpicker show-tick" name="developer" data-style="btn-secondary">
-                                                                            @forelse($developers as $developer)
-                                                                                <option value="{{$developer->id}}">{{$developer->name}}</option>
-                                                                            @empty
-                                                                                <option value="">No Developer Yet</option>
-                                                                            @endforelse
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
-                                                        <button type="button" onclick="document.getElementById('AddNewLead').submit()" class="btn btn-info waves-effect waves-light">Save</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
 
                                     <td> <a href="#" onclick="event.preventDefault();document.getElementById('deleteLead').submit()" class="btn btn-danger waves-effect waves-light btn-sm" id="sa-params">Delete</a></td>
                                     <form method="post" action="{{route('deleteLead',$lead->id)}}" id="deleteLead">
                                         @csrf
                                     </form>
                                 </tr>
+                                <div id="edit-lead-{{$lead->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title mt-0"></h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{route('updateLead',$lead->id)}}" method="post" id="updateLead">
+                                                    @csrf
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="field-1" class="control-label">Name</label>
+                                                                <input type="text" name="name" class="form-control" id="field-1" value="{{$lead->name}}">
+                                                            </div>
+                                                        </div>
+                                                        @can('create',App\Models\User::class) {{--Assign--}}
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="field-2" class="control-label">Assign</label>
+                                                                <input type="text" name="assignedEmail" class="form-control" id="field-2" value="{{$lead->user->email}}">
+                                                            </div>
+                                                        </div>
+                                                        @endcan
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="field-1" class="control-label">1st Numbe</label>
+                                                                <input type="text" name="firstPhone" class="form-control" id="field-1" value="{{$lead->firstPhone}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="field-2" class="control-label">Second Number</label>
+                                                                <input type="text" name="secondPhone" class="form-control" id="field-2" value="{{$lead->secondPhone}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="field-3" class="control-label">Address</label>
+                                                                <input type="text" name="address" class="form-control" id="field-3" value="{{$lead->address}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="field-4" class="control-label">City</label>
+                                                                <input type="text" name="city" class="form-control" id="field-4" value="{{$lead->city}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="field-5" class="control-label">Country</label>
+                                                                <input type="text" name="country" class="form-control" id="field-5" value="{{$lead->country}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="field-6" class="control-label">Best Time</label>
+                                                                <input type="text" name="bestTime" class="form-control" id="field-6" value="{{$lead->bestTime}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group no-margin">
+                                                                <label for="field-7" class="control-label">comment</label>
+                                                                <textarea class="form-control autogrow" name="comment" id="field-7" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">{{$lead->comment}}</textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="field-2" class="control-label">Project</label>
+                                                                <select class="selectpicker show-tick" name="project" data-style="btn-secondary">
+                                                                    @forelse($projects as $project)
+                                                                        <option value="{{$project->id}}">{{$project->name}}</option>
+                                                                    @empty
+                                                                        <option value="">No Projects Yet</option>
+                                                                    @endforelse
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="field-1" class="control-label">Developer</label>
+                                                                <select class="selectpicker show-tick" name="developer" data-style="btn-secondary">
+                                                                    @forelse($developers as $developer)
+                                                                        <option value="{{$developer->id}}">{{$developer->name}}</option>
+                                                                    @empty
+                                                                        <option value="">No Developer Yet</option>
+                                                                    @endforelse
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                                <button type="button" onclick="document.getElementById('updateLead').submit()" class="btn btn-info waves-effect waves-light">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             @empty
                             <tr>
                                 <td>No Records Yet</td>
