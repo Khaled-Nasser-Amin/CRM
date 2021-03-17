@@ -82,15 +82,15 @@
                 </div>
             </div>
            <!-- Responsive modal -->
-            <ul class="row">
+            <ul class="row list-unstyled">
                 <li class="mr-3 col-md-3 d-noned-sm-block">
                     <button class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal-new">Add New</button>
                 </li>
                 <li class="col-md-3 d-none d-sm-block">
-                    <form class="app-search">
+                    <form class="app-search" method="get" action="{{route('ViewUser')}}">
                         <div class="app-search-box">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search...">
+                                <input type="text" class="form-control" name="search" placeholder="Search..." value="{{request()->query('search')}}">
                                 <div class="input-group-append">
                                     <button class="btn" type="submit">
                                         <i class="fas fa-search"></i>
@@ -101,7 +101,6 @@
                     </form>
                 </li>
             </ul>
-
        </div>
 
 
@@ -109,10 +108,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
                     <h5 class="header-title">USERS</h5>
                         <p class="sub-header"></p>
-                        <div class="table-responsive">
+                        <div class="table-responsive overflow-hidden">
                             <table class="table table-centered mb-0" id="btn-editable">
                                 <thead>
                                 <tr>
@@ -121,20 +119,19 @@
                                     <th>Phone</th>
                                     <th>Auth.</th>
                                     <th>Email</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
                                 @forelse($users as $user)
                                 <tr>
-
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->serial}}</td>
                                     <td>{{$user->phone}}</td>
                                     <td>********</td>
                                     <td>{{$user->email}}</td>
-                                    <td><button class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal-edit-{{$user->id}}">Edit</button></td>
-                                    <td><a href="{{route('deleteUser',$user->id)}}" class="btn btn-danger waves-effect waves-light" >Delete</a></td>
+                                    <td class="row"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#con-close-modal-edit-{{$user->id}}">Edit</button><a href="{{route('deleteUser',$user->id)}}" class="btn btn-danger waves-effect waves-light" >Delete</a></td>
                                 </tr>
                                 </tbody>
                                 <!-- /.modal   start Edit -->
@@ -200,10 +197,11 @@
                                     <p>There is no any users yet</p>
                                 @endforelse
                             </table>
+                            <div class="customPagination">
+                                {{$users->links()}}
+                            </div>
                         </div>
                         <!-- end .table-responsive-->
-
-
                 </div>
                 <!-- end card-body -->
             </div>

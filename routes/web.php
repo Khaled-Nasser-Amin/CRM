@@ -7,7 +7,7 @@ use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\PropertiesController;
-use App\Http\Controllers\HumanResourceController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,8 +27,8 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::get('/ViewLeads',[LeadController::class,'ViewLeads'])->name('ViewLeads');
     Route::post('/addNewLead',[LeadController::class,'addNewLead'])->name('addNewLead');
-    Route::post('/updateLead/{$lead}',[LeadController::class,'updateLead'])->name('updateLead');
-    Route::post('/deleteLead/{$lead}',[LeadController::class,'deleteLead'])->name('deleteLead');
+    Route::post('/updateLead/{lead}',[LeadController::class,'updateLead'])->name('updateLead');
+    Route::post('/deleteLead/{lead}',[LeadController::class,'deleteLead'])->name('deleteLead');
 
     Route::get('/ViewUser',[UserController::class,'ViewUser'])->name('ViewUser');
     Route::get('/deleteUser/{user}',[UserController::class,'deleteUser'])->name('deleteUser');
@@ -43,7 +43,12 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::get('/properties',[PropertiesController::class,'properties'])->name('properties');
     Route::get('/addNewProperty',[PropertiesController::class,'addNewProperty'])->name('addNewProperty');
-    Route::get('/viewHumanResource',[HumanResourceController::class,'viewHumanResource'])->name('viewHumanResource');
+
+    Route::get('/viewHumanResource',[EmployeeController::class,'viewHumanResource'])->name('viewHumanResource');
+    Route::post('/addNewEmployee',[EmployeeController::class,'addNewEmployee'])->name('addNewEmployee');
+    Route::post('/updateEmployee/{employee}',[EmployeeController::class,'updateEmployee'])->name('updateEmployee');
+    Route::get('/deleteEmployee/{employee}',[EmployeeController::class,'deleteEmployee'])->name('deleteEmployee');
+    Route::get('/downloadDocumentation/{employee}',[EmployeeController::class,'downloadDocumentation'])->name('downloadDocumentation');
 });
 
 

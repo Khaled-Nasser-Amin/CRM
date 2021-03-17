@@ -24,7 +24,7 @@ class CreatePropertiesTable extends Migration
             $table->string('square');
             $table->integer('carParking');
             $table->string('image');
-            $table->string('user_id')->nullable()->unsigned();
+            $table->bigInteger('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
