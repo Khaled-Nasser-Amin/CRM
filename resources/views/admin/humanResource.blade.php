@@ -42,7 +42,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- sample modal content -->
+<<<<<<< HEAD
 
+=======
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                 <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -56,7 +59,11 @@
                                             </div>
 
                                             <div class="modal-body">
+<<<<<<< HEAD
                                                 <form action="{{route('addNewEmployee')}}" method="post" id="addNewEmployee" enctype="multipart/form-data">
+=======
+                                                <form action="{{route('addNewEmployee')}}" method="post" id="addNewEmployee">
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -76,7 +83,11 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="field-1" class="control-label">Phone number</label>
+<<<<<<< HEAD
                                                                 <input type="text" class="form-control" id="field-1" name="phone" placeholder="01302533">
+=======
+                                                                <input type="text" class="form-control" id="field-1" name="phoneNumber" placeholder="01302533">
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -134,6 +145,7 @@
                                                                 <label for="field-5" class="control-label">Country</label>
                                                                 <input type="text" class="form-control" id="field-5" name="country" placeholder="United States">
                                                             </div>
+<<<<<<< HEAD
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
@@ -147,14 +159,27 @@
                                                             <div class="form-group no-margin">
                                                                 <label for="field-7" class="control-label">comment</label>
                                                                 <textarea class="form-control autogrow" id="field-7" name="comment" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+=======
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="field-6" class="control-label">Zip</label>
+                                                                <input type="text" class="form-control" id="field-6" name="zip" placeholder="123456">
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
+<<<<<<< HEAD
                                                             <div class="form-group mb-4">
                                                                 <label>File Uploads</label>
                                                                 <input type="file" name="documentation" class="dropify" data-height="210" />
+=======
+                                                            <div class="form-group no-margin">
+                                                                <label for="field-7" class="control-label">comment</label>
+                                                                <textarea class="form-control autogrow" id="field-7" name="comment" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                                             </div>
                                                         </div>
                                                     </div>
@@ -251,6 +276,7 @@
                                                     <td><img src="{{asset('images/users/avatar-7.jpg')}}" alt="user" class="avatar-sm rounded-circle" /> {{$employee->name}}</td>
                                                     <td>{{$employee->phone}}</td>
                                                     <td>{{$employee->position}}</td>
+<<<<<<< HEAD
                                                     <td>{{$employee->area}}</td>
                                                     <td>{{$employee->experience}}</td>
                                                     <td>{{$employee->created_at}}</td>
@@ -384,6 +410,18 @@
                                                     </div>
                                                 </div>
 
+=======
+                                                    <td>{{$employee->aria}}</td>
+                                                    <td>{{$employee->experience}}</td>
+                                                    <td>{{$employee->created_at}}</td>
+                                                    <td><{{$employee->email}}/td>
+                                                    <td>  <button type="button" class="btn btn-secondary btn-rounded width-md waves-effect">Download</button></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-secondary btn-sm btn-rounded width-md waves-effect">Edit</button>
+                                                        <a href="#" class="btn btn-danger bth-sm btn-rounded width-md waves-effect">Delete</a>
+                                                    </td>
+                                                </tr>
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
                                             @empty
                                                 <tr><td>No Records Yet</td></tr>
                                             @endforelse

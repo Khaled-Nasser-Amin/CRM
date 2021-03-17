@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
+<<<<<<< HEAD
 use Carbon\Carbon;
+=======
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+<<<<<<< HEAD
 
     public function __construct()
     {
@@ -32,10 +36,15 @@ class EmployeeController extends Controller
                 ->whereMonth('created_at',$month)
                 ->whereDay('created_at',$day);
         })->latest()->paginate(6);
+=======
+    public function viewHumanResource(){
+        $employees=Employee::all();
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
         return view('admin.humanResource',compact('employees'));
     }
 
     public function addNewEmployee(EmployeeRequest $request){
+<<<<<<< HEAD
         $data=$request->except(['_token','documentation']);
         $file=$request->file('documentation');
         $fileName=time().'_'.$file->getClientOriginalName();
@@ -94,4 +103,9 @@ class EmployeeController extends Controller
 
     }
 
+=======
+        Employee::create($request);
+        return redirect()->back()->with(['success' => 'Created Successfully']);
+    }
+>>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
 }
