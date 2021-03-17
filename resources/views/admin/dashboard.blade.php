@@ -5,8 +5,6 @@
     <!-- ============================================================== -->
     <!-- Start Page Content here -->
     <!-- ============================================================== -->
-
-    <div class="content-page">
         <div class="content">
 
             <!-- Start Content-->
@@ -578,45 +576,13 @@
                                     <p class="inbox-item-date">9:56 AM</p>
                                 </div>
                             </a>
-
                         </div>
-
-
                     </div>
                     <!-- end card -->
                 </div>
-
             </div>
         </div>
-
     </div>
-    </div>
-
-
-    <!-- end row -->
-
-
-
-
-
-    <!-- end row -->
-
-
-
-
-    <!-- end row -->
-    <!-- end col -->
-    <!-- table-responsive -->
-    <!-- end card -->
-    <!-- end col -->
-
-    <!-- end row -->
-
-
-    <!-- end container-fluid -->
-
-
-    <!-- end content -->
 
 
 

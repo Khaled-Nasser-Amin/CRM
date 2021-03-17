@@ -7,7 +7,7 @@ use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\PropertiesController;
-use App\Http\Controllers\HumanResourceController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -43,7 +43,9 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::get('/properties',[PropertiesController::class,'properties'])->name('properties');
     Route::get('/addNewProperty',[PropertiesController::class,'addNewProperty'])->name('addNewProperty');
-    Route::get('/viewHumanResource',[HumanResourceController::class,'viewHumanResource'])->name('viewHumanResource');
+
+    Route::get('/viewHumanResource',[EmployeeController::class,'viewHumanResource'])->name('viewHumanResource');
+    Route::post('/addNewEmployee',[EmployeeController::class,'addNewEmployee'])->name('addNewEmployee');
 });
 
 
