@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
+<<<<<<< HEAD
+=======
+use Carbon\Carbon;
+>>>>>>> 93d6350e910262d0a9931b34ad6cd524819b8995
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -14,6 +18,7 @@ class EmployeeController extends Controller
         $this->middleware('can:create,App\Models\Employee');
     }
 
+<<<<<<< HEAD
     public function viewHumanResource(Request $request)
     {
 
@@ -33,6 +38,24 @@ class EmployeeController extends Controller
         })->latest()->get();
         return view('admin.humanResource',compact('employees'));
 
+=======
+    public function viewHumanResource(Request $request){
+        $employees=Employee::when($request->position,function($q) use($request){
+            return $q->where('position',$request->position);
+        })->when($request->area,function ($q) use ($request){
+            return $q->where('area',$request->area);
+        })->when($request->experience,function ($q) use ($request){
+            return $q->where('experience',$request->experience);
+        })->when($request->date,function ($q) use ($request){
+            $year=Carbon::createFromFormat('m/d/Y', $request->date)->format('Y');
+            $month=Carbon::createFromFormat('m/d/Y', $request->date)->format('m');
+            $day=Carbon::createFromFormat('m/d/Y', $request->date)->format('d');
+            return $q->whereYear('created_at',$year)
+                ->whereMonth('created_at',$month)
+                ->whereDay('created_at',$day);
+        })->latest()->paginate(6);
+        return view('admin.humanResource',compact('employees'));
+>>>>>>> 93d6350e910262d0a9931b34ad6cd524819b8995
     }
     public function addNewEmployee(EmployeeRequest $request){
         $data=$request->except(['_token','documentation']);
@@ -90,7 +113,12 @@ class EmployeeController extends Controller
         $array=explode('.',$employee->documentation);
         $extension=end($array);
         return response()->download($employee->documentation, $employee->name.'.'.$extension , $headers);
+<<<<<<< HEAD
 
     }
 
+=======
+        
+    }
+>>>>>>> 93d6350e910262d0a9931b34ad6cd524819b8995
 }
