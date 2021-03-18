@@ -11,8 +11,6 @@ use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 
-
-
 Route::get('/', function () {
     return view('login');
 })->middleware('guest');
@@ -29,6 +27,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('/addNewLead',[LeadController::class,'addNewLead'])->name('addNewLead');
     Route::post('/updateLead/{lead}',[LeadController::class,'updateLead'])->name('updateLead');
     Route::post('/deleteLead/{lead}',[LeadController::class,'deleteLead'])->name('deleteLead');
+    Route::post('/lastConnection/{lead}',[LeadController::class,'lastConnection'])->name('lastConnection');
 
     Route::get('/ViewUser',[UserController::class,'ViewUser'])->name('ViewUser');
     Route::get('/deleteUser/{user}',[UserController::class,'deleteUser'])->name('deleteUser');
@@ -43,15 +42,14 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::get('/properties',[PropertiesController::class,'properties'])->name('properties');
     Route::get('/addNewProperty',[PropertiesController::class,'addNewProperty'])->name('addNewProperty');
+    Route::post('/addNewProperty/{user}',[PropertiesController::class,'store'])->name('store');
+    Route::get('/showProperty/{property}',[PropertiesController::class,'showProperty'])->name('showProperty');
 
     Route::get('/viewHumanResource',[EmployeeController::class,'viewHumanResource'])->name('viewHumanResource');
     Route::post('/addNewEmployee',[EmployeeController::class,'addNewEmployee'])->name('addNewEmployee');
-<<<<<<< HEAD
     Route::post('/updateEmployee/{employee}',[EmployeeController::class,'updateEmployee'])->name('updateEmployee');
     Route::get('/deleteEmployee/{employee}',[EmployeeController::class,'deleteEmployee'])->name('deleteEmployee');
     Route::get('/downloadDocumentation/{employee}',[EmployeeController::class,'downloadDocumentation'])->name('downloadDocumentation');
-=======
->>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
 });
 
 

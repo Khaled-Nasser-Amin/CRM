@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LeadRequest;
+use App\Http\Requests\UpdateLeadRequest;
 use App\Models\Developer;
 use App\Models\Lead;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class LeadController extends Controller
 {
     public function ViewLeads(){
         $projects=Project::all();
         $developers=Developer::all();
-        $leads=Lead::latest()->paginate(5);
+        if ($this->authorize('create',User::class)){
+            $leads=Lead::latest()->get();
+        }else{
+           $leads=auth()->user()->leads;
+        }
         return view('admin.leads',compact('projects','developers','leads'));
     }
-
     public function addNewLead(LeadRequest $request){
         if ($this->authorize('create',User::class)){
             $request->validate([
@@ -36,20 +41,8 @@ class LeadController extends Controller
         return redirect()->back()->with(['success' => 'Lead Created Successfully']);
 
     }
-    public function updateLead(Request $request , Lead $lead){
-        dd($request->developer);
-        $request->validate([
-            "name" => "required|string|max:255",
-            "firstPhone" => "required|string|unique:leads,firstPhone,".$lead->id."|unique:leads,secondPhone,".$lead->id."|unique:employees,phone",
-            "secondPhone" => "required|string|unique:leads,firstPhone,".$lead->id."|unique:leads,secondPhone,".$lead->id."|unique:employees,phone",
-            "address" => "required|string",
-            "city" => "required|string",
-            "country" => "required|string",
-            "bestTime" => "required|integer",
-            "comment" => "required|string",
-            "developer" => "required|string|exists:developers,id",
-            "project" => "required|string|exists:projects,id",
-        ]);
+    public function updateLead(UpdateLeadRequest $request , Lead $lead){
+        $this->authorize('update',$lead);
         if ($this->authorize('create',User::class)){
             $request->validate([
                 "assignedEmail" => "required|email|exists:users,email",
@@ -60,18 +53,35 @@ class LeadController extends Controller
             $data=$request->except(['developer','project']);
             $user=User::auth()->user();
         }
-
-        $lead->update($data)->save();
         $lead->project()->associate($request->project)->save();
-        $lead->project()->associate($user->id)->save();
+        $lead->user()->associate($user->id)->save();
         $lead->developer()->associate($request->developer)->save();
+        $lead->update($data);
+        $lead->save();
         return redirect()->back()->with(['success' => 'Lead Updated Successfully']);
-
 
     }
     public function deleteLead(Lead $lead){
+        $this->authorize('delete',$lead);
         Lead::find($lead->id)->delete();
         return redirect()->back()->with(['success' => 'Deleted Successfully']);
+
+    }
+
+    public function lastConnection(Request $request,Lead $lead){
+        $this->authorize('update',$lead);
+        $request->validate([
+            'state' => ['required',Rule::in(['Not interest','Meeting','Deal Done','Follow UP','Reservation'])],
+            'stageDate' => 'required|date|after:yesterday',
+            'time' => 'required'
+        ]);
+        $data=$request->except('_token');
+        $lead->state=$request->state;
+        $lead->stageDate=$request->stateDate;
+        $lead->time=$request->time;
+        $lead->save();
+        $lead->Updates()->create($data)->save();
+        return redirect()->back()->with(['success' => 'Updated Successfully']);
 
     }
 

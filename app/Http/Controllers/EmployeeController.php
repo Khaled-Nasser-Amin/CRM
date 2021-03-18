@@ -4,47 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
-<<<<<<< HEAD
-use Carbon\Carbon;
-=======
->>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
-<<<<<<< HEAD
 
     public function __construct()
     {
         $this->middleware('can:create,App\Models\Employee');
     }
 
-    public function viewHumanResource(Request $request){
+    public function viewHumanResource(Request $request)
+    {
 
-
-        $employees=Employee::when($request->position,function($q) use($request){
-            return $q->where('position',$request->position);
-        })->when($request->area,function ($q) use ($request){
-            return $q->where('area',$request->area);
-        })->when($request->experience,function ($q) use ($request){
-            return $q->where('experience',$request->experience);
-        })->when($request->date,function ($q) use ($request){
-            $year=Carbon::createFromFormat('m/d/Y', $request->date)->format('Y');
-            $month=Carbon::createFromFormat('m/d/Y', $request->date)->format('m');
-            $day=Carbon::createFromFormat('m/d/Y', $request->date)->format('d');
-            return $q->whereYear('created_at',$year)
-                ->whereMonth('created_at',$month)
-                ->whereDay('created_at',$day);
-        })->latest()->paginate(6);
-=======
-    public function viewHumanResource(){
-        $employees=Employee::all();
->>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
+        $employees = Employee::when($request->position, function ($q) use ($request) {
+            return $q->where('position', $request->position);
+        })->when($request->area, function ($q) use ($request) {
+            return $q->where('area', $request->area);
+        })->when($request->experience, function ($q) use ($request) {
+            return $q->where('experience', $request->experience);
+        })->when($request->date, function ($q) use ($request) {
+            $year = Carbon::createFromFormat('m/d/Y', $request->date)->format('Y');
+            $month = Carbon::createFromFormat('m/d/Y', $request->date)->format('m');
+            $day = Carbon::createFromFormat('m/d/Y', $request->date)->format('d');
+            return $q->whereYear('created_at', $year)
+                ->whereMonth('created_at', $month)
+                ->whereDay('created_at', $day);
+        })->latest()->get();
         return view('admin.humanResource',compact('employees'));
-    }
 
+    }
     public function addNewEmployee(EmployeeRequest $request){
-<<<<<<< HEAD
         $data=$request->except(['_token','documentation']);
         $file=$request->file('documentation');
         $fileName=time().'_'.$file->getClientOriginalName();
@@ -103,9 +93,4 @@ class EmployeeController extends Controller
 
     }
 
-=======
-        Employee::create($request);
-        return redirect()->back()->with(['success' => 'Created Successfully']);
-    }
->>>>>>> 10e784d6263dbdd9cf9d3e67f4c04701ce940e8f
 }
