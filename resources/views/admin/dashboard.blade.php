@@ -2,10 +2,7 @@
 @section('title','TRACKS/CRM/Dashboard')
 @section('content')
 
-    <!-- ============================================================== -->
-    <!-- Start Page Content here -->
-    <!-- ============================================================== -->
-        <div class="content">
+    <div class="content">
 
             <!-- Start Content-->
             <div class="container-fluid">
@@ -290,317 +287,294 @@
 
                 </div>
                 <!-- end content -->
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card-box">
+                            <h4 class="header-title mb-4">SocialMedia Leads</h4>
 
-
-            </div>
-
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="card-box">
-                        <h4 class="header-title mb-4">SocialMedia Leads</h4>
-
-                        <div id="website-stats" style="height: 320px;" class="flot-chart"></div>
+                            <div id="website-stats" style="height: 320px;" class="flot-chart"></div>
+                        </div>
                     </div>
+
+                    <div class="col-xl-6">
+                        <div class="card-box">
+                            <h4 class="header-title mb-4">Over View Analytics</h4>
+
+                            <div class="float-right">
+                                <div id="reportrange" class="form-control form-control-sm">
+                                    <i class="far fa-calendar-alt mr-1"></i>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+
+                            <div id="donut-chart">
+                                <div id="donut-chart-container" class="flot-chart" style="height: 246px;">
+                                </div>
+                            </div>
+
+                            <p class="text-muted mb-0 mt-3 text-truncate"></p>
+                        </div>
+
+                    </div>
+
                 </div>
+                <!-- end row -->
 
-                <div class="col-xl-6">
-                    <div class="card-box">
-                        <h4 class="header-title mb-4">Over View Analytics</h4>
+                <div class="row">
 
-                        <div class="float-right">
-                            <div id="reportrange" class="form-control form-control-sm">
-                                <i class="far fa-calendar-alt mr-1"></i>
-                                <span></span>
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <h4 class="header-title mb-4">Delay List</h4>
+
+                            <div class="table-responsive">
+                                <table class="table table table-hover m-0">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Today</th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th>
+                                            <span class="avatar-sm-box bg-secondary">F</span>
+
+                                        </th>
+                                        <td>
+                                            <h5 class="m-0 font-15">Follow Up</h5>
+                                            <p class="m-0 text-muted font-13"><small></small></p>
+                                        </td>
+                                        <td>40</td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <span class="avatar-sm-box bg-secondary">FM</span>
+                                        </th>
+                                        <td>
+                                            <h5 class="m-0 font-15">Follow up after meeting</h5>
+                                            <p class="m-0 text-muted font-13"><small></small></p>
+                                        </td>
+                                        <td>20</td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <span class="avatar-sm-box bg-secondary">M</span>
+
+                                        </th>
+                                        <td>
+                                            <h5 class="m-0 font-15">Meeting</h5>
+                                            <p class="m-0 text-muted font-13"><small></small></p>
+                                        </td>
+                                        <td>60</td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <span class="avatar-sm-box bg-secondary">T</span>
+                                        </th>
+                                        <td>
+                                            <h5 class="m-0 font-15">Total</h5>
+                                            <p class="m-0 text-muted font-13"><small></small></p>
+                                        </td>
+                                        <td>120</td>
+                                    </tr>
+                                    <td>
+                                        <h5 class="m-0 font-15"></h5>
+                                        <p class="m-0 text-muted font-13"><small></small></p>
+                                    </td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <tr>
+                                    </tr>
+                                    <tr></tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <!-- table-responsive -->
+                        </div>
+                        <!-- end card -->
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card-box">
+                            <h4 class="header-title mb-4">TO Do List</h4>
+
+                            <div class="table-responsive">
+                                <table class="table table table-hover m-0">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Today</th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th>
+                                            <span class="avatar-sm-box bg-secondary">F</span>
+
+                                        </th>
+                                        <td>
+                                            <h5 class="m-0 font-15">Follow Up</h5>
+                                            <p class="m-0 text-muted font-13"><small></small></p>
+                                        </td>
+                                        <td> <div class="progress">
+                                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                    <span class="sr-only">60% Complete</span>
+                                                </div>
+                                            </div></td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <span class="avatar-sm-box bg-secondary">FM</span>
+                                        </th>
+                                        <td>
+                                            <h5 class="m-0 font-15">Follow up after meeting</h5>
+                                            <p class="m-0 text-muted font-13"><small></small></p>
+                                        </td>
+                                        <td> <div class="progress">
+                                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                                                    <span class="sr-only">60% Complete</span>
+                                                </div>
+                                            </div></td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <span class="avatar-sm-box bg-secondary">M</span>
+
+                                        </th>
+                                        <td>
+                                            <h5 class="m-0 font-15">Meeting</h5>
+                                            <p class="m-0 text-muted font-13"><small></small></p>
+                                        </td>
+                                        <td> <div class="progress">
+                                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                                                    <span class="sr-only">60% Complete</span>
+                                                </div>
+                                            </div></td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <span class="avatar-sm-box bg-secondary">T</span>
+                                        </th>
+                                        <td>
+                                            <h5 class="m-0 font-15">Total</h5>
+                                            <p class="m-0 text-muted font-13"><small></small></p>
+                                        </td>
+                                        <td> <div class="progress">
+                                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                                                    <span class="sr-only">60% Complete</span>
+                                                </div>
+                                            </div></td>
+
+                                    </tr>
+                                    <th>
+
+                                    </th>
+                                    <td>
+                                        <h5 class="m-0 font-15"></h5>
+                                        <p class="m-0 text-muted font-13"><small></small></p>
+                                    </td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <tr>
+                                    </tr>
+                                    <tr></tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <!-- table-responsive -->
+                        </div>
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
+
+                </div>
+                <!-- end row -->
+
+                <div class="row">
+
+                    <!-- end col -->
+                    <div class="col-lg-8">
+                        <div class="card-box">
+                            <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+                            <script src="canvasjs.min.js"></script>
+                        </div></div>   <div class="col-lg-4">
+                        <div class="card-box">
+                            <h4 class="header-title mb-4">Last Comment</h4>
+
+                            <div class="inbox-widget slimscroll" style="max-height: 360px;">
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="{{asset('images/users/avatar-1.jpg')}}" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Ahmed Adell</p>
+                                        <p class="inbox-item-text font-12">I like that</p>
+                                        <p class="inbox-item-date">13:40 PM</p>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="{{asset('images/users/avatar-2.jpg')}}" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Said Badawy</p>
+                                        <p class="inbox-item-text font-12">Contact Please</p>
+                                        <p class="inbox-item-date">13:34 PM</p>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="{{asset('images/users/avatar-3.jpg')}}" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">محمد احمد</p>
+                                        <p class="inbox-item-text font-12">ارجو التواصل</p>
+                                        <p class="inbox-item-date">13:17 PM</p>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="{{asset('images/users/avatar-4.jpg')}}" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Hisham Ali</p>
+                                        <p class="inbox-item-text font-12">Nice to meet you</p>
+                                        <p class="inbox-item-date">12:20 PM</p>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="{{asset('images/users/avatar-5.jpg')}}" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Shahenda</p>
+                                        <p class="inbox-item-text font-12">Hey! there I'm available...</p>
+                                        <p class="inbox-item-date">10:15 AM</p>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="{{asset('images/users/avatar-6.jpg')}}'" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Adham dannaway</p>
+                                        <p class="inbox-item-text font-12">This is awesome!</p>
+                                        <p class="inbox-item-date">9:56 AM</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
-                        <div class="clearfix"></div>
-
-                        <div id="donut-chart">
-                            <div id="donut-chart-container" class="flot-chart" style="height: 246px;">
-                            </div>
-                        </div>
-
-                        <p class="text-muted mb-0 mt-3 text-truncate"></p>
+                        <!-- end card -->
                     </div>
-
-                </div>
-
-            </div>
-            <!-- end row -->
-
-            <div class="row">
-
-                <div class="col-lg-6">
-                    <div class="card-box">
-                        <h4 class="header-title mb-4">Delay List</h4>
-
-                        <div class="table-responsive">
-                            <table class="table table table-hover m-0">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Today</th>
-                                    <th></th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>
-                                        <span class="avatar-sm-box bg-secondary">F</span>
-
-                                    </th>
-                                    <td>
-                                        <h5 class="m-0 font-15">Follow Up</h5>
-                                        <p class="m-0 text-muted font-13"><small></small></p>
-                                    </td>
-                                    <td>40</td>
-
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        <span class="avatar-sm-box bg-secondary">FM</span>
-                                    </th>
-                                    <td>
-                                        <h5 class="m-0 font-15">Follow up after meeting</h5>
-                                        <p class="m-0 text-muted font-13"><small></small></p>
-                                    </td>
-                                    <td>20</td>
-
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        <span class="avatar-sm-box bg-secondary">M</span>
-
-                                    </th>
-                                    <td>
-                                        <h5 class="m-0 font-15">Meeting</h5>
-                                        <p class="m-0 text-muted font-13"><small></small></p>
-                                    </td>
-                                    <td>60</td>
-
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        <span class="avatar-sm-box bg-secondary">T</span>
-                                    </th>
-                                    <td>
-                                        <h5 class="m-0 font-15">Total</h5>
-                                        <p class="m-0 text-muted font-13"><small></small></p>
-                                    </td>
-                                    <td>120</td>
-                                </tr>
-                                <td>
-                                    <h5 class="m-0 font-15"></h5>
-                                    <p class="m-0 text-muted font-13"><small></small></p>
-                                </td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <tr>
-                                </tr>
-                                <tr></tr>
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <!-- table-responsive -->
-                    </div>
-                    <!-- end card -->
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="card-box">
-                        <h4 class="header-title mb-4">TO Do List</h4>
-
-                        <div class="table-responsive">
-                            <table class="table table table-hover m-0">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Today</th>
-                                    <th></th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>
-                                        <span class="avatar-sm-box bg-secondary">F</span>
-
-                                    </th>
-                                    <td>
-                                        <h5 class="m-0 font-15">Follow Up</h5>
-                                        <p class="m-0 text-muted font-13"><small></small></p>
-                                    </td>
-                                    <td> <div class="progress">
-                                            <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                <span class="sr-only">60% Complete</span>
-                                            </div>
-                                        </div></td>
-
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        <span class="avatar-sm-box bg-secondary">FM</span>
-                                    </th>
-                                    <td>
-                                        <h5 class="m-0 font-15">Follow up after meeting</h5>
-                                        <p class="m-0 text-muted font-13"><small></small></p>
-                                    </td>
-                                    <td> <div class="progress">
-                                            <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
-                                                <span class="sr-only">60% Complete</span>
-                                            </div>
-                                        </div></td>
-
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        <span class="avatar-sm-box bg-secondary">M</span>
-
-                                    </th>
-                                    <td>
-                                        <h5 class="m-0 font-15">Meeting</h5>
-                                        <p class="m-0 text-muted font-13"><small></small></p>
-                                    </td>
-                                    <td> <div class="progress">
-                                            <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                                                <span class="sr-only">60% Complete</span>
-                                            </div>
-                                        </div></td>
-
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        <span class="avatar-sm-box bg-secondary">T</span>
-                                    </th>
-                                    <td>
-                                        <h5 class="m-0 font-15">Total</h5>
-                                        <p class="m-0 text-muted font-13"><small></small></p>
-                                    </td>
-                                    <td> <div class="progress">
-                                            <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
-                                                <span class="sr-only">60% Complete</span>
-                                            </div>
-                                        </div></td>
-
-                                </tr>
-                                <th>
-
-                                </th>
-                                <td>
-                                    <h5 class="m-0 font-15"></h5>
-                                    <p class="m-0 text-muted font-13"><small></small></p>
-                                </td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <tr>
-                                </tr>
-                                <tr></tr>
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <!-- table-responsive -->
-                    </div>
-                    <!-- end card -->
-                </div>
-                <!-- end col -->
-
-            </div>
-            <!-- end row -->
-
-            <div class="row">
-
-                <!-- end col -->
-                <div class="col-lg-8">
-                    <div class="card-box">
-                        <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
-                        <script src="canvasjs.min.js"></script>
-                    </div></div>   <div class="col-lg-4">
-                    <div class="card-box">
-                        <h4 class="header-title mb-4">Last Comment</h4>
-
-                        <div class="inbox-widget slimscroll" style="max-height: 360px;">
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-1.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Ahmed Adell</p>
-                                    <p class="inbox-item-text font-12">I like that</p>
-                                    <p class="inbox-item-date">13:40 PM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-2.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Said Badawy</p>
-                                    <p class="inbox-item-text font-12">Contact Please</p>
-                                    <p class="inbox-item-date">13:34 PM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-3.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">محمد احمد</p>
-                                    <p class="inbox-item-text font-12">ارجو التواصل</p>
-                                    <p class="inbox-item-date">13:17 PM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-4.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Hisham Ali</p>
-                                    <p class="inbox-item-text font-12">Nice to meet you</p>
-                                    <p class="inbox-item-date">12:20 PM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-5.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Shahenda</p>
-                                    <p class="inbox-item-text font-12">Hey! there I'm available...</p>
-                                    <p class="inbox-item-date">10:15 AM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-6.jpg')}}'" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Adham dannaway</p>
-                                    <p class="inbox-item-text font-12">This is awesome!</p>
-                                    <p class="inbox-item-date">9:56 AM</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- end card -->
                 </div>
             </div>
         </div>
-    </div>
 
-
-
-    <!-- Footer Start -->
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    2020 &copy;<a href="">Tracks</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- end Footer -->
-
-
-
-    <!-- ============================================================== -->
-    <!-- End Page content -->
-    <!-- ============================================================== -->
 @endsection
