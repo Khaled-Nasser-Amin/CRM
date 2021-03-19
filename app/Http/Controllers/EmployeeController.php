@@ -88,6 +88,6 @@ class EmployeeController extends Controller
         $array=explode('.',$employee->documentation);
         $extension=end($array);
         return response()->download($employee->documentation, $employee->name.'.'.$extension , $headers);
-        
+
     }
 }
