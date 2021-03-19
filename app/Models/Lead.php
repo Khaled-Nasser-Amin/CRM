@@ -31,4 +31,7 @@ class Lead extends Model
     public function developer(){
         return $this->belongsTo(Developer::class);
     }
+    public function Updates(){
+        return $this->hasMany(LastUpdateForLead::class);
+    }
 }

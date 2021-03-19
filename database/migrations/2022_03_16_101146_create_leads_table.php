@@ -26,6 +26,8 @@ class CreateLeadsTable extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('state')->nullable();
+            $table->date('stageDate')->nullable();
+            $table->time('time')->nullable();
             $table->string('country');
             $table->string('comment');
             $table->string('bestTime');

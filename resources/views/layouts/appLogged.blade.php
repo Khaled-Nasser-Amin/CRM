@@ -36,7 +36,7 @@
     <link href="{{asset('libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Plugins css -->
     <link href="{{asset('libs/nestable2/jquery.nestable.min.css')}}" rel="stylesheet" type="text/css" />
-
+    @stack('css')
 </head>
 <body>
 
@@ -70,8 +70,6 @@
 <script src="{{asset('libs/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('js/pages/dashboard_2.init.js')}}"></script>
 <script src="{{asset('js/jquery.canvasjs.min.js')}}"></script>
-
-
 <!-- plugin js -->
 <script src="{{asset('libs/moment/moment.min.js')}}"></script>
 <script src="{{asset('libs/jquery-ui/jquery-ui.min.js')}}"></script>
@@ -131,5 +129,7 @@
 <!-- Init js-->
 <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
 <!-- Plugins js-->
+
+@stack('script')
 </body>
 </html>

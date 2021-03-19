@@ -14,7 +14,6 @@ class UserController extends Controller
     {
         $this->middleware('can:create,App\Models\User');
     }
-
     public function ViewUser(Request $request){
 
         $this->authorize('create',User::class);
@@ -24,10 +23,9 @@ class UserController extends Controller
                 ->orWhere('phone','like','%'.$request->input('search').'%')
                 ->orWhere('serial','like','%'.$request->input('search').'%')
                 ->orWhere('email','like','%'.$request->input('search').'%');
-        })->latest()->paginate(6);
+        })->latest()->get();
         return view('admin.user',['users'=>$users]);
     }
-
     public function AddNewUser(UserRequest $request){
         $this->authorize('create',User::class);
         $data=$request->except('password');

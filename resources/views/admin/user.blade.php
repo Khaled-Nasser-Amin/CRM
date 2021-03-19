@@ -23,7 +23,6 @@
             </div>
             <!-- end page title -->
             <!-- sample modal content -->
-
             <div id="con-close-modal-new" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -101,115 +100,110 @@
                     </form>
                 </li>
             </ul>
-       </div>
 
+            <div class="row">
+                <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="header-title">USERS</h5>
+                            <p class="sub-header"></p>
+                            <div class="table-responsive overflow-hidden">
+                                <table class="table table-centered mb-0" id="btn-editable">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Serial</th>
+                                        <th>Phone</th>
+                                        <th>Auth.</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="header-title">USERS</h5>
-                        <p class="sub-header"></p>
-                        <div class="table-responsive overflow-hidden">
-                            <table class="table table-centered mb-0" id="btn-editable">
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Serial</th>
-                                    <th>Phone</th>
-                                    <th>Auth.</th>
-                                    <th>Email</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                @forelse($users as $user)
-                                <tr>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->serial}}</td>
-                                    <td>{{$user->phone}}</td>
-                                    <td>********</td>
-                                    <td>{{$user->email}}</td>
-                                    <td class="row"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#con-close-modal-edit-{{$user->id}}">Edit</button><a href="{{route('deleteUser',$user->id)}}" class="btn btn-danger waves-effect waves-light" >Delete</a></td>
-                                </tr>
-                                </tbody>
-                                <!-- /.modal   start Edit -->
-                                <div id="con-close-modal-edit-{{$user->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title mt-0">EMPLYEE</h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <form method="post" id="form-editUser" action="{{route('EditUser',$user->id)}}">
-                                                        @csrf
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="field-1" class="control-label">Name</label>
-                                                                <input type="text" name="name" class="form-control" id="field-1" value="{{$user->name}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="field-2" class="control-label">Phone</label>
-                                                                <input type="text" name="phone" class="form-control" id="field-2" value="{{$user->phone}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="field-1" class="control-label">Serial</label>
-                                                                    <input type="text" name="serial" class="form-control" id="field-1" value="{{$user->serial}}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="field-2" class="control-label">Authontication</label>
-                                                                    <input type="password" name="password" class="form-control" id="field-2" >
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="field-1" class="control-label">Email</label>
-                                                                    <input type="text" name="email" class="form-control" id="field-1" value="{{$user->email}}">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                    <tbody>
+                                    @forelse($users as $user)
+                                    <tr>
+                                        <td>{{$user->name}}</td>
+                                        <td>{{$user->serial}}</td>
+                                        <td>{{$user->phone}}</td>
+                                        <td>********</td>
+                                        <td>{{$user->email}}</td>
+                                        <td class="row"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#con-close-modal-edit-{{$user->id}}">Edit</button><a href="{{route('deleteUser',$user->id)}}" class="btn btn-danger waves-effect waves-light" >Delete</a></td>
+                                    </tr>
+                                    </tbody>
+                                    <!-- /.modal   start Edit -->
+                                    <div id="con-close-modal-edit-{{$user->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title mt-0">EMPLYEE</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
-                                                <button type="button" onclick="document.getElementById('form-editUser').submit()" class="btn btn-info waves-effect waves-light">Save changes</button>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <form method="post" id="form-editUser" action="{{route('EditUser',$user->id)}}">
+                                                            @csrf
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="field-1" class="control-label">Name</label>
+                                                                    <input type="text" name="name" class="form-control" id="field-1" value="{{$user->name}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="field-2" class="control-label">Phone</label>
+                                                                    <input type="text" name="phone" class="form-control" id="field-2" value="{{$user->phone}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="field-1" class="control-label">Serial</label>
+                                                                        <input type="text" name="serial" class="form-control" id="field-1" value="{{$user->serial}}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="field-2" class="control-label">Authontication</label>
+                                                                        <input type="password" name="password" class="form-control" id="field-2" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="field-1" class="control-label">Email</label>
+                                                                        <input type="text" name="email" class="form-control" id="field-1" value="{{$user->email}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                                    <button type="button" onclick="document.getElementById('form-editUser').submit()" class="btn btn-info waves-effect waves-light">Save changes</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- /.modal -->
-                                @empty
-                                    <p>There is no any users yet</p>
-                                @endforelse
-                            </table>
-                            <div class="customPagination">
-                                {{$users->links()}}
+                                    <!-- /.modal -->
+                                    @empty
+                                        <p>There is no any users yet</p>
+                                    @endforelse
+                                </table>
                             </div>
-                        </div>
-                        <!-- end .table-responsive-->
+                            <!-- end .table-responsive-->
+                    </div>
+                    <!-- end card-body -->
                 </div>
-                <!-- end card-body -->
+                <!-- end card -->
             </div>
-            <!-- end card -->
-        </div>
+            </div>
         <!-- end col -->
-    </div>
-    <!-- end row -->
+        </div>
 
 <!-- end container-fluid -->
 

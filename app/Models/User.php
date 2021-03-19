@@ -19,16 +19,15 @@ class User extends Authenticatable
         'phone',
         'serial',
     ];
-
-
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-
-
     public function leads(){
         return $this->hasMany(Lead::class);
+    }
+    public function properties(){
+        return $this->hasMany(Properties::class);
     }
 }

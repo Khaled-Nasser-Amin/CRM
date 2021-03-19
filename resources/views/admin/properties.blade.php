@@ -82,39 +82,41 @@
             <!-- end row -->
 
             <div class="row">
-                <div class="col-lg-4 col-sm-6">
+                @forelse($properties as $property)
+                    <div class="col-lg-4 col-sm-6">
                     <div class="property-card card">
-                        <div class="property-image" style="background: url('{{asset('images/properties/1.png')}}') center center / cover no-repeat;">
+                        <div class="property-image" style="background: url('{{asset('properties images/'.$property->image)}}') center center / cover no-repeat;">
                             <span class="property-label badge badge-warning">For Rent</span>
                         </div>
 
                         <div class="property-content card-body">
                             <div class="listingInfo">
                                 <div class="">
-                                    <h5 class="text-secondary font-18 mt-0">800K L.E/2M L.E</h5>
+                                    <h5 class="text-secondary font-18 mt-0">{{$property->price}} L.E</h5>
                                 </div>
                                 <div class="">
-                                    <h5 class="text-overflow"><a href="#" class="text-dark">Pyramids,Egypt</a></h5>
-                                    <p class="text-muted text-overflow"><i class="mdi mdi-map-marker-radius mr-1"></i>New Cairo,Cairo,Egypt</p>
+                                    <h4 class="text-overflow">{{ucfirst($property->type)}}</h4>
+                                    <p class="text-muted text-overflow"><i class="mdi mdi-map-marker-radius mr-1"></i>{{$property->location}}</p>
 
                                     <div class="row text-center">
                                         <div class="col-4">
-                                            <h4>280</h4>
+                                            <h4>{{$property->square}}</h4>
                                             <p class="text-overflow" title="Square Feet">Square Feet</p>
                                         </div>
                                         <div class="col-4">
-                                            <h4>4</h4>
+                                            <h4>{{$property->bedrooms}}</h4>
                                             <p class="text-overflow" title="Bedrooms">Bedrooms</p>
                                         </div>
                                         <div class="col-4">
-                                            <h4>2</h4>
+                                            <h4>{{$property->carParking}}</h4>
                                             <p class="text-overflow" title="Parking Space">Parking Space</p>
                                         </div>
                                     </div>
 
                                     <div class="mt-3">
-                                        <a href="real-estate-detail.html">
-                                            <button type="button" class="btn btn-secondary btn-block waves-effect waves-light">View Detail</button></a>
+                                        <a href="{{route('showProperty',$property->id)}}">
+                                            <button type="button" class="btn btn-secondary btn-block waves-effect waves-light">View Detail</button>
+                                        </a>
                                     </div>
 
                                 </div>
@@ -125,34 +127,17 @@
                     </div>
                     <!-- End property item -->
                 </div>
+                @empty
+                    <div class="col-12 justify-content-center">
+                        <h3>No Properties Added</h3>
+                    </div>
+                @endforelse
                 <!-- end col -->
             </div>
             <!-- end row -->
 
-            <div>
-                <ul class="pagination pagination-split justify-content-end">
-                    <li class="page-item disabled">
-                        <a href="#" class="page-link"><i class="fa fa-angle-left"></i></a>
-                    </li>
-                    <li class="page-item active">
-                        <a href="#" class="page-link">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">4</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">5</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link"><i class="fa fa-angle-right"></i></a>
-                    </li>
-                </ul>
+            <div class="customPagination">
+                {{$properties->links()}}
             </div>
 
         </div>
