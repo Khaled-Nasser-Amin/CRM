@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAmentitiesTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateAmentitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('amentities', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->bigInteger('property_id')->nullable()->unsigned();
+            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateAmentitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('amentities');
+        Schema::dropIfExists('property_images');
     }
 }

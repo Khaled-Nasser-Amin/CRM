@@ -23,9 +23,10 @@ class CreatePropertiesTable extends Migration
             $table->integer('bedrooms');
             $table->string('square');
             $table->integer('carParking');
-            $table->string('image');
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('project_id')->nullable()->unsigned();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->timestamps();
         });
     }

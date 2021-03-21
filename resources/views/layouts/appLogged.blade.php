@@ -13,6 +13,8 @@
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
     <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
+
+
     <link href="{{asset('libs/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
     <link href="{{asset('libs/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css" />
 
@@ -52,72 +54,33 @@
     @include('layouts.footer')
 </div>
 
-<script src="{{asset('js/vendor.min.js')}}"></script>
 <!-- App js -->
 <script src="{{asset('js/app.min.js')}}"></script>
 @yield('scripts')
-<!-- Vendor js dashboard -->
-<script src="{{asset('js/vendor.min.js')}}"></script>
-<script src="{{asset('js/canvasjs.min.js')}}"></script>
-<script src="{{asset('libs/flot-charts/jquery.flot.js')}}"></script>
-<script src="{{asset('libs/flot-charts/jquery.flot.time.js')}}"></script>
-<script src="{{asset('libs/flot-charts/jquery.flot.tooltip.min.js')}}"></script>
-<script src="{{asset('libs/flot-charts/jquery.flot.resize.js')}}"></script>
-<script src="{{asset('libs/flot-charts/jquery.flot.pie.js')}}"></script>
-<script src="{{asset('libs/flot-charts/jquery.flot.crosshair.js')}}"></script>
-<script src="{{asset('libs/flot-charts/jquery.flot.selection.js')}}"></script>
-<script src="{{asset('libs/moment/moment.min.js')}}"></script>
-<script src="{{asset('libs/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-<script src="{{asset('js/pages/dashboard_2.init.js')}}"></script>
-<script src="{{asset('js/jquery.canvasjs.min.js')}}"></script>
-<!-- plugin js -->
-<script src="{{asset('libs/moment/moment.min.js')}}"></script>
-<script src="{{asset('libs/jquery-ui/jquery-ui.min.js')}}"></script>
-<script src="{{asset('libs/fullcalendar/fullcalendar.min.js')}}"></script>
-<script src="{{asset('js/pages/flot.init.js')}}"></script>
-
-<!-- App js -->
-<script src="{{asset('js/app.js')}}"></script>
-<!-- Calendar init -->
-<script src="{{asset('js/pages/calendar.init.js')}}"></script>
-
 
 
 <!-- leads-->
 <script src="{{asset('js/vendor.min.js')}}"></script>
 
 <script src="{{asset('libs/bootstrap-select/bootstrap-select.min.js')}}"></script>
-
-<!-- App js -->
-<script src="{{asset('js/app.min.js')}}"></script>
 <!-- Datatable plugin js -->
 <script src="{{asset('libs/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('libs/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
 <script src="{{asset('libs/datatables/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('libs/datatables/responsive.bootstrap4.min.js')}}"></script>
-
 <script src="{{asset('libs/datatables/dataTables.buttons.min.js')}}"></script>
 <script src="{{asset('libs/datatables/buttons.bootstrap4.min.js')}}"></script>
-
 <script src="{{asset('libs/datatables/buttons.html5.min.js')}}"></script>
 <script src="{{asset('libs/datatables/buttons.print.min.js')}}"></script>
-
 <script src="{{asset('libs/datatables/dataTables.keyTable.min.js')}}"></script>
 <script src="{{asset('libs/datatables/dataTables.fixedHeader.min.js')}}"></script>
 <script src="{{asset('libs/datatables/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('libs/datatables/dataTables.fixedColumns.min.js')}}"></script>
-
 <script src="{{asset('libs/jszip/jszip.min.js')}}"></script>
 <script src="{{asset('libs/pdfmake/pdfmake.min.js')}}"></script>
 <script src="{{asset('libs/pdfmake/vfs_fonts.js')}}"></script>
-
 <!-- Datatables init -->
 <script src="{{asset('js/pages/datatables.init.js')}}"></script>
-
-<!-- App js -->
-<script src="{{asset('js/app.min.js')}}"></script>
-<script src="{{asset('libs/moment/moment.min.js')}}"></script>
 <script src="{{asset('libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js')}}"></script>
 <script src="{{asset('libs/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('libs/clockpicker/bootstrap-clockpicker.min.js')}}"></script>
@@ -128,7 +91,7 @@
 <script src="{{asset('js/pages/sweetalerts.init.js')}}"></script>
 <!-- Init js-->
 <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
-<!-- Plugins js-->
+
 
 @stack('script')
 </body>

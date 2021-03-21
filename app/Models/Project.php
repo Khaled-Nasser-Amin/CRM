@@ -13,4 +13,14 @@ class Project extends Model
     public function leads(){
         return $this->hasMany(Lead::class);
     }
+    public function properties(){
+        return $this->hasMany(Properties::class);
+    }
+    public function amenities(){
+        return $this->belongsToMany(Amenity::class,'projectamenities');
+    }
+
+    public function developer(){
+        return $this->belongsTo(Developer::class);
+    }
 }
