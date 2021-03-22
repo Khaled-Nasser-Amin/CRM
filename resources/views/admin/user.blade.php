@@ -195,8 +195,14 @@
                                     @endforelse
                                 </table>
                             </div>
+
                             <!-- end .table-responsive-->
+                        <hr>
+                        <div class="customPagination">
+                            {{$users->links()}}
+                        </div>
                     </div>
+
                     <!-- end card-body -->
                 </div>
                 <!-- end card -->

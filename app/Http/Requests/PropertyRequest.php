@@ -24,7 +24,10 @@ class PropertyRequest extends FormRequest
             'bedrooms' => 'required|integer',
             'square' => 'required|integer',
             'carParking' => 'required|integer',
-            'image' => 'required|mimes:jpeg,jpg,png',
+            'images' => 'required|array|min:1',
+            'images.*' => 'mimes:jpeg,jpg,png',
+            'project' => 'required|exists:projects,id',
+            'amenities' => 'required|array|min:1',
         ];
     }
 }

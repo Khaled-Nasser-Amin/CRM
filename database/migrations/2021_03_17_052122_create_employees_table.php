@@ -21,7 +21,6 @@ class CreateEmployeesTable extends Migration
             $table->integer('zip');
             $table->string('academicStudy');
             $table->string('area');
-            $table->string('aria');
             $table->string('address');
             $table->string('country');
             $table->string('city');

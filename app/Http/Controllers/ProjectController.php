@@ -16,4 +16,7 @@ class ProjectController extends Controller
         ]);
         return redirect()->back();
     }
+    public function showProject(Project $project){
+        return  $project->amenities;
+    }
 }

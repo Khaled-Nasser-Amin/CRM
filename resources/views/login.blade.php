@@ -36,7 +36,7 @@
 
                                 <div class="form-group text-center mt-4 pt-2">
                                     <div class="col-sm-12">
-                                        <a href="page-recoverpw.html" class="text-muted"><i class="fa fa-lock mr-1"></i> Forgot your password?</a>
+                                        <a href="{{route('viewForget')}}" class="text-muted"><i class="fa fa-lock mr-1"></i> Forgot your password?</a>
                                     </div>
                                 </div>
 

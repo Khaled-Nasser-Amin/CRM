@@ -23,7 +23,7 @@ class UserController extends Controller
                 ->orWhere('phone','like','%'.$request->input('search').'%')
                 ->orWhere('serial','like','%'.$request->input('search').'%')
                 ->orWhere('email','like','%'.$request->input('search').'%');
-        })->latest()->get();
+        })->latest()->paginate(5);
         return view('admin.user',['users'=>$users]);
     }
     public function AddNewUser(UserRequest $request){

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -31,6 +32,7 @@ class EmployeeController extends Controller
                 ->whereDay('created_at',$day);
         })->latest()->paginate(6);
         return view('admin.humanResource',compact('employees'));
+
     }
     public function addNewEmployee(EmployeeRequest $request){
         $data=$request->except(['_token','documentation']);

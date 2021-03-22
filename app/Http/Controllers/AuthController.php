@@ -37,4 +37,8 @@ class AuthController extends Controller
 
         }
     }
+
+    public function viewForget(){
+        return view('forgetPassword');
+    }
 }

@@ -24,10 +24,10 @@
                             <li><a href="{{asset('ViewUser')}}" class="mdi mdi-account-key"> Users</a></li>
 
                         @endcan
-                        <li><a href="calendar.html" class="mdi mdi-calendar-text"> Calendar</a></li>
+                        <li><a href="{{route('calender')}}" class="mdi mdi-calendar-text"> Calendar</a></li>
                         <li><a href="chat.html" class="mdi mdi-wechat"> Chat</a></li>
-                        <li><a href="invoice.html" class="mdi mdi-account-cash"> Invoices</a></li>
-                        <li><a href="ticket.html" class="mdi mdi-wrench"> Ticket</a></li>
+                        <li><a href="{{route('invoices')}}" class="mdi mdi-account-cash"> Invoices</a></li>
+                        <li><a href="{{route('tickets')}}" class="mdi mdi-wrench"> Ticket</a></li>
                     </ul>
                 </li>
 

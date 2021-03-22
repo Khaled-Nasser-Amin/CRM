@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::get('/login',[AuthController::class,'index'])->name('index');
 Route::post('/login',[AuthController::class,'login'])->name('login');
+Route::get('/ForgetPassword',[AuthController::class,'viewForget'])->name('viewForget');
 
 
 //logged in
@@ -37,6 +38,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
     Route::post('/addNewProject',[ProjectController::class,'addNewProject'])->name('addNewProject');
+    Route::get('/showProject/{project}',[ProjectController::class,'showProject'])->name('showProject');
 
     Route::post('/addNewDeveloper',[DeveloperController::class,'addNewDeveloper'])->name('addNewDeveloper');
 
@@ -44,12 +46,21 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('/addNewProperty',[PropertiesController::class,'addNewProperty'])->name('addNewProperty');
     Route::post('/addNewProperty/{user}',[PropertiesController::class,'store'])->name('store');
     Route::get('/showProperty/{property}',[PropertiesController::class,'showProperty'])->name('showProperty');
+    Route::get('/editProperty/{property}',[PropertiesController::class,'editProperty'])->name('editProperty');
+    Route::post('/updateProperty/{property}',[PropertiesController::class,'updateProperty'])->name('updateProperty');
+    Route::get('/deleteProperty/{property}',[PropertiesController::class,'deleteProperty'])->name('deleteProperty');
 
     Route::get('/viewHumanResource',[EmployeeController::class,'viewHumanResource'])->name('viewHumanResource');
     Route::post('/addNewEmployee',[EmployeeController::class,'addNewEmployee'])->name('addNewEmployee');
     Route::post('/updateEmployee/{employee}',[EmployeeController::class,'updateEmployee'])->name('updateEmployee');
     Route::get('/deleteEmployee/{employee}',[EmployeeController::class,'deleteEmployee'])->name('deleteEmployee');
     Route::get('/downloadDocumentation/{employee}',[EmployeeController::class,'downloadDocumentation'])->name('downloadDocumentation');
+
+
+    Route::get('events','CalenderController@index')->name('calender');
+    Route::get('Invoices','InvoicesController@index')->name('invoices');
+    Route::get('Tickets','TicketController@index')->name('tickets');
+
 });
 
 
