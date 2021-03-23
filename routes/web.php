@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\FullCalenderController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -55,6 +58,15 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('/updateEmployee/{employee}',[EmployeeController::class,'updateEmployee'])->name('updateEmployee');
     Route::get('/deleteEmployee/{employee}',[EmployeeController::class,'deleteEmployee'])->name('deleteEmployee');
     Route::get('/downloadDocumentation/{employee}',[EmployeeController::class,'downloadDocumentation'])->name('downloadDocumentation');
+
+
+    Route::get('/full-calender', [FullCalenderController::class, 'index'])->name('calendar');
+    Route::post('/full-calender/action', [FullCalenderController::class, 'action']);
+
+    Route::get('/Invoices', [InvoiceController::class, 'index'])->name('invoices');
+
+    Route::get('/Tickets', [TicketController::class, 'index'])->name('tickets');
+
 });
 
 
