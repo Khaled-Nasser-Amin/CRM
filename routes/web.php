@@ -60,12 +60,18 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('/downloadDocumentation/{employee}',[EmployeeController::class,'downloadDocumentation'])->name('downloadDocumentation');
 
 
+<<<<<<< HEAD
     Route::get('/full-calender', [FullCalenderController::class, 'index'])->name('calendar');
     Route::post('/full-calender/action', [FullCalenderController::class, 'action']);
 
     Route::get('/Invoices', [InvoiceController::class, 'index'])->name('invoices');
 
     Route::get('/Tickets', [TicketController::class, 'index'])->name('tickets');
+=======
+    Route::get('events','CalenderController@index')->name('calender');
+    Route::get('Invoices','InvoicesController@index')->name('invoices');
+    Route::get('Tickets','TicketController@index')->name('tickets');
+>>>>>>> e064e8e2f73f406b0df62c0375ff56422a1ede5e
 
 });
 

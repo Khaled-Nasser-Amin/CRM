@@ -14,13 +14,14 @@ class LeadFactory extends Factory
     public function definition()
     {
         $time=['PM','AM'];
+        $stats=['Not interest','Interest','Meeting','Deal Done','Follow UP','Reservation'];
         return [
             'name' => $this->faker->name,
             'firstPhone' => $this->faker->phoneNumber,
             'secondPhone' => $this->faker->phoneNumber,
             'address' => $this->faker->address,
             'city' => $this->faker->city,
-            'state' => $this->faker->state,
+            'state' => $stats[array_rand($stats)],
             'stageDate' => $this->faker->dateTime,
             'country' => $this->faker->country,
             'time' => $this->faker->time('H:i').' '.$time[array_rand($time)],

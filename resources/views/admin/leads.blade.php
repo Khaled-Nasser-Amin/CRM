@@ -291,14 +291,11 @@
                                                                             <h3 class="card-title mb-0"></h3>
                                                                         </div>
                                                                         <div class="card-body">
-                                                                            <button class="btn btn-secondary waves-effect waves-light" data-toggle="modal" data-target="#myModal"><i class=" far fa-clock"></i></button>
+                                                                            <button class="btn btn-secondary waves-effect waves-light" data-toggle="modal" data-target="#myModal-{{$lead->id}}"><i class=" far fa-clock"></i></button>
                                                                             <div class="col-md-12">
 
-
-
-
                                                                                 <!-- sample modal content -->
-                                                                                <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                                <div id="myModal-{{$lead->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                                                                     <div class="modal-dialog">
                                                                                         <div class="modal-content">
                                                                                             <div class="modal-header">
@@ -318,7 +315,7 @@
                                                                                                             <select name="state" name="state"  class="form-control w-100 show-tick" data-style="btn-secondary">
                                                                                                                 <option></option>
                                                                                                                 @php
-                                                                                                                    $stats=['Not interest','Meeting','Deal Done','Follow UP','Reservation'];
+                                                                                                                    $stats=['Not interest','Interest','Meeting','Deal Done','Follow UP','Reservation'];
                                                                                                                 @endphp
                                                                                                                 @foreach ($stats as $state)
                                                                                                                     <option value="{{$state}}" {{$state == $lead->state ? 'selected' : ''}}>{{$state}}</option>

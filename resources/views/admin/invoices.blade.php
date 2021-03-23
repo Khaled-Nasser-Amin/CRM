@@ -1,4 +1,5 @@
 @extends('layouts.appLogged')
+<<<<<<< HEAD
 @section('title','TRACKS/CRM/Invoices')
 @push('css')
     <link href="{{asset('libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css')}}" rel="stylesheet" type="text/css" />
@@ -6,6 +7,20 @@
     <link href="{{asset('libs/bootstrap-timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('libs/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
     <link href="{{asset('libs/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+=======
+@section('title','Tracks CRM/INVOICES')
+@push('css')
+    <link href="{{asset('libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css')}}" rel="stylesheet" type="text/css" />
+
+    <link href="{{asset('libs/clockpicker/bootstrap-clockpicker.min.css')}}" rel="stylesheet">
+
+    <link href="{{asset('libs/bootstrap-timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
+
+    <link href="{{asset('libs/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
+
+    <link href="{{asset('libs/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+
+>>>>>>> e064e8e2f73f406b0df62c0375ff56422a1ede5e
     <link href="{{asset('libs/custombox/custombox.min.css')}}" rel="stylesheet" type="text/css">
 
 @endpush
@@ -265,6 +280,7 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 
 @endsection
 @push('script')
@@ -278,4 +294,20 @@
                 <!-- Init js-->
                 <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
                 <script src="{{asset('libs/custombox/custombox.min.js')}}"></script>
+=======
+@endsection
+@push('script')
+
+    <script src="{{asset('libs/moment/moment.min.js')}}"></script>
+    <script src="{{asset('libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js')}}"></script>
+    <script src="{{asset('libs/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
+    <script src="{{asset('libs/clockpicker/bootstrap-clockpicker.min.js')}}"></script>
+    <script src="{{asset('libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+    <script src="{{asset('libs/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+
+    <!-- Init js-->
+    <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
+    <script src="{{asset('libs/custombox/custombox.min.js')}}"></script>
+
+>>>>>>> e064e8e2f73f406b0df62c0375ff56422a1ede5e
 @endpush

@@ -39,6 +39,11 @@
     <!-- Plugins css -->
     <link href="{{asset('libs/nestable2/jquery.nestable.min.css')}}" rel="stylesheet" type="text/css" />
     @stack('css')
+
+
+
+
+
 </head>
 <body>
 
@@ -56,6 +61,7 @@
 
 <!-- App js -->
 <script src="{{asset('js/app.min.js')}}"></script>
+<script src="{{asset('js/app.js')}}"></script>
 @yield('scripts')
 
 
@@ -91,8 +97,6 @@
 <script src="{{asset('js/pages/sweetalerts.init.js')}}"></script>
 <!-- Init js-->
 <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
-
-
 @stack('script')
 </body>
 </html>

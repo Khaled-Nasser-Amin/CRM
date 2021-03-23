@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -15,25 +16,22 @@ class EmployeeController extends Controller
         $this->middleware('can:create,App\Models\Employee');
     }
 
-    public function viewHumanResource(Request $request)
-    {
-
-        $employees = Employee::when($request->position, function ($q) use ($request) {
-            return $q->where('position', $request->position);
-        })->when($request->area, function ($q) use ($request) {
-            return $q->where('area', $request->area);
-        })->when($request->experience, function ($q) use ($request) {
-            return $q->where('experience', $request->experience);
-        })->when($request->date, function ($q) use ($request) {
-            $year = Carbon::createFromFormat('m/d/Y', $request->date)->format('Y');
-            $month = Carbon::createFromFormat('m/d/Y', $request->date)->format('m');
-            $day = Carbon::createFromFormat('m/d/Y', $request->date)->format('d');
-            return $q->whereYear('created_at', $year)
-                ->whereMonth('created_at', $month)
-                ->whereDay('created_at', $day);
-        })->latest()->get();
+    public function viewHumanResource(Request $request){
+        $employees=Employee::when($request->position,function($q) use($request){
+            return $q->where('position',$request->position);
+        })->when($request->area,function ($q) use ($request){
+            return $q->where('area',$request->area);
+        })->when($request->experience,function ($q) use ($request){
+            return $q->where('experience',$request->experience);
+        })->when($request->date,function ($q) use ($request){
+            $year=Carbon::createFromFormat('m/d/Y', $request->date)->format('Y');
+            $month=Carbon::createFromFormat('m/d/Y', $request->date)->format('m');
+            $day=Carbon::createFromFormat('m/d/Y', $request->date)->format('d');
+            return $q->whereYear('created_at',$year)
+                ->whereMonth('created_at',$month)
+                ->whereDay('created_at',$day);
+        })->latest()->paginate(6);
         return view('admin.humanResource',compact('employees'));
-
 
     }
     public function addNewEmployee(EmployeeRequest $request){
