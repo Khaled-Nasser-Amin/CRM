@@ -1,5 +1,8 @@
 @extends('layouts.appLogged')
 @section('title','TRACKS/CRM/LEADS')
+@push('css')
+    <link href="{{asset('libs/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
+@endpush
 @section('content')
     <!-- ============================================================== -->
     <!-- Start Page Content here -->
@@ -28,7 +31,48 @@
                 <!-- End row -->
 
                 <br>
+                <script>
+                    window.onload = function () {
 
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            exportEnabled: true,
+                            animationEnabled: true,
+                            title:{
+                                text: ""
+                            },
+                            legend:{
+                                cursor: "pointer",
+                                itemclick: explodePie
+                            },
+                            data: [{
+                                type: "pie",
+                                showInLegend: true,
+                                toolTipContent: "{name}: <strong>{y}%</strong>",
+                                indexLabel: "{name} - {y}",
+                                dataPoints: [
+
+                                        @forelse($statistic as $name => $percent )
+                                            { y: {{$percent}}, name: "{{$name}}",{{$loop->index == 0 ?  'exploded: true' : ''}} },
+
+                                        @empty
+                                        @endforelse
+
+                                ]
+                            }]
+                        });
+                        chart.render();
+                    }
+
+                    function explodePie (e) {
+                        if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+                            e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+                        } else {
+                            e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+                        }
+                        e.chart.render();
+
+                    }
+                </script>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="row">
@@ -49,7 +93,7 @@
                                                     <div class="col-lg-12">
                                                         <div class="card-box">
                                                             <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
-                                                            <script src="{{asset('canvasjs.min.js')}}"></script>
+                                                            <script src="canvasjs.min.js"></script>
                                                         </div></div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -151,17 +195,6 @@
                                                                             <option value="">No Projects Yet</option>
                                                                         @endforelse
                                                                     </select>
-                                                                    <div class="input-group mt-3">
-{{--
-                                                                        <form action="{{route('addNewProject')}}" id="addNewProject" method="post">
-                                                                            @csrf
-                                                                            <input type="text"  name="name" class="form-control" placeholder="New Project">
-                                                                            <span class="input-group-append">
-                                                                                <button type="button" onclick="document.getElementById('addNewProject').submit()" class="btn waves-effect waves-light btn-secondary">+</button>
-                                                                            </span>
-                                                                        </form>
---}}
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
@@ -174,18 +207,6 @@
                                                                             <option value="">No Developer Yet</option>
                                                                         @endforelse
                                                                     </select>
-{{--
-                                                                    <div class="input-group mt-3">
-                                                                        <form action="{{route('addNewDeveloper')}}" id="addNewDeveloper" method="post">
-                                                                            @csrf
-                                                                            <input type="text"  name="name" class="form-control" placeholder="New Developer">
-                                                                            <span class="input-group-append">
-                                                                                <button type="button" onclick="document.getElementById('addNewDeveloper').submit()" class="btn waves-effect waves-light btn-secondary">+</button>
-                                                                            </span>
-                                                                        </form>
-                                                                    </div>
---}}
-
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -546,3 +567,24 @@
 
 
 @endsection
+
+@push('script')
+    <!-- Vendor js dashboard -->
+    <script src="{{asset('js/canvasjs.min.js')}}"></script>
+    <script src="{{asset('libs/flot-charts/jquery.flot.js')}}"></script>
+    <script src="{{asset('libs/flot-charts/jquery.flot.time.js')}}"></script>
+    <script src="{{asset('libs/flot-charts/jquery.flot.tooltip.min.js')}}"></script>
+    <script src="{{asset('libs/flot-charts/jquery.flot.resize.js')}}"></script>
+    <script src="{{asset('libs/flot-charts/jquery.flot.pie.js')}}"></script>
+    <script src="{{asset('libs/flot-charts/jquery.flot.crosshair.js')}}"></script>
+    <script src="{{asset('libs/flot-charts/jquery.flot.selection.js')}}"></script>
+    <script src="{{asset('libs/moment/moment.min.js')}}"></script>
+    <script src="{{asset('js/pages/dashboard_2.init.js')}}"></script>
+    <script src="{{asset('js/jquery.canvasjs.min.js')}}"></script>
+    <!-- plugin js -->
+    <script src="{{asset('libs/jquery-ui/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('js/pages/flot.init.js')}}"></script>
+    <script>
+    </script>
+    <!-- Calendar init -->
+@endpush

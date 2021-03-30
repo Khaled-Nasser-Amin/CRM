@@ -13,4 +13,5 @@ class Employee extends Model
     public function getDocumentationAttribute($value){
        return public_path('documentation').'/'.$value;
     }
+
 }

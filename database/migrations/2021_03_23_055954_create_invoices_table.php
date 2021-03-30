@@ -11,17 +11,20 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('customerName');
-            $table->integer('invoiceSerial');
+            $table->unsignedBigInteger('lead_id')->nullable();
+            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('invoiceSerial')->unique();
             $table->date('start');
             $table->date('end');
-            $table->string('employeeEmail');
             $table->string('paymentMethodology');
             $table->string('notes');
             $table->string('propertyName');
             $table->string('description');
             $table->integer('cost');
             $table->integer('quantity');
+            $table->integer('total');
             $table->timestamps();
         });
     }

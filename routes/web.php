@@ -21,12 +21,17 @@ Route::get('/', function () {
 Route::get('/login',[AuthController::class,'index'])->name('index');
 Route::post('/login',[AuthController::class,'login'])->name('login');
 Route::get('/ForgetPassword',[AuthController::class,'viewForget'])->name('viewForget');
+Route::post('/ForgetPassword',[AuthController::class,'sendEmailToResetPassword'])->name('sendEmail');
+Route::get('/reset-password/{_token}',[AuthController::class,'viewResetPassword'])->name('viewResetPassword');
+Route::post('/reset-password',[AuthController::class,'changePassword'])->name('changePassword');
 
 
 //logged in
 Route::group(['middleware' => 'auth'],function(){
     Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
-
+    Route::get('/calculator', function () {
+        return view('admin.calculator');
+    })->name('viewCalculator');
     Route::get('/ViewLeads',[LeadController::class,'ViewLeads'])->name('ViewLeads');
     Route::post('/addNewLead',[LeadController::class,'addNewLead'])->name('addNewLead');
     Route::post('/updateLead/{lead}',[LeadController::class,'updateLead'])->name('updateLead');
@@ -40,10 +45,6 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
-    Route::post('/addNewProject',[ProjectController::class,'addNewProject'])->name('addNewProject');
-    Route::get('/showProject/{project}',[ProjectController::class,'showProject'])->name('showProject');
-
-    Route::post('/addNewDeveloper',[DeveloperController::class,'addNewDeveloper'])->name('addNewDeveloper');
 
     Route::get('/properties',[PropertiesController::class,'properties'])->name('properties');
     Route::get('/addNewProperty',[PropertiesController::class,'addNewProperty'])->name('addNewProperty');
@@ -60,18 +61,30 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('/downloadDocumentation/{employee}',[EmployeeController::class,'downloadDocumentation'])->name('downloadDocumentation');
 
 
-<<<<<<< HEAD
     Route::get('/full-calender', [FullCalenderController::class, 'index'])->name('calendar');
     Route::post('/full-calender/action', [FullCalenderController::class, 'action']);
 
-    Route::get('/Invoices', [InvoiceController::class, 'index'])->name('invoices');
-
-    Route::get('/Tickets', [TicketController::class, 'index'])->name('tickets');
-=======
     Route::get('events','CalenderController@index')->name('calender');
-    Route::get('Invoices','InvoicesController@index')->name('invoices');
+    Route::resource('Invoices','InvoiceController')->except(['show','edit','create']);
     Route::get('Tickets','TicketController@index')->name('tickets');
->>>>>>> e064e8e2f73f406b0df62c0375ff56422a1ede5e
+    Route::post('Tickets','TicketController@store')->name('tickets.store');
+
+    Route::get('/showProject/{project}',[ProjectController::class,'showProject'])->name('showProject');
+    Route::resource('/projects','ProjectController');
+
+
+    Route::resource('/developers','DeveloperController')->except(['index','show','edit']);
+    Route::resource('/amenities','AmenitiesController')->except(['index','show','edit']);
+
+    //start chat routes
+    Route::name('chat.')->group(function(){
+        Route::get('Chat','MessageController@index')->name('index');
+        Route::get('Chat/{message}','MessageController@downloadDocumentation')->name('downloadDocumentation');
+        Route::post('Chat/store','MessageController@storeText')->name('storeText');
+        Route::post('Chat','MessageController@storeFile')->name('storeFile');
+    });
+
+
 
 });
 

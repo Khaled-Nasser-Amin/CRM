@@ -17,7 +17,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->bigInteger('developer_id')->nullable()->unsigned();
-            $table->foreign('developer_id')->references('id')->on('developers')->onDelete('cascade');
+            $table->foreign('developer_id')->references('id')->on('developers');
            $table->timestamps();
         });
     }

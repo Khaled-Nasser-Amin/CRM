@@ -21,10 +21,11 @@
                             <p class="text-muted mb-0">Enter your email address and we'll send you an email with instructions to reset your password. </p>
                         </div>
 
-                        <form action="#">
+                        <form action="{{route('sendEmail')}}" method="post">
+                            @csrf
                             <div class="form-group row">
                                 <div class="col-12">
-                                    <input class="form-control" type="email" required="" placeholder="Enter email">
+                                    <input class="form-control" type="email" required="" name="email" placeholder="Enter email">
                                 </div>
                             </div>
 

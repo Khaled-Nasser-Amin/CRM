@@ -9,6 +9,7 @@ use App\Models\Lead;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class LeadController extends Controller
@@ -16,12 +17,20 @@ class LeadController extends Controller
     public function ViewLeads(){
         $projects=Project::all();
         $developers=Developer::all();
-        if ($this->authorize('create',User::class)){
-            $leads=Lead::latest()->get();
+        if (auth()->user()->role == 1){
+            $statistic=Lead::select('state',DB::raw('count(*) as total'))->groupBy('state')->get();
+            $statistic=collect($statistic->pluck('state')->toArray())->combine($statistic->pluck('total')->toArray());
         }else{
-           $leads=auth()->user()->leads;
+            $statistic=Lead::select('state',DB::raw('count(*) as total'))->where('user_id',auth()->user()->id)->groupBy('state')->get();
+            $statistic=collect($statistic->pluck('state')->toArray())->combine($statistic->pluck('total')->toArray());
         }
-        return view('admin.leads',compact('projects','developers','leads'));
+       if (auth()->user()->role == 0){
+            $leads=auth()->user()->leads;
+
+        }else{
+            $leads=Lead::latest()->get();
+        }
+        return view('admin.leads',compact('projects','developers','leads','statistic'));
     }
     public function addNewLead(LeadRequest $request){
         if ($this->authorize('create',User::class)){

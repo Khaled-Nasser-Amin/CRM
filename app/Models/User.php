@@ -27,7 +27,26 @@ class User extends Authenticatable
     public function leads(){
         return $this->hasMany(Lead::class);
     }
+    public function tickets(){
+        return $this->hasMany(Ticket::class);
+    }
     public function properties(){
         return $this->hasMany(Properties::class);
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+    public function projects(){
+        return $this->hasManyThrough(Project::class,Lead::class,'user_id','id','id','project_id');
+    }
+
+    public function messagesAsSender(){
+        return $this->hasMany(Message::class,'sender_id');
+    }
+    public function messagesAsReceiver(){
+        return $this->hasMany(Message::class,'receiver_id');
+    }
+
 }

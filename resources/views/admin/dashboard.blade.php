@@ -2,137 +2,7 @@
 @section('title','TRACKS/CRM/Dashboard')
 @push('css')
     <link href="{{asset('libs/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
-    <script>
-        window.onload = function () {
 
-            var chart = new CanvasJS.Chart("chartContainerstack", {
-                animationEnabled: true,
-                title:{
-                    text: ""
-                },
-                axisX: {
-                    interval: 1,
-                    intervalType: "year",
-                    valueFormatString: "YYYY"
-                },
-                axisY: {
-                    suffix: "%"
-                },
-                toolTip: {
-                    shared: true
-                },
-                legend: {
-                    reversed: true,
-                    verticalAlign: "center",
-                    horizontalAlign: "right"
-                },
-                data: [{
-                    type: "stackedColumn100",
-                    name: "Real-Time",
-                    showInLegend: true,
-                    xValueFormatString: "YYYY",
-                    yValueFormatString: "#,##0'%'",
-                    dataPoints: [
-                        { x: new Date(2010,0), y: 40 },
-                        { x: new Date(2011,0), y: 50 },
-                        { x: new Date(2012,0), y: 60 },
-                        { x: new Date(2013,0), y: 61 },
-                        { x: new Date(2014,0), y: 63 },
-                        { x: new Date(2015,0), y: 65 },
-                        { x: new Date(2016,0), y: 67 }
-                    ]
-                },
-                    {
-                        type: "stackedColumn100",
-                        name: "Web Browsing",
-                        showInLegend: true,
-                        xValueFormatString: "YYYY",
-                        yValueFormatString: "#,##0'%'",
-                        dataPoints: [
-                            { x: new Date(2010,0), y: 28 },
-                            { x: new Date(2011,0), y: 18 },
-                            { x: new Date(2012,0), y: 12 },
-                            { x: new Date(2013,0), y: 10 },
-                            { x: new Date(2014,0), y: 10 },
-                            { x: new Date(2015,0), y: 7 },
-                            { x: new Date(2016,0), y: 5 }
-                        ]
-                    },
-                    {
-                        type: "stackedColumn100",
-                        name: "File Sharing",
-                        showInLegend: true,
-                        xValueFormatString: "YYYY",
-                        yValueFormatString: "#,##0'%'",
-                        dataPoints: [
-                            { x: new Date(2010,0), y: 15 },
-                            { x: new Date(2011,0), y: 12 },
-                            { x: new Date(2012,0), y: 10 },
-                            { x: new Date(2013,0), y: 9 },
-                            { x: new Date(2014,0), y: 7 },
-                            { x: new Date(2015,0), y: 5 },
-                            { x: new Date(2016,0), y: 1 }
-                        ]
-                    },
-                    {
-                        type: "stackedColumn100",
-                        name: "Others",
-                        showInLegend: true,
-                        xValueFormatString: "YYYY",
-                        yValueFormatString: "#,##0'%'",
-                        dataPoints: [
-                            { x: new Date(2010,0), y: 17 },
-                            { x: new Date(2011,0), y: 20 },
-                            { x: new Date(2012,0), y: 18 },
-                            { x: new Date(2013,0), y: 20 },
-                            { x: new Date(2014,0), y: 20 },
-                            { x: new Date(2015,0), y: 23 },
-                            { x: new Date(2016,0), y: 27 }
-                        ]
-                    }]
-            });
-        }
-        window.onload = function () {
-
-            var chart = new CanvasJS.Chart("chartContainer", {
-                exportEnabled: true,
-                animationEnabled: true,
-                title:{
-                    text: ""
-                },
-                legend:{
-                    cursor: "pointer",
-                    itemclick: explodePie
-                },
-                data: [{
-                    type: "pie",
-                    showInLegend: true,
-                    toolTipContent: "{name}: <strong>{y}%</strong>",
-                    indexLabel: "{name} - {y}%",
-                    dataPoints: [
-                        { y: 26, name: "project 1", exploded: true },
-                        { y: 20, name: "project 2" },
-                        { y: 5, name: "project 3" },
-                        { y: 3, name: "project 4" },
-                        { y: 7, name: "project 5" },
-                        { y: 17, name: "project 6" },
-                        { y: 22, name: "project 7"}
-                    ]
-                }]
-            });
-            chart.render();
-        }
-
-        function explodePie (e) {
-            if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
-                e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
-            } else {
-                e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
-            }
-            e.chart.render();
-
-        }
-    </script>
 @endpush
 @section('content')
     <div class="content">
@@ -280,8 +150,7 @@
                                 </div>
                                 <div class="wigdet-one-content">
                                     <p class="m-0 text-uppercase font-weight-bold text-muted" title="User This Month">Invoices</p>
-                                    <h2><span data-plugin="counterup">52410 </span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
-                                    <p class="text-muted m-0"><span class="font-weight-medium">Last:</span> 40.33k</p>
+                                    <h2><span data-plugin="counterup">{{$invoices}} </span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
                                 </div>
                             </div>
                         </div>
@@ -291,7 +160,7 @@
                 <!-- end container-fluid -->
 
             </div>
-            <!-- end content -->
+          {{--  <!-- end content -->
             <div class="row">
                 <div class="col-xl-6">
                     <div class="card-box">
@@ -325,7 +194,6 @@
 
             </div>
             <!-- end row -->
-
             <div class="row">
 
                 <div class="col-lg-6">
@@ -353,9 +221,7 @@
                                         <p class="m-0 text-muted font-13"><small></small></p>
                                     </td>
                                     <td>40</td>
-
                                 </tr>
-
                                 <tr>
                                     <th>
                                         <span class="avatar-sm-box bg-secondary">FM</span>
@@ -512,7 +378,7 @@
                 <!-- end col -->
 
             </div>
-            <!-- end row -->
+            <!-- end row -->--}}
 
             <div class="row">
                 <!-- end col -->
@@ -524,55 +390,24 @@
                     <div class="card-box">
                         <h4 class="header-title mb-4">Last Comment</h4>
 
-                        <div class="inbox-widget slimscroll" style="max-height: 360px;">
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-1.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Ahmed Adell</p>
-                                    <p class="inbox-item-text font-12">I like that</p>
-                                    <p class="inbox-item-date">13:40 PM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-2.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Said Badawy</p>
-                                    <p class="inbox-item-text font-12">Contact Please</p>
-                                    <p class="inbox-item-date">13:34 PM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-3.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">محمد احمد</p>
-                                    <p class="inbox-item-text font-12">ارجو التواصل</p>
-                                    <p class="inbox-item-date">13:17 PM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-4.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Hisham Ali</p>
-                                    <p class="inbox-item-text font-12">Nice to meet you</p>
-                                    <p class="inbox-item-date">12:20 PM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-5.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Shahenda</p>
-                                    <p class="inbox-item-text font-12">Hey! there I'm available...</p>
-                                    <p class="inbox-item-date">10:15 AM</p>
-                                </div>
-                            </a>
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-6.jpg')}}'" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">Adham dannaway</p>
-                                    <p class="inbox-item-text font-12">This is awesome!</p>
-                                    <p class="inbox-item-date">9:56 AM</p>
-                                </div>
-                            </a>
+                        <div class="inbox-widget slimscroll" style="max-height: 360px; overflow-y: scroll">
+
+                            @forelse($tickets as $ticket)
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img">
+                                            <img src="{{asset('images/users/avatar-1.jpg')}}" class="rounded-circle" alt="">
+                                        </div>
+                                        <p class="inbox-item-author">{{ucfirst($ticket->name)}}</p>
+                                        <p class="inbox-item-text font-12">{{$ticket->comment}}</p>
+                                        <p class="inbox-item-date">{{$ticket->created_at->diffForHumans()}}</p>
+                                    </div>
+                                </a>
+                            @empty
+                                <p class="text-muted">there are no comments</p>
+                            @endforelse
+
+
                         </div>
                     </div>
                     <!-- end card -->
@@ -599,4 +434,51 @@
     <script src="{{asset('libs/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{asset('js/pages/flot.init.js')}}"></script>
     <!-- Calendar init -->
+
+
+    <script>
+
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                exportEnabled: true,
+                animationEnabled: true,
+                title:{
+                    text: ""
+                },
+                legend:{
+                    cursor: "pointer",
+                    itemclick: explodePie
+                },
+                data: [{
+                    type: "pie",
+                    showInLegend: true,
+                    toolTipContent: "{name}: <strong>{y}%</strong>",
+                    indexLabel: "{name} - {y}%",
+                    dataPoints: [
+                            @forelse($dataStatistic as $name => $percent )
+                            { y: {{$percent}}, name: "{{$name}}",{{$loop->index == 0 ?  'exploded: true' : ''}} },
+
+                            @empty
+                            @endforelse
+                            @if($sumOfOthers != 100)
+                            { y: {{$sumOfOthers}}, name: "others" },
+                            @endif
+
+
+                    ]
+                }]
+            });
+            chart.render();
+        }
+
+        function explodePie (e) {
+            if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+                e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+            } else {
+                e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+            }
+            e.chart.render();
+
+        }
+    </script>
 @endpush

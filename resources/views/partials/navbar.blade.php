@@ -241,7 +241,7 @@
 
         <li class="d-none d-lg-block">
             <div class="col-3 mb-4 text-left mt-2">
-                <a href="calculator.htm">   <button type="submit" class="btn btn-secondary waves-effect waves-light mdi mdi-calculator  "><i class=""></i> </button></a>
+                <a href="{{route('viewCalculator')}}">   <button type="submit" class="btn btn-secondary waves-effect waves-light mdi mdi-calculator  "><i class=""></i> </button></a>
             </div>
         </li>
 

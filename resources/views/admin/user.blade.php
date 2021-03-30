@@ -107,9 +107,9 @@
                     <div class="card-body">
                         <h5 class="header-title">USERS</h5>
                             <p class="sub-header"></p>
-                            <div class="table-responsive overflow-hidden">
-                                <table class="table table-centered mb-0" id="btn-editable">
-                                    <thead>
+                        <div class="card-box table-responsive">
+                            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
                                     <tr>
                                         <th>Name</th>
                                         <th>Serial</th>
@@ -130,8 +130,6 @@
                                         <td>{{$user->email}}</td>
                                         <td class="row"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#con-close-modal-edit-{{$user->id}}">Edit</button><a href="{{route('deleteUser',$user->id)}}" class="btn btn-danger waves-effect waves-light" >Delete</a></td>
                                     </tr>
-                                    </tbody>
-                                    <!-- /.modal   start Edit -->
                                     <div id="con-close-modal-edit-{{$user->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -143,7 +141,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="row">
-                                                        <form method="post" id="form-editUser" action="{{route('EditUser',$user->id)}}">
+                                                        <form method="post" id="form-editUser-{{$user->id}}" action="{{route('EditUser',$user->id)}}">
                                                             @csrf
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
@@ -184,25 +182,23 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
-                                                    <button type="button" onclick="document.getElementById('form-editUser').submit()" class="btn btn-info waves-effect waves-light">Save changes</button>
+                                                    <button type="button" onclick="document.getElementById('form-editUser-{{$user->id}}').submit()" class="btn btn-info waves-effect waves-light">Save changes</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- /.modal -->
+
                                     @empty
-                                        <p>There is no any users yet</p>
+                                        <tr>
+                                            <p>There is no any users yet</p>
+
+                                        </tr>
                                     @endforelse
+                                    </tbody>
                                 </table>
-                            </div>
-
-                            <!-- end .table-responsive-->
-                        <hr>
-                        <div class="customPagination">
-                            {{$users->links()}}
                         </div>
+                            <!-- end .table-responsive-->
                     </div>
-
                     <!-- end card-body -->
                 </div>
                 <!-- end card -->
@@ -214,5 +210,5 @@
 <!-- end container-fluid -->
 
 <!-- end content -->
-</div>
+    </div>
 @endsection

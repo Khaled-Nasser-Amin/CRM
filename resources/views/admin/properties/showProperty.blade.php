@@ -90,26 +90,18 @@
                                 </div>
 
                                 <div class="">
-                                    <h5 class="font-18 mb-1">Ahmed Said</h5>
-                                    <p class="font-14">
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <i class="fa fa-star text-warning"></i>
-                                        <span>(29)</span>
-                                    </p>
+                                    <h5 class="font-18 mb-1">{{$user->name}}</h5>
                                 </div>
 
                                 <div class="mt-20">
                                     <ul class="list-inline">
                                         <li class="list-inline-item">
-                                            <h4>84</h4>
+                                            <h4>{{$user->leads->count()}}</h4>
                                             <p>Client</p>
                                         </li>
 
                                         <li class="list-inline-item ml-3">
-                                            <h4>58</h4>
+                                            <h4>{{$user->properties->count()}}</h4>
                                             <p>Sale Properties</p>
                                         </li>
                                     </ul>

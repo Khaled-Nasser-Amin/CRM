@@ -30,23 +30,14 @@ class PropertiesController extends Controller
     public function store(PropertyRequest $request,User $user){
         $data=$request->except(['images','project','amenities']);
         $property=Properties::create($data);
-        $files=$request->file('images');
-        foreach ($files as $file){
-            $fileName=time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('images/properties/'),$fileName);
-            Image::create(['name'=>$fileName])->property()->associate($property->id)->save();
-        }
+        $this->createGroupOfImage($request,$property);
         $user->properties()->save($property);
-        $project=Project::find($request->project)->properties()->save($property);
-        foreach ($request->amenities as $amenity){
-            if (in_array($amenity,$project->amenities->pluck('id')->toArray())){
-                $property->amenities()->syncWithoutDetaching($amenity);
-            }
-        }
+        $this->linkProjectWithAmenities($request,$property);
         return redirect()->back()->with(['success' => 'Created Successfully']);
     }
     public function showProperty(Properties $property){
-        return view('admin.properties.showProperty',compact('property'));
+        $user=$property->user;
+        return view('admin.properties.showProperty',compact('property','user'));
     }
     public function editProperty(Properties $property){
         $this->authorize('view',$property);
@@ -58,33 +49,10 @@ class PropertiesController extends Controller
         $data=$request->except(['images','project','amenities']);
         $property->update($data);
         $property->save();
-        if ($request->images){
-            $request->validate([
-                'images' => 'required|array|min:1',
-                'images.*' => 'mimes:jpeg,jpg,png',
-            ]);
-            foreach ($property->images as $image){
-                unlink('images/properties/'.$image->name);
-            }
-            $property->images()->delete();
-            $files=$request->file('images');
-            foreach ($files as $file){
-                $fileName=time().'_'.$file->getClientOriginalName();
-                $file->move(public_path('images/properties/'),$fileName);
-                Image::create(['name'=>$fileName])->property()->associate($property->id)->save();
-            }
-
-        }
-
+        $this->ifUpdatedHasImages($request,$property);
         $property->amenities()->detach();
         $property->project()->dissociate();
-        $project=Project::find($request->project);
-        $project->properties()->save($property);
-        foreach ($request->amenities as $amenity){
-            if (in_array($amenity,$project->amenities->pluck('id')->toArray())){
-                $property->amenities()->syncWithoutDetaching($amenity);
-            }
-        }
+        $this->linkProjectWithAmenities($request,$property);
         return redirect()->back()->with(['success' => 'Updated Successfully']);
     }
     public function deleteProperty(Properties $property){
@@ -94,6 +62,39 @@ class PropertiesController extends Controller
         }
         $property->delete();
         return redirect()->back()->with(['success' => 'Deleted Successfully']);
+    }
+
+    public function createGroupOfImage($request,$property){
+        $files=$request->file('images');
+        foreach ($files as $file){
+            $fileName=time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images/properties/'),$fileName);
+            Image::create(['name'=>$fileName])->property()->associate($property->id)->save();
+        }
+    }
+
+    public function linkProjectWithAmenities($request,$property){
+        $project=Project::find($request->project)->properties()->save($property);
+        foreach ($request->amenities as $amenity){
+            if (in_array($amenity,$project->amenities->pluck('id')->toArray())){
+                $property->amenities()->syncWithoutDetaching($amenity);
+            }
+        }
+    }
+
+    public function ifUpdatedHasImages($request,$property){
+        if ($request->images){
+            $request->validate([
+                'images' => 'required|array|min:1',
+                'images.*' => 'mimes:jpeg,jpg,png',
+            ]);
+            foreach ($property->images as $image){
+                unlink('images/properties/'.$image->name);
+            }
+            $property->images()->delete();
+            $this->createGroupOfImage($request,$property);
+
+        }
     }
 
 }

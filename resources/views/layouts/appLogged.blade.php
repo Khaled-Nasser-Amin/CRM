@@ -7,17 +7,14 @@
     <meta content="Responsive bootstrap 4 admin template" name="description" />
     <meta content="Coderthemes" name="author" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="user_id" content="{{ auth()->user()->id }}" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
     <!-- App css -->
-    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
-    <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
 
 
     <link href="{{asset('libs/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
-
 
     <!--App css leads -->
     <link href="{{asset('libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
@@ -38,10 +35,12 @@
     <link href="{{asset('libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Plugins css -->
     <link href="{{asset('libs/nestable2/jquery.nestable.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
+
     @stack('css')
+    <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css" />
 
-
-
+    <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
 
 
 </head>
@@ -59,14 +58,9 @@
     @include('layouts.footer')
 </div>
 
-<!-- App js -->
-<script src="{{asset('js/app.min.js')}}"></script>
-<script src="{{asset('js/app.js')}}"></script>
-@yield('scripts')
-
+<script src="{{asset('js/vendor.min.js')}}"></script>
 
 <!-- leads-->
-<script src="{{asset('js/vendor.min.js')}}"></script>
 
 <script src="{{asset('libs/bootstrap-select/bootstrap-select.min.js')}}"></script>
 <!-- Datatable plugin js -->
@@ -97,6 +91,13 @@
 <script src="{{asset('js/pages/sweetalerts.init.js')}}"></script>
 <!-- Init js-->
 <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
+
 @stack('script')
+
+<!-- App js -->
+
+<script src="{{asset('js/app.min.js')}}"></script>
+<script src="{{asset('js/app.js')}}"></script>
+
 </body>
 </html>

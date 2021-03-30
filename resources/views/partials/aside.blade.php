@@ -14,23 +14,19 @@
                 <li>
 
                     <ul class="nav-second-level" aria-expanded="false">
-                        <li><a href="{{asset('dashboard')}}" class="mdi mdi-view-dashboard" > Dashboard</a></li>
-                        <li><a href="{{asset('ViewLeads')}}" class="mdi mdi-account-group" > Leads</a></li>
+                        <li><a href="{{route('dashboard')}}" class="mdi mdi-view-dashboard" > Dashboard</a></li>
+                        <li><a href="{{route('ViewLeads')}}" class="mdi mdi-account-group" > Leads</a></li>
                         <li><a href="{{route('properties')}}" class="mdi mdi-home-analytics "> Properties</a></li>
                         @can('create',App\Models\Employee::class)
                             <li><a href="{{route('viewHumanResource')}}" class="mdi mdi-account-badge-horizontal"> Human Resource</a></li>
                         @endcan
                         @can('create',App\Models\User::class)
-                            <li><a href="{{asset('ViewUser')}}" class="mdi mdi-account-key"> Users</a></li>
-
+                            <li><a href="{{route('ViewUser')}}" class="mdi mdi-account-key"> Users</a></li>
+                            <li><a href="{{route('projects.index')}}" class="mdi mdi-account-key"> Projects&Developers</a></li>
+                            <li><a href="{{route('Invoices.index')}}" class="mdi mdi-account-cash"> Invoices</a></li>
                         @endcan
-<<<<<<< HEAD
                         <li><a href="{{route('calendar')}}" class="mdi mdi-calendar-text"> Calendar</a></li>
-=======
-                        <li><a href="{{route('calender')}}" class="mdi mdi-calendar-text"> Calendar</a></li>
->>>>>>> e064e8e2f73f406b0df62c0375ff56422a1ede5e
-                        <li><a href="chat.html" class="mdi mdi-wechat"> Chat</a></li>
-                        <li><a href="{{route('invoices')}}" class="mdi mdi-account-cash"> Invoices</a></li>
+                        <li><a href="{{route('chat.index')}}" class="mdi mdi-wechat"> Chat</a></li>
                         <li><a href="{{route('tickets')}}" class="mdi mdi-wrench"> Ticket</a></li>
                     </ul>
                 </li>

@@ -29,25 +29,23 @@
                 <div class="col-md-12">
                     <div class="card-box">
                         <h4 class="header-title"></h4>
-                        <p class="sub-header">
 
-                        </p>
-
-                        <form id="basic-form" action="#" >
+                        <form id="basic-form" action="#" method="post" class="formSteps" >
+                            @csrf
                             <div>
                                 <h3>Account</h3>
                                 <section>
-                                    <div class="form-group row ">
-                                        <label class="col-lg-2 control-label " for="userName">User name *</label>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label " for="email">Email *</label>
                                         <div class="col-lg-10">
-                                            <input class="form-control required" id="userName" name="userName" type="text">
+                                            <input id="email" name="email" type="text" class="required email form-control">
                                         </div>
                                     </div>
-
                                     <div class="form-group row">
                                         <label class="col-lg-2 control-label " for="password"> Password *</label>
                                         <div class="col-lg-10">
-                                            <input id="password" name="password" type="text" class="required form-control">
+                                            <input id="password" name="password" type="text" class="required form-control" required>
 
                                         </div>
                                     </div>
@@ -55,7 +53,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 control-label " for="confirm">Confirm Password *</label>
                                         <div class="col-lg-10">
-                                            <input id="confirm" name="confirm" type="text" class="required form-control">
+                                            <input id="confirm" name="password_confirmation" type="text" class="required form-control" required>
                                         </div>
                                     </div>
 
@@ -66,28 +64,22 @@
 
                                         <label class="col-lg-2 control-label" for="name"> First name *</label>
                                         <div class="col-lg-10">
-                                            <input id="name" name="name" type="text" class="required form-control">
+                                            <input id="name" name="name" type="text" class="required form-control" >
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-lg-2 control-label " for="surname"> Comment *</label>
+                                        <label class="col-lg-2 control-label " for="comment"> Comment *</label>
                                         <div class="col-lg-10">
-                                            <input id="surname" name="surname" type="text" class="required form-control">
+                                            <input id="comment" name="comment" type="text" class="required form-control">
 
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <label class="col-lg-2 control-label " for="email">Email *</label>
-                                        <div class="col-lg-10">
-                                            <input id="email" name="email" type="text" class="required email form-control">
-                                        </div>
-                                    </div>
 
                                     <div class="form-group row">
-                                        <label class="col-lg-2 control-label " for="address">project *</label>
+                                        <label class="col-lg-2 control-label " for="project">project *</label>
                                         <div class="col-lg-10">
-                                            <input id="address" name="address" type="text" class="form-control">
+                                            <input id="project" name="project" type="text" class="form-control" required>
                                         </div>
                                     </div>
 
@@ -101,24 +93,11 @@
                                     <div class="form-group row">
                                         <div class="col-lg-12">
                                             <ul class="list-unstyled w-list">
-                                                <li><b>First Name :</b> Ahmed </li>
-                                                <li><b>Comment :</b> ......... </li>
-                                                <li><b>Emial:</b> tracks@tracks.com</li>
-                                                <li><b>Address:</b> 123 Your City, Cityname. </li>
+                                                <li><b>First Name :</b> <span name="firstName"></span> </li>
+                                                <li><b>Comment :</b> <span name="comment"></span> </li>
+                                                <li><b>Emial:</b> <span name="email"></span></li>
+                                                <li><b>Project:</b> <span name="project"></span> </li>
                                             </ul>
-                                        </div>
-                                    </div>
-                                </section>
-                                <h3>Finish</h3>
-                                <section>
-                                    <div class="form-group row">
-                                        <div class="col-lg-12">
-                                            <div class="checkbox checkbox-secondary">
-                                                <input id="checkbox-h" type="checkbox">
-                                                <label for="checkbox-h">
-                                                    I agree with the Terms and Conditions.
-                                                </label>
-                                            </div>
                                         </div>
                                     </div>
                                 </section>
@@ -137,10 +116,26 @@
     <!-- end container-fluid -->
 @endsection
 @push('script')
+
+    <script>
+        $('.formSteps').on('change',function(){
+            let email=$('input[name=email]').val();
+            let firstName=$('input[name=name]').val();
+            let comment=$('input[name=comment]').val();
+            let project=$('input[name=project]').val();
+
+            $('span[name=email]').html(email);
+            $('span[name=firstName]').html(firstName);
+            $('span[name=comment]').html(comment);
+            $('span[name=project]').html(project);
+            console.log(email,'=',firstName,'=',comment,'=',project);
+        })
+    </script>
     <!--Form Wizard-->
     <script src="{{asset('libs/jquery-steps/jquery.steps.min.js')}}"></script>
     <script src="{{asset('libs/jquery-validation/jquery.validate.min.js')}}"></script>
 
     <!-- Validation init js-->
     <script src="{{asset('js/pages/form-wizard.init.js')}}"></script>
+
 @endpush

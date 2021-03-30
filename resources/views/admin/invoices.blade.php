@@ -1,16 +1,7 @@
 @extends('layouts.appLogged')
-<<<<<<< HEAD
 @section('title','TRACKS/CRM/Invoices')
 @push('css')
     <link href="{{asset('libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('libs/clockpicker/bootstrap-clockpicker.min.css')}}" rel="stylesheet">
-    <link href="{{asset('libs/bootstrap-timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('libs/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
-    <link href="{{asset('libs/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
-=======
-@section('title','Tracks CRM/INVOICES')
-@push('css')
-    <link href="{{asset('libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css')}}" rel="stylesheet" type="text/css" />
 
     <link href="{{asset('libs/clockpicker/bootstrap-clockpicker.min.css')}}" rel="stylesheet">
 
@@ -20,7 +11,6 @@
 
     <link href="{{asset('libs/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
 
->>>>>>> e064e8e2f73f406b0df62c0375ff56422a1ede5e
     <link href="{{asset('libs/custombox/custombox.min.css')}}" rel="stylesheet" type="text/css">
 
 @endpush
@@ -57,22 +47,27 @@
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="card-box">
-                                        <h4 class="header-title"></h4>
+                                    <form class="" method="post" action="{{route('Invoices.store')}}">
+                                        @csrf
+                                        <div class="card-box">
+                                            <h4 class="header-title"></h4>
 
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <form class="form-horizontal">
-                                                    <div class="form-group row">
-                                                        <label class="col-md-3 control-label">Customer</label>
-                                                        <div class="col-md-10">
-                                                            <input type="text" class="form-control" value="Name">
-                                                        </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label  class="control-label">Lead</label>
+                                                        <select class="selectpicker" data-live-search="true"  name="lead" data-style="btn-secondary">
+                                                            @forelse($leads as $lead)
+                                                                <option value="{{$lead->id}}" >{{$lead->name}}</option>
+                                                            @empty
+                                                                <option value="">No Leads Yet</option>
+                                                            @endforelse
+                                                        </select>
                                                     </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-md-3 control-label" for="example-email">Invoice Serial</label>
-                                                        <div class="col-md-10">
-                                                            <input type="email" id="example-email" name="example-email" class="form-control" placeholder="SERIAL">
+                                                    <div class="form-group ">
+                                                        <label class="control-label" for="serial">Invoice Serial</label>
+                                                        <div class="col-12">
+                                                            <input type="text" id="serial" name="invoiceSerial" class="form-control" placeholder="SERIAL">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -88,184 +83,255 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-
-                                                    <div class="form-group row">
-                                                        <label class="col-md-3control-label">Employee</label>
-                                                        <div class="col-md-10">
-                                                            <input type="text" class="form-control" placeholder="Employee">
-                                                        </div>
+                                                    <div class="form-group">
+                                                        <label  class="control-label">Broker</label>
+                                                        <select class="selectpicker" data-live-search="true"  name="broker" data-style="btn-secondary">
+                                                            @forelse($users as $user)
+                                                                <option value="{{$user->id}}" >{{$user->name}}</option>
+                                                            @empty
+                                                                <option value="">No Leads Yet</option>
+                                                            @endforelse
+                                                        </select>
                                                     </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-md-2 control-label">notes</label>
-                                                        <div class="col-md-10">
-                                                            <textarea class="form-control" rows="5"></textarea>
-                                                        </div>
-                                                    </div>
+                                                </div>
 
-                                                </form>
-                                            </div>
+                                                <div class="col-lg-6">
 
-                                            <div class="col-lg-6">
-                                                <form class="form-horizontal">
-
-                                                    <div class="form-group row">
-                                                        <label class="col-md-3 control-label">CURRENCY</label>
-                                                        <div class="col-md-10">
+                                                    <div class="form-group ">
+                                                        <label class=" control-label">CURRENCY</label>
+                                                        <div class="col-12">
                                                             <input type="text" class="form-control" readonly="" value="L.E">
                                                         </div>
                                                     </div>
 
 
-                                                    <div class="form-group row">
-                                                        <label class="col-sm-3 control-label">Payment Method</label>
-                                                        <div class="col-sm-10">
-                                                            <select class="form-control">
-                                                                <option>cash</option>
-                                                                <option>Bank</option>
-                                                                <option>Credit</option>
-
-                                                            </select>
-                                                            <div class="col-sm-10">
-
-                                                                <h5 class="font-13">Invoice Select</h5>
-                                                                <select multiple="" class="form-control">
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                    <option>5</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
+                                                    <div class="form-group ">
+                                                        <label class=" control-label">Payment Method</label>
+                                                        <select class="form-control" name="paymentMethodology">
+                                                            <option value="Cash">Cash</option>
+                                                            <option value="Bank">Bank</option>
+                                                            <option value="Credit">Credit</option>
+                                                        </select>
                                                     </div>
-                                                </form>
+                                                    <div class="form-group">
+                                                        <label class=" control-label">notes</label>
+                                                        <textarea class="form-control w-100" name="notes"></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            <!-- end row -->
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="table-responsive">
+                                                        <table class="table mt-4">
+                                                            <thead>
+                                                            <tr>
 
+                                                                <th>Item </th>
+                                                                <th>Description</th>
+                                                                <th>Quantity</th>
+                                                                <th>Unit Cost</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="Item" name="propertyName">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="Description" name="description">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="Quantity" name="quantity">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control" placeholder="Cost" name="cost">
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-secondary waves-effect waves-light float-right">Submit</button>
                                         </div>
-                                        <!-- end row -->
+                                    </form>
+                                    <div id="printDiv">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="table-responsive">
-                                                    <table class="table mt-4">
+                                                <div class="card-box table-responsive">
+                                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap custonName" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                                         <thead>
                                                         <tr>
-
-                                                            <th>Item </th>
+                                                            <th>Item</th>
                                                             <th>Description</th>
                                                             <th>Quantity</th>
                                                             <th>Unit Cost</th>
-
+                                                            <th>Total</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr>
+                                                        @forelse($invoices as $invoice)
+                                                            <tr>
+                                                                <td>{{$invoice->propertyName}}</td>
+                                                                <td>{{$invoice->description}}</td>
+                                                                <td>{{$invoice->quantity}}</td>
+                                                                <td>{{$invoice->cost}}</td>
+                                                                <td>{{$invoice->total}}</td>
+                                                                <td class="row">
+                                                                    <button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#edit-invoice-{{$invoice->id}}">Edit</button>
+                                                                    <button type="button" onclick="document.getElementById('deleteInvoice-{{$invoice->id}}').submit()"  class="btn btn-danger waves-effect waves-light" >Delete</button>
+                                                                    <form method="post" action="{{route('Invoices.destroy',$invoice->id)}}" id="deleteInvoice-{{$invoice->id}}">
+                                                                        @csrf
+                                                                        @method('delete')
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
 
-                                                            <td>
-                                                                <input type="text" class="form-control" placeholder="Item">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" class="form-control" placeholder="Description">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" class="form-control" placeholder="Quantity">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" class="form-control" placeholder="Cost">
-                                                            </td>
-                                                        </tr>
+                                                            <div id="edit-invoice-{{$invoice->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title mt-0">Invoice</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form id="update-invoice-{{$invoice->id}}" method="post" action="{{route('Invoices.update',$invoice->id)}}">
+                                                                                @csrf
+                                                                                @method('put')
+                                                                                    <div class="">
+                                                                                        <div class="form-group">
+                                                                                            <label  class="control-label">Lead</label>
+                                                                                            <select class="form-control" data-live-search="true"  name="lead" data-style="btn-secondary">
+                                                                                                @forelse($leads as $lead)
+                                                                                                    <option value="{{$lead->id}}" {{$lead->id == $invoice->lead->id ? 'selected':''}}>{{$lead->name}}</option>
+                                                                                                @empty
+                                                                                                    <option value="">No Leads Yet</option>
+                                                                                                @endforelse
+                                                                                            </select>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label" for="serial">Invoice Serial</label>
+                                                                                            <div class="col-12">
+                                                                                                <input type="text" id="serial" name="invoiceSerial" class="form-control" value="{{$invoice->invoiceSerial}}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label>Date Range</label>
+                                                                                            <div>
+                                                                                                <div class="input-daterange input-group" id="date-range">
+                                                                                                    <input type="text" class="form-control" name="start" value="{{$invoice->start}}"/>
+                                                                                                    <div class="input-group-append">
+                                                                                                        <span class="input-group-text bg-secondary text-white b-0">to</span>
+                                                                                                    </div>
+
+                                                                                                    <input type="text" class="form-control" name="end" value="{{$invoice->end}}"/>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label  class="control-label">Broker</label>
+                                                                                            <select class="form-control" data-live-search="true"  name="broker" data-style="btn-secondary">
+                                                                                                @forelse($users as $user)
+                                                                                                    <option value="{{$user->id}}" {{$user->id == $invoice->user->id ? 'selected':''}}>{{$user->name}}</option>
+                                                                                                @empty
+                                                                                                    <option value="">No Leads Yet</option>
+                                                                                                @endforelse
+                                                                                            </select>
+                                                                                        </div>
+
+
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label">CURRENCY</label>
+                                                                                            <div class="col-12">
+                                                                                                <input type="text" class="form-control" readonly="" value="L.E">
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label">Payment Method</label>
+                                                                                            <div class="col-12">
+                                                                                                <select class="form-control" name="paymentMethodology">
+                                                                                                    <option value="Cash" {{$invoice->paymentMethodology == 'Cash' ? "selected":''}}>Cash</option>
+                                                                                                    <option value="Bank" {{$invoice->paymentMethodology == 'Bank' ? "selected":''}}>Bank</option>
+                                                                                                    <option value="Credit" {{$invoice->paymentMethodology == 'Credit' ? "selected":''}}>Credit</option>
+                                                                                                </select>
+
+                                                                                            </div>
+                                                                                            <div class="col-12 w-100">
+                                                                                                <div class="form-group">
+                                                                                                    <label class=" control-label">notes</label>
+                                                                                                    <div class="col-12 w-100">
+                                                                                                        <textarea class="form-control w-100" name="notes">{{$invoice->notes}}</textarea>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="form-group">
+                                                                                            <lable for="ItemName">Item Name</lable>
+                                                                                            <input id="ItemName" class="form-control" type="text" name="propertyName" value="{{$invoice->propertyName}}">
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <lable for="description">Description</lable>
+                                                                                            <input id="description" class="form-control" type="text" name="description" value="{{$invoice->description}}">
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <lable for="quantity">Quantity</lable>
+                                                                                            <input id="quantity" class="form-control" type="text" name="quantity" value="{{$invoice->quantity}}">
+                                                                                        </div><div class="form-group">
+                                                                                            <lable for="cost">Cost</lable>
+                                                                                            <input id="cost" type="text" class="form-control" name="cost" value="{{$invoice->cost}}">
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                            </form>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                                                            <button type="button" onclick="document.getElementById('update-invoice-{{$invoice->id}}').submit()" class="btn btn-info waves-effect waves-light">Save changes</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        @empty
+                                                            <tr>No Invoices</tr>
+                                                        @endforelse
+
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="clearfix mt-4">
+                                                    <h5 class="small text-dark">PAYMENT TERMS AND POLICIES</h5>
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="table-responsive">
-                                                <table class="table mt-4">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Item</th>
-                                                        <th>Description</th>
-                                                        <th>Quantity</th>
-                                                        <th>Unit Cost</th>
-                                                        <th>Total</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Apartment</td>
-                                                        <td>Lorem ipsum dolor sit amet.</td>
-                                                        <td>1</td>
-                                                        <td>$380</td>
-                                                        <td>$380</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Mobile</td>
-                                                        <td>Lorem ipsum dolor sit amet.</td>
-                                                        <td>5</td>
-                                                        <td>$50</td>
-                                                        <td>$250</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>LED</td>
-                                                        <td>Lorem ipsum dolor sit amet.</td>
-                                                        <td>2</td>
-                                                        <td>$500</td>
-                                                        <td>$1000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>LCD</td>
-                                                        <td>Lorem ipsum dolor sit amet.</td>
-                                                        <td>3</td>
-                                                        <td>$300</td>
-                                                        <td>$900</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>5</td>
-                                                        <td>Mobile</td>
-                                                        <td>Lorem ipsum dolor sit amet.</td>
-                                                        <td>5</td>
-                                                        <td>$80</td>
-                                                        <td>$400</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                                    <small>
+
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="text-right"><b>Sub-total:</b> {{$invoices->pluck('total')->sum()}} </p>
+
+                                                <hr>
+                                                <h3 class="text-right"> {{$invoices->pluck('total')->sum()}} L.E</h3>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="hidden-print">
+                                            <div class="float-right d-print-none">
+                                                <a onclick="$('#printDiv').printThis()"  id=printInvoice" class="btn btn-dark waves-effect waves-light"><i class="fa fa-print"></i></a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="clearfix mt-4">
-                                                <h5 class="small text-dark">PAYMENT TERMS AND POLICIES</h5>
 
-                                                <small>
-
-                                                </small>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p class="text-right"><b>Sub-total:</b> 2930.00</p>
-                                            <p class="text-right">Discout: 12.9%</p>
-                                            <p class="text-right">VAT: 12.9%</p>
-                                            <hr>
-                                            <h3 class="text-right">USD 2930.00</h3>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="hidden-print">
-                                        <div class="float-right d-print-none">
-                                            <a href="javascript:window.print()" class="btn btn-dark waves-effect waves-light"><i class="fa fa-print"></i></a>
-                                            <a href="#" class="btn btn-secondary waves-effect waves-light">Submit</a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -280,23 +346,10 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
 
 @endsection
 @push('script')
-                <script src="{{asset('libs/moment/moment.min.js')}}"></script>
-                <script src="{{asset('libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js')}}"></script>
-                <script src="{{asset('libs/bootstrap-timepicker/bootstrap-timepicker.min.js')}}"></script>
-                <script src="{{asset('libs/clockpicker/bootstrap-clockpicker.min.js')}}"></script>
-                <script src="{{asset('libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
-                <script src="{{asset('libs/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
-                <!-- Init js-->
-                <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
-                <script src="{{asset('libs/custombox/custombox.min.js')}}"></script>
-=======
-@endsection
-@push('script')
 
     <script src="{{asset('libs/moment/moment.min.js')}}"></script>
     <script src="{{asset('libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js')}}"></script>
@@ -304,10 +357,12 @@
     <script src="{{asset('libs/clockpicker/bootstrap-clockpicker.min.js')}}"></script>
     <script src="{{asset('libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('libs/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{asset('libs/print/jquery.printThis.js')}}"></script>
 
     <!-- Init js-->
     <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
     <script src="{{asset('libs/custombox/custombox.min.js')}}"></script>
+    <script>
 
->>>>>>> e064e8e2f73f406b0df62c0375ff56422a1ede5e
+    </script>
 @endpush

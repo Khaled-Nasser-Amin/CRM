@@ -34,4 +34,8 @@ class Lead extends Model
     public function Updates(){
         return $this->hasMany(LastUpdateForLead::class);
     }
+
+    public function invoices(){
+        return $this->hasMany(Invoice::class);
+    }
 }
