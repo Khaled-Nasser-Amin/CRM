@@ -82,6 +82,8 @@ Route::group(['middleware' => 'auth'],function(){
         Route::get('Chat/{message}','MessageController@downloadDocumentation')->name('downloadDocumentation');
         Route::post('Chat/store','MessageController@storeText')->name('storeText');
         Route::post('Chat','MessageController@storeFile')->name('storeFile');
+        Route::post('Chat/readMessages/{id}','MessageController@readMessages')->name('readMessages');
+        Route::post('Chat/getUnReadMessages/{id}','MessageController@getUnReadMessages')->name('getUnReadMessages');
     });
 
 

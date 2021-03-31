@@ -49,4 +49,9 @@ class User extends Authenticatable
         return $this->hasMany(Message::class,'receiver_id');
     }
 
+    public function messages()
+    {
+        return $this->messagesAsSender()->union($this->messagesAsReceiver()->toBase());
+    }
+
 }

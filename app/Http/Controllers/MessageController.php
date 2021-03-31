@@ -11,11 +11,7 @@ use Illuminate\Http\Request;
 class MessageController extends Controller
 {
     public function index(){
-        $users=User::where('id','!=',auth()->user()->id)->with('messagesAsSender',function ($q){
-            return $q->where('receiver_id',auth()->user()->id)
-                ->orWhere('sender_id',auth()->user()->id)
-                ->get();
-        })->get();
+        $users=User::where('id','!=',auth()->user()->id)->get();
         return view('admin.chat',compact('users'));
     }
 
@@ -27,8 +23,11 @@ class MessageController extends Controller
         $receiver_id=$request->receiver_id;
         $message->sender()->associate(auth()->user()->id)->save();
         $message->receiver()->associate($receiver_id)->save();
+        $dateForHuman=$message->created_at->diffForHumans();
+        $message=collect($message);
+        $message->put('dateForHumans',$dateForHuman);
         broadcast(new ChatEvent($receiver_id,$message))->toOthers();
-        $message['dateForHumans']=$message->created_at->diffForHumans();
+        $this->readMessages($receiver_id);
        return $message;
     }
     public function storeFile(Request $request){
@@ -47,10 +46,12 @@ class MessageController extends Controller
         ]);
         $message->sender()->associate(auth()->user()->id)->save();
         $message->receiver()->associate($receiver_id)->save();
+        $dateForHuman=$message->created_at->diffForHumans();
+        $message=collect($message);
+        $message->put('dateForHumans',$dateForHuman);
+        $message->put('name',$file->getClientOriginalName());
         broadcast(new ChatEvent($receiver_id,$message))->toOthers();
-        $message['dateForHumans']=$message->created_at->diffForHumans();
-        $message['name']=$file->getClientOriginalName();;
-
+        $this->readMessages($receiver_id);
         return $message;
     }
 
@@ -66,5 +67,17 @@ class MessageController extends Controller
         $name=end($array);
         return response()->download(public_path('chat_files').'/'.$message->text, $name , $headers);
 
+    }
+
+    public function readMessages($sender_id){
+        Message::where('sender_id',$sender_id)->where('receiver_id',auth()->user()->id)->update([
+            'state' => 1
+        ]);
+    }
+    public function getUnReadMessages($sender_id)
+    {
+        $numberOfUnReadMessage = Message::where('sender_id', $sender_id)->where('receiver_id', auth()->user()->id)
+            ->where('state',0)->count();
+        return $numberOfUnReadMessage;
     }
 }

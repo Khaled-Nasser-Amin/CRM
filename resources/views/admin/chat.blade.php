@@ -62,21 +62,20 @@
 
                                                     <div class="list-group" id="chats" role="tablist">
                                                         @forelse($users as $user)
-                                                            <a href="#list-chat{{$loop->index}}" class="filterDiscussions all {{  $user->messagesAsSender->last() ? ($user->messagesAsSender->last()->state == 0 ? 'unread' :'read'):''}} single" id="list-chat-list" data-toggle="list" role="tab">
+                                                            <a href="#list-chat{{$user->id}}" data-receiver="{{$user->id}}" class="filterDiscussions all {{  $user->messagesAsSender->where('receiver_id',auth()->user()->id)->last() ? ($user->messagesAsSender->where('receiver_id',auth()->user()->id)->last()->state == 0 ? 'unread' :'read'):''}} single" id="list-chat-{{$user->id}}" data-toggle="list" role="tab">
                                                                 <img class="avatar-md" src="{{asset('dist/img/avatars/avatar-female-1.jpg')}}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
                                                                 <div class="status">
                                                                     <i class="material-icons online">fiber_manual_record</i>
                                                                 </div>
-                                                                @if($user->messagesAsSender->where('state',0)->count() > 0)
-                                                                    <div class="new bg-yellow">
-                                                                        <span>{{$user->messagesAsSender->where('state',0)->count()}}</span>
-                                                                    </div>
-                                                                @endif
+
+                                                                <div class="new bg-yellow {{auth()->user()->messages->where('sender_id',$user->id)->where('state',0)->count() == 0 ? 'd-none' : ''}}">
+                                                                    <span id="badgeSidebarMessage{{$user->id}}">{{auth()->user()->messages->where('sender_id',$user->id)->where('state',0)->count()}}</span>
+                                                                </div>
 
                                                                 <div class="data">
                                                                     <h5>{{$user->name}}</h5>
-                                                                    <span>{{ $user->messagesAsSender->last() ? $user->messagesAsSender->last()->created_at->diffForHumans() :''}}</span>
-                                                                    <p class="{{$user->messagesAsSender->last()? ($user->messagesAsSender->last()->state == 1 ? 'text-muted' :''):'text-muted'}}">{{$user->messagesAsSender->last()->text ?? 'Start Conversation'}}</p>
+                                                                    <span id="timeOnSidebarMessage{{$user->id}}">{{ messagesForAuthenticatedUser($user->id)->last() ? messagesForAuthenticatedUser($user->id)->last()->created_at->diffForHumans() :''}}</span>
+                                                                    <p id="textOnSidebarMessage{{$user->id}}">{{messagesForAuthenticatedUser($user->id)->last()->text ?? 'Start Conversation'}}</p>
                                                                 </div>
                                                             </a>
                                                         @empty
@@ -93,11 +92,11 @@
 
                             <!-- Start of Create Chat -->
                             <div class="main">
-                                <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-content row" id="nav-tabContent">
 
 
                                     @forelse($users as $user)
-                                        <div class="babble tab-pane fade active show mb-4" id="list-chat{{$loop->index}}" role="tabpanel" aria-labelledby="list-chat-list">
+                                        <div class="babble tab-pane fade active show mb-4" id="list-chat{{$user->id}}" role="tabpanel" aria-labelledby="list-chat-chat">
                                             <!-- Start of Chat -->
                                             <div class="chat" id="chat1">
                                                 <div class="top">
@@ -129,7 +128,7 @@
                                                 <div class="content" id="content" >
                                                     <div class="container">
                                                         <div class="col-md-12" id="appendMessages">
-                                                    @forelse(\App\Models\Message::where([['receiver_id',$user->id],['sender_id',auth()->user()->id]])->orWhere([['sender_id',$user->id],['receiver_id',auth()->user()->id]])->get() as $message)
+                                                    @forelse(messagesForAuthenticatedUser($user->id) as $message)
 
                                                         @if($message->type == 'text')
                                                             @if($message->sender_id == auth()->user()->id)
@@ -148,7 +147,7 @@
                                                                     <img class="avatar-md" src="{{asset('dist/img/avatars/avatar-female-5.jpg')}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
                                                                     <div class="text-main">
                                                                         <div class="text-group">
-                                                                            <div class="text">
+                                                                            <div class="text bg-info text-white">
                                                                                 <p> {{$message->text}} </p>
                                                                             </div>
                                                                         </div>
@@ -263,7 +262,6 @@
                                             </div>
                                             <!-- End of Chat -->
                                         </div>
-
                                     @empty
                                     @endforelse
                                 </div>
@@ -284,10 +282,9 @@
 
 @push('script')
     <script>
-        function scrollToBottom(el)
-        { el.scrollTop = el.scrollHeight; }
-        scrollToBottom(document.getElementById('content'));
 
+        scrollToBottom(document.getElementById('content'));
+        //sending file or image
         $('#attachFile').on('change',function(){
             var form = new FormData();
             form.append('fileName',$('#attachFile').get(0).files[0])
@@ -295,9 +292,10 @@
             let receiver_id=$(this).data('receiver');
             form.append('_token',token);
             form.append('receiver_id',receiver_id);
+            readMessages(receiver_id,$('#list-chat-'+receiver_id));
 
             $.ajax({
-                url:'{{route('chat.storeFile')}}',
+                url:'/Chat',
                 method:'post',
                 data:form,
                 cache: false,
@@ -319,17 +317,19 @@
                             +'<span>'+result.dateForHumans+'</span></div></div> ')
                     }
                     scrollToBottom(document.getElementById('content'));
+                    changeListChatItem(result);
                 }
             })
         });
-
+        //click button to send message
         $('#btnChat').on('click',function(e){
             e.preventDefault();
             let form=$(this).parent();
             let receiver_id=$(this).data('receiver');
-             let data=form.serialize()+'&receiver_id='+receiver_id;
+            let data=form.serialize()+'&receiver_id='+receiver_id;
+            readMessages(receiver_id,$('#list-chat-'+receiver_id));
             $.ajax({
-               url:'{{route("chat.storeText")}}' ,
+                url:'/Chat/store' ,
                 type:'post',
                 data:data,
                 success:function (result){
@@ -344,22 +344,61 @@
                         +'</div>'
                         +'</div>')
                     scrollToBottom(document.getElementById('content'));
+                    changeListChatItem(result);
                 }
 
             })
         })
 
+        //press enter to send message
         $('textarea[name=message]').on('keyup',function(e){
+            let receiver_id=$('#btnChat').data('receiver');
+            readMessages(receiver_id,$('#list-chat-'+receiver_id));
+
             if (e.keyCode == 13){
                 e.preventDefault();
                 $('#btnChat').click();
                 $(this).val('');
+                scrollToBottom(document.getElementById('content'));
+
             }
         })
+
+
+
+        $('.filterDiscussions').on('click',function (){
+            let receiver_id = $(this).data('receiver');
+            readMessages(receiver_id,$(this));
+
+        })
+        function readMessages(receiver_id,item){
+            $.ajax({
+                url:"/Chat/readMessages/"+receiver_id,
+                method:"post",
+                data:{
+                    '_token':$('meta[name=csrf-token]').attr('content')
+                }
+            })
+
+            item.hasClass('unread') ? item.removeClass('unread').addClass('read') : null;
+            item.children('div .new').addClass('d-none');
+        }
+        function changeListChatItem(message){
+            switch (message.type){
+                case 'text':$('#textOnSidebarMessage'+message.receiver_id).html(message.text);break;
+                case 'file':
+                case 'image':$('#textOnSidebarMessage'+message.receiver_id).html(message.text);break;
+            }
+            $('#timeOnSidebarMessage'+message.receiver_id).html(message.dateForHumans);
+
+        }
+        //scroll function
+        function scrollToBottom(el)
+        { el.scrollTop = el.scrollHeight; }
+
     </script>
     <script src="{{asset('dist/js/vendor/popper.min.js')}}"></script>
     <script src="{{asset('dist/js/swipe.min.js')}}"></script>
-
 
 
 
