@@ -1,5 +1,9 @@
 @extends('layouts.appLogged')
 @section('title','TRACKS/CRM/USERS')
+@push('css')
+    <link href="{{asset('libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
+@endpush
+
 @section('content')
     <div class="content">
 
@@ -63,12 +67,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="field-1" class="control-label">Email</label>
                                             <input type="text" name="email" class="form-control" id="field-1" placeholder="tracks@tracks.com">
                                         </div>
+                                    </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>User Image</label>
+                                        <input type="file"  name="image" multiple class="dropify" data-height="210" />
                                     </div>
                                 </div>
                             </form>
@@ -155,26 +164,29 @@
                                                                     <input type="text" name="phone" class="form-control" id="field-2" value="{{$user->phone}}">
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="field-1" class="control-label">Serial</label>
-                                                                        <input type="text" name="serial" class="form-control" id="field-1" value="{{$user->serial}}">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="field-2" class="control-label">Authontication</label>
-                                                                        <input type="password" name="password" class="form-control" id="field-2" >
-                                                                    </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="field-1" class="control-label">Serial</label>
+                                                                    <input type="text" name="serial" class="form-control" id="field-1" value="{{$user->serial}}">
                                                                 </div>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="field-1" class="control-label">Email</label>
-                                                                        <input type="text" name="email" class="form-control" id="field-1" value="{{$user->email}}">
-                                                                    </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="field-2" class="control-label">Authontication</label>
+                                                                    <input type="password" name="password" class="form-control" id="field-2" >
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="field-1" class="control-label">Email</label>
+                                                                    <input type="text" name="email" class="form-control" id="field-1" value="{{$user->email}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label>User Image</label>
+                                                                    <input type="file"  name="image" multiple class="dropify" data-height="210" />
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -212,3 +224,9 @@
 <!-- end content -->
     </div>
 @endsection
+@push('script')
+    <script src="{{asset('libs/dropify/dropify.min.js')}}"></script>
+    <script src="{{asset('js/pages/property-add.init.js')}}"></script>
+
+
+@endpush

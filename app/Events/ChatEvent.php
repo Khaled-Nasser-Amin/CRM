@@ -15,10 +15,14 @@ class ChatEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+    public $sender;
+    public $lastMessage;
     public $receiver_id;
-    public function __construct($receiver_id,$message)
+    public function __construct($sender,$message,$lastMessage,$receiver_id)
     {
         $this->message=$message;
+        $this->sender=$sender;
+        $this->lastMessage=$lastMessage;
         $this->receiver_id=$receiver_id;
     }
 

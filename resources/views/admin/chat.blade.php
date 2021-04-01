@@ -61,8 +61,9 @@
                                                     <h1>Discussions</h1>
 
                                                     <div class="list-group" id="chats" role="tablist">
+
                                                         @forelse($users as $user)
-                                                            <a href="#list-chat{{$user->id}}" data-receiver="{{$user->id}}" class="filterDiscussions all {{  $user->messagesAsSender->where('receiver_id',auth()->user()->id)->last() ? ($user->messagesAsSender->where('receiver_id',auth()->user()->id)->last()->state == 0 ? 'unread' :'read'):''}} single" id="list-chat-{{$user->id}}" data-toggle="list" role="tab">
+                                                            <a href="#Chat{{$user->id}}" id="list-chat-{{$user->id}}" data-toggle="list" role="tab" data-receiver="{{$user->id}}" class="filterDiscussions all {{  $user->messagesAsSender->where('receiver_id',auth()->user()->id)->last() ? ($user->messagesAsSender->where('receiver_id',auth()->user()->id)->last()->state == 0 ? 'unread' :'read'):''}} single" >
                                                                 <img class="avatar-md" src="{{asset('dist/img/avatars/avatar-female-1.jpg')}}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
                                                                 <div class="status">
                                                                     <i class="material-icons online">fiber_manual_record</i>
@@ -92,11 +93,10 @@
 
                             <!-- Start of Create Chat -->
                             <div class="main">
-                                <div class="tab-content row" id="nav-tabContent">
-
+                                <div class="tab-content" id="nav-tabContent">
 
                                     @forelse($users as $user)
-                                        <div class="babble tab-pane fade active show mb-4" id="list-chat{{$user->id}}" role="tabpanel" aria-labelledby="list-chat-chat">
+                                        <div aria-labelledby="list-chat-{{$user->id}}" id="Chat{{$user->id}}"  class="babble tab-pane fade " role="tabpanel"  >
                                             <!-- Start of Chat -->
                                             <div class="chat" id="chat1">
                                                 <div class="top">
@@ -127,7 +127,7 @@
 
                                                 <div class="content" id="content" >
                                                     <div class="container">
-                                                        <div class="col-md-12" id="appendMessages">
+                                                        <div class="col-md-12" id="appendMessages-{{$user->id}}">
                                                     @forelse(messagesForAuthenticatedUser($user->id) as $message)
 
                                                         @if($message->type == 'text')
@@ -246,12 +246,12 @@
                                                         <div class="bottom">
                                                             <form class="position-relative w-100" >
                                                                 @csrf
-                                                                <textarea name="message" class="form-control" placeholder="Start typing for reply..." rows="1"></textarea>
-                                                                <button id="btnChat" data-receiver="{{$user->id}}" type="submit" class="btn send"><i class="material-icons">send</i></button>
+                                                                <textarea data-receiver="{{$user->id}}" name="message" class="form-control" placeholder="Start typing for reply..." rows="1"></textarea>
+                                                                <button id="btnChat{{$user->id}}"  data-receiver="{{$user->id}}" class="btnChat btn send"><i class="material-icons">send</i></button>
                                                             </form>
                                                             <form enctype="multipart/form-data" id="formAttachFile">
                                                                 <label>
-                                                                    <input type="file" name="file" id="attachFile" data-receiver="{{$user->id}}">
+                                                                    <input type="file" name="file" class="attachFile" data-receiver="{{$user->id}}">
                                                                     <span class="btn attach d-sm-block d-none"><i class="material-icons">attach_file</i></span>
                                                                 </label>
                                                             </form>
@@ -282,18 +282,18 @@
 
 @push('script')
     <script>
-
         scrollToBottom(document.getElementById('content'));
+
         //sending file or image
-        $('#attachFile').on('change',function(){
+        $('.attachFile').on('change',function(){
             var form = new FormData();
-            form.append('fileName',$('#attachFile').get(0).files[0])
+            form.append('fileName',$(this).get(0).files[0])
             let token=$('meta[name=csrf-token]').attr('content');
             let receiver_id=$(this).data('receiver');
             form.append('_token',token);
             form.append('receiver_id',receiver_id);
             readMessages(receiver_id,$('#list-chat-'+receiver_id));
-
+            getAllUnreadMessages();
             $.ajax({
                 url:'/Chat',
                 method:'post',
@@ -303,7 +303,7 @@
                 processData: false,
                 success:function (result){
                     if (result.type == 'file'){
-                        $('#appendMessages').append('<div class="message me mb-0"><div class="text-main"><div class="text-group me"> <div class="text me"><div class="attachment">'
+                        $('#appendMessages-'+receiver_id).append('<div class="message me mb-0"><div class="text-main"><div class="text-group me"> <div class="text me"><div class="attachment">'
                             +'   <a href="Chat/'+result.id+'" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>'
                             +' <div class="file"><h5>'
                             +'    <a href="Chat/'+result.id+'">'+result.name +'  </a>' +' </h5>' +' <span>Document</span>' +'</div> </div> </div></div>' +
@@ -312,28 +312,31 @@
                         let url="{{asset('chat_files/'.':name')}}";
                         let name=result.text;
                         url=url.replace(':name',name);
-                        $('#appendMessages').append(' <div class="message me mb-0"> <div class="text-main"> <div class="text-group me"> <div>'
+                        $('#appendMessages-'+receiver_id).append(' <div class="message me mb-0"> <div class="text-main"> <div class="text-group me"> <div>'
                             +'<img class="w-25 float-right" src="'+url+'" alt="'+result.text+'"> </div></div>'
                             +'<span>'+result.dateForHumans+'</span></div></div> ')
                     }
-                    scrollToBottom(document.getElementById('content'));
                     changeListChatItem(result);
+                    pushMessageInNavbar(result);
+                    scrollToBottom(document.getElementById('content'));
+
                 }
             })
         });
         //click button to send message
-        $('#btnChat').on('click',function(e){
+        $('.btnChat').on('click',function(e){
             e.preventDefault();
             let form=$(this).parent();
             let receiver_id=$(this).data('receiver');
             let data=form.serialize()+'&receiver_id='+receiver_id;
             readMessages(receiver_id,$('#list-chat-'+receiver_id));
+            getAllUnreadMessages();
             $.ajax({
                 url:'/Chat/store' ,
                 type:'post',
                 data:data,
                 success:function (result){
-                    $('#appendMessages').append('<div class="message me mb-0">'
+                    $('#appendMessages-'+receiver_id).append('<div class="message me mb-0">'
                         +'<div class="text-main">'
                         +'<div class="text-group me">'
                         +'<div class="text me">'
@@ -343,8 +346,10 @@
                         +'<span><i class="material-icons"></i>'+result.dateForHumans+'</span>'
                         +'</div>'
                         +'</div>')
-                    scrollToBottom(document.getElementById('content'));
                     changeListChatItem(result);
+                    pushMessageInNavbar(result);
+                    scrollToBottom(document.getElementById('content'));
+
                 }
 
             })
@@ -352,24 +357,30 @@
 
         //press enter to send message
         $('textarea[name=message]').on('keyup',function(e){
-            let receiver_id=$('#btnChat').data('receiver');
-            readMessages(receiver_id,$('#list-chat-'+receiver_id));
-
             if (e.keyCode == 13){
                 e.preventDefault();
-                $('#btnChat').click();
+                $(this).parent().children('button').click();
                 $(this).val('');
                 scrollToBottom(document.getElementById('content'));
-
             }
         })
+        $('textarea[name=message]').on('click',function(e){
+            scrollToBottom(document.getElementById('content'));
+            let receiver_id=$(this).data('receiver');
+            console.log(receiver_id);
+            readMessages(receiver_id,$('#list-chat-'+receiver_id));
+            getAllUnreadMessages();
+            scrollToBottom(document.getElementById('content'));
 
-
+        });
 
         $('.filterDiscussions').on('click',function (){
+
             let receiver_id = $(this).data('receiver');
             readMessages(receiver_id,$(this));
-
+            getAllUnreadMessages();
+            scrollToBottom(document.getElementById('content'));
+            console.log('clickable');
         })
         function readMessages(receiver_id,item){
             $.ajax({
@@ -384,17 +395,70 @@
             item.children('div .new').addClass('d-none');
         }
         function changeListChatItem(message){
+            let element=$('#textOnSidebarMessage'+message.receiver_id);
             switch (message.type){
-                case 'text':$('#textOnSidebarMessage'+message.receiver_id).html(message.text);break;
+                case 'text': element.html(message.text);break;
                 case 'file':
-                case 'image':$('#textOnSidebarMessage'+message.receiver_id).html(message.text);break;
+                case 'image':element.html(message.name);break;
             }
             $('#timeOnSidebarMessage'+message.receiver_id).html(message.dateForHumans);
 
         }
+        function getAllUnreadMessages(){
+            $.ajax({
+                url:'/Chat/getAllUnreadMessages',
+                method:'post',
+                data:{
+                    '_token':$('meta[name=csrf-token]').attr('content')
+                },
+                success:function(result){
+                    let element=$('#navBarBadgeMessages');
+                    element.hasClass('d-none') ? element.removeClass('d-none'): null;
+                    element.html(result);
+                    result == 0 ? element.addClass('d-none') : null;
+                }
+            })
+        }
+
+        function pushMessageInNavbar(e){
+            console.log(e);
+            let parentDiv = $('#parentForUserChatInNavbar');
+            parentDiv.has('#userChatInNavbar-'+e.receiver_id) ? $('#userChatInNavbar-'+e.receiver_id).remove() :null;
+            parentDiv.prepend('' +
+                '<a href="#" id="userChatInNavbar-'+e.receiver_id+'">' +
+                '   <div class="inbox-item" >' +
+                '       <div class="inbox-item-img"><img src="/images/users/avatar-1.jpg" class="rounded-circle" alt=""></div>' +
+                '       <p class="inbox-item-author">'+e.receiverName+'</p>' +
+                '       <p class="inbox-item-text text-truncate text-black-50">'+e.lastMessage+'</p>' +
+                '    </div>' +
+                ' </a>')
+        }
         //scroll function
         function scrollToBottom(el)
         { el.scrollTop = el.scrollHeight; }
+
+        $(document).ready(function() {
+            activeTab();
+            scrollToBottom(document.getElementById('content'));
+
+        });
+        $('.userChat').on('click',function() {
+            activeTab();
+            let href=$(this).attr('href');
+            let hash=href.slice(href.search('#'),href.length);
+            $('#chats a[href="'+hash+'"]').tab('show');
+
+            scrollToBottom(document.getElementById('content'));
+
+        });
+        function activeTab(){
+            var hash =window.location.hash ;
+
+            if (hash != "")
+                $('#chats a[href="'+hash +'"]').tab('show');
+            else
+                $('#chats a:first').tab('show');
+        }
 
     </script>
     <script src="{{asset('dist/js/vendor/popper.min.js')}}"></script>

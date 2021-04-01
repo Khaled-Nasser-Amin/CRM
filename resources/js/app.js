@@ -15,7 +15,7 @@ let id=$('meta[name=user_id]').attr('content');
 window.Echo.channel(`Chat.${id}`)
     .listen('ChatEvent', (e) => {
         if(e.message.type == 'text'){
-            $('#appendMessages').append(' <div class="message mb-0 e">' +
+            $('#appendMessages-'+e.message.sender_id).append(' <div class="message mb-0 e">' +
                 '<img class="avatar-md" src="/dist/img/avatars/avatar-female-5.jpg" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
                 '<div class="text-main">' +
                 '<div class="text-group">' +
@@ -30,7 +30,7 @@ window.Echo.channel(`Chat.${id}`)
         }
         else if(e.message.type == 'file'){
             let url = "/Chat/"+e.message.id;
-            $('#appendMessages').append('<div class="message mb-0 ">' +
+            $('#appendMessages-'+e.message.sender_id).append('<div class="message mb-0 ">' +
                 '<img class="avatar-md" src="/dist/img/avatars/avatar-female-5.jpg" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
                 '   <div class="text-main">' +
                 '       <div class="text-group">' +
@@ -53,7 +53,7 @@ window.Echo.channel(`Chat.${id}`)
                 ' </div>')
 
         }else if(e.message.type == 'image'){
-            $('#appendMessages').append('<div class="message mb-0 ">' +
+            $('#appendMessages-'+e.message.sender_id).append('<div class="message mb-0 ">' +
                 ' <img class="avatar-md" src="/dist/img/avatars/avatar-female-5.jpg" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' +
                 '    <div class="text-main row flex-column">' +
                 '       <div class="text-group">' +
@@ -61,13 +61,16 @@ window.Echo.channel(`Chat.${id}`)
                 '                   <img class="w-25 float-left" src="/chat_files/'+e.message.text+'" alt="'+e.message.text+'">' +
                 '              </div>' +
                 '     </div>' +
-                '  <span>'+e.message.dateForHumans+'</span>' +
+                '     <span>'+e.message.dateForHumans+'</span>' +
                 '  </div>' +
-                '   </div>')
+                '</div>')
         }
-        scrollToBottom(document.getElementById('content'));
         changeListChatItem(e.message);
         getUnReadMessages(e.message.sender_id);
+        getAllUnreadMessages();
+        pushMessageInNavbar(e);
+        scrollToBottom(document.getElementById('content'));
+
     });
 
 
@@ -77,7 +80,7 @@ function changeListChatItem(message){
     switch (message.type){
         case 'text':item.html(message.text);break;
         case 'file':
-        case 'image':item.html(message.text);break;
+        case 'image':item.html(message.name);break;
     }
     $('#timeOnSidebarMessage'+message.sender_id).html(message.dateForHumans);
 
@@ -98,6 +101,33 @@ function getUnReadMessages(sender_id){
     item.addClass('unread').removeClass('read');
     item.children('div .new').removeClass('d-none');
 
+}
+
+function getAllUnreadMessages(){
+    $.ajax({
+        url:'/Chat/getAllUnreadMessages',
+        method:'post',
+        data:{
+            '_token':$('meta[name=csrf-token]').attr('content')
+        },
+        success:function(result){
+            $('#navBarBadgeMessages').hasClass('d-none') ? $('#navBarBadgeMessages').removeClass('d-none'): null;
+            $('#navBarBadgeMessages').html(result);
+        }
+    })
+}
+
+function pushMessageInNavbar(e){
+    let parentDiv = $('#parentForUserChatInNavbar');
+    parentDiv.has('#userChatInNavbar-'+e.message.sender_id) ? $('#userChatInNavbar-'+e.message.sender_id).remove() :null;
+    parentDiv.prepend('' +
+        '<a href="#" id="userChatInNavbar-'+e.message.sender_id+'">' +
+        '   <div class="inbox-item" >' +
+        '       <div class="inbox-item-img"><img src="/images/users/avatar-1.jpg" class="rounded-circle" alt=""></div>' +
+        '       <p class="inbox-item-author">'+e.sender.name+'</p>' +
+        '       <p class="inbox-item-text text-truncate text-black-50">'+e.lastMessage+'</p>' +
+        '    </div>' +
+        ' </a>')
 }
 function scrollToBottom(el)
 { el.scrollTop = el.scrollHeight; }

@@ -18,6 +18,7 @@ class User extends Authenticatable
         'password',
         'phone',
         'serial',
+        'image',
     ];
     protected $hidden = [
         'password',
@@ -52,6 +53,10 @@ class User extends Authenticatable
     public function messages()
     {
         return $this->messagesAsSender()->union($this->messagesAsReceiver()->toBase());
+    }
+
+    public function getImageAttribute($value){
+        return asset('images/users/'.$value);
     }
 
 }

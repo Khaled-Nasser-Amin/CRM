@@ -20,22 +20,14 @@ class MessageController extends Controller
             'text' => $request->message,
             'type'=>'text'
         ]);
-        $receiver_id=$request->receiver_id;
-        $message->sender()->associate(auth()->user()->id)->save();
-        $message->receiver()->associate($receiver_id)->save();
-        $dateForHuman=$message->created_at->diffForHumans();
-        $message=collect($message);
-        $message->put('dateForHumans',$dateForHuman);
-        broadcast(new ChatEvent($receiver_id,$message))->toOthers();
-        $this->readMessages($receiver_id);
-       return $message;
+        $message=$this->DRYS($message,$request);
+        return $message;
     }
     public function storeFile(Request $request){
         $file=$request->file('fileName');
         $fileName=time().'_'.$file->getClientOriginalName();
         $extension=$file->getClientOriginalExtension();
         $type='file';
-        $receiver_id=$request->receiver_id;
         if(in_array($extension,['png','jpg','jpeg','gif'])){
             $type='image';
         }
@@ -44,20 +36,30 @@ class MessageController extends Controller
             'text'=> $fileName,
             'type'=>$type,
         ]);
+        $message=$this->DRYS($message,$request,$file->getClientOriginalName());
+
+
+       return $message;
+    }
+
+    private function DRYS($message,$request,$fileName=null){
+        $receiver_id=$request->receiver_id;
         $message->sender()->associate(auth()->user()->id)->save();
         $message->receiver()->associate($receiver_id)->save();
         $dateForHuman=$message->created_at->diffForHumans();
         $message=collect($message);
         $message->put('dateForHumans',$dateForHuman);
-        $message->put('name',$file->getClientOriginalName());
-        broadcast(new ChatEvent($receiver_id,$message))->toOthers();
+        $user=User::find(auth()->user()->id);
+        broadcast(new ChatEvent($user,$message,$this->lastMessageBetweenTwoUsers($receiver_id),$receiver_id))->toOthers();
         $this->readMessages($receiver_id);
+        $message->put('receiverName',User::find($receiver_id)->name);
+        $message->put('lastMessage',$this->lastMessageBetweenTwoUsers($receiver_id));
+        $message['type'] != 'text' ?$message->put('name',$fileName):null;
         return $message;
+
     }
 
     public function downloadDocumentation(Message $message){
-
-
         $headers = array(
             'Content-Type: application/pdf',
         );
@@ -79,5 +81,19 @@ class MessageController extends Controller
         $numberOfUnReadMessage = Message::where('sender_id', $sender_id)->where('receiver_id', auth()->user()->id)
             ->where('state',0)->count();
         return $numberOfUnReadMessage;
+    }
+    public function getAllUnreadMessages()
+    {
+        $numberOfUnReadMessage =auth()->user()->messagesAsReceiver->where('state',0)->count();
+        return $numberOfUnReadMessage;
+    }
+
+    public function lastMessageBetweenTwoUsers($sender_id){
+        if(messagesForAuthenticatedUser($sender_id)->last()->type == 'text'){
+            return messagesForAuthenticatedUser($sender_id)->last()->text;
+        }else{
+            $arrayOfText= explode('_',messagesForAuthenticatedUser($sender_id)->last()->text);
+            return end($arrayOfText);
+        }
     }
 }

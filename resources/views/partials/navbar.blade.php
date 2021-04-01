@@ -86,25 +86,26 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle  waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="mdi mdi-email noti-icon"></i>
-                <span class="badge badge-danger rounded-circle noti-icon-badge {{auth()->user()->messages->where('state',0)->count() == 0 ? 'd-none' : ''}}" id="navBarBadgeMessages">{{auth()->user()->messages->where('state',0)->count()}}</span>
+                <span class="badge badge-danger rounded-circle noti-icon-badge {{auth()->user()->messagesAsReceiver->where('state',0)->count() == 0 ? 'd-none' : ''}}" id="navBarBadgeMessages">{{auth()->user()->messages->where('state',0)->count()}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-lg">
                 <div class="slimscroll noti-scroll">
 
-                    <div class="inbox-widget">
+                    <div class="inbox-widget" id="parentForUserChatInNavbar">
                         @forelse(auth()->user()->messagesAsReceiver()->with('sender')->groupBy('sender_id')->latest()->get() as $message)
-                            <a href="#">
-                                <div class="inbox-item">
+                            <a class="userChat" href="/Chat#Chat{{$message->sender_id}}" id="userChatInNavbar-{{$message->sender_id}}">
+                                <div class="inbox-item" >
                                     <div class="inbox-item-img"><img src="{{asset('images/users/avatar-1.jpg')}}" class="rounded-circle" alt=""></div>
                                     <p class="inbox-item-author">{{$message->sender->name}}</p>
                                     <p class="inbox-item-text text-truncate">{{messagesForAuthenticatedUser($message->sender_id)->last()->text}}</p>
                                 </div>
                             </a>
                         @empty
-                            <a href="#">
+                            <a href="/Chat">
                                 <div class="inbox-item">
-                                    <p class="text-muted">You don't have any conversation yet</p>
+                                    <p class="text-muted">You don't have any conversation yet!</p>
                                 </div>
+                                Start New Chat
                             </a>
                         @endforelse
 
@@ -122,8 +123,8 @@
 
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="{{asset('images/users/avatar-1.jpg')}}" alt="user-image" class="rounded-circle">
-                <span class="d-none d-sm-inline-block ml-1">Amr M.</span>
+                <img src="{{auth()->user()->image}}" alt="user-image" class="rounded-circle">
+                <span class="d-none d-sm-inline-block ml-1">{{auth()->user()->name}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                 <!-- item-->
