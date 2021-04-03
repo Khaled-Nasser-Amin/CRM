@@ -66,7 +66,7 @@
                                     <h5 class="header-title">DEVELOPERS</h5>
                                     <p class="sub-header"></p>
                                     <div class="card-box table-responsive">
-                                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <table id="datatable-responsive" class="table text-center table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -80,7 +80,7 @@
                                                 <tr>
                                                     <td>{{$developer->name}}</td>
                                                     <td>{{$developer->projects->count()}}</td>
-                                                    <td class="row">
+                                                    <td class="row justify-content-center">
                                                         <button class="btn btn-primary waves-effect waves-light mr-2 btn-sm" data-toggle="modal" data-target="#edit-developer-{{$developer->id}}">Edit</button>
                                                         <button type="button" onclick="document.getElementById('deleteDeveloper{{$developer->id}}').submit()"  class="btn btn-danger waves-effect waves-light btn-sm " >Delete</button>
                                                     </td>
@@ -227,7 +227,7 @@
                                 <h5 class="header-title">AMENITIES</h5>
                                 <p class="sub-header"></p>
                                 <div class="card-box table-responsive">
-                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap custonName" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    <table id="datatable-responsive" class="table text-center table-striped table-bordered dt-responsive nowrap custonName" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
                                             <th>Name</th>
@@ -239,7 +239,7 @@
                                         @forelse($amenities as $amenity)
                                             <tr>
                                             <td>{{$amenity->name}}</td>
-                                            <td class="row">
+                                            <td class="row justify-content-center">
                                                 <button class="btn btn-primary waves-effect waves-light mr-2 btn-sm" data-toggle="modal" data-target="#edit-amenity-{{$amenity->id}}">Edit</button>
                                                 <button type="button" onclick="document.getElementById('deleteAmenity{{$amenity->id}}').submit()"  class="btn btn-danger waves-effect waves-light btn-sm" >Delete</button>
                                                 <form method="post" action="{{route('amenities.destroy',$amenity->id)}}" id="deleteAmenity{{$amenity->id}}">
@@ -360,7 +360,7 @@
                                 <h5 class="header-title">Projects</h5>
                                 <p class="sub-header"></p>
                                 <div class="card-box table-responsive">
-                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap custonName" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    <table id="datatable-responsive" class="table text-center table-striped table-bordered dt-responsive nowrap custonName" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                         <tr>
                                             <th>Name</th>
@@ -376,7 +376,7 @@
                                                 <td>{{$project->name}}</td>
                                                 <td>{{$project->developer->name}}</td>
                                                 <td>{{$project->amenities->count()}}</td>
-                                                <td class="row"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#edit-project-{{$project->id}}">Edit</button>
+                                                <td class="row justify-content-center"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#edit-project-{{$project->id}}">Edit</button>
                                                     <button type="button" onclick="document.getElementById('deleteProject-{{$project->id}}').submit()"  class="btn btn-danger waves-effect waves-light" >Delete</button>
                                                     <form method="post" action="{{route('projects.destroy',$project->id)}}" id="deleteProject-{{$project->id}}">
                                                         @csrf

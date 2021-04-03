@@ -10,6 +10,7 @@
     <meta name="user_id" content="{{ auth()->user()->id }}" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
+
     <link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
     <!-- App css -->
 

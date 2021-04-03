@@ -19,13 +19,13 @@ class UserController extends Controller
     public function ViewUser(Request $request){
 
         $this->authorize('create',User::class);
-        $users=User::where('id','!=',1)->when($request->search,function ($q) use($request){
+        $users=User::where('id','!=',1)/*->when($request->search,function ($q) use($request){
         })->when($request->search,function ($q) use($request){
             return $q->where('name','like','%'.$request->input('search').'%')
                 ->orWhere('phone','like','%'.$request->input('search').'%')
                 ->orWhere('serial','like','%'.$request->input('search').'%')
                 ->orWhere('email','like','%'.$request->input('search').'%');
-        })->latest()->paginate(5);
+        })*/->get();
         return view('admin.user',['users'=>$users]);
     }
     public function AddNewUser(UserRequest $request){

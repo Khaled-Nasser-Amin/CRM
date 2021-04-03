@@ -94,20 +94,7 @@
                 <li class="mr-3 col-md-3 d-noned-sm-block">
                     <button class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal-new">Add New</button>
                 </li>
-                <li class="col-md-3 d-none d-sm-block">
-                    <form class="app-search" method="get" action="{{route('ViewUser')}}">
-                        <div class="app-search-box">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="search" placeholder="Search..." value="{{request()->query('search')}}">
-                                <div class="input-group-append">
-                                    <button class="btn" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </li>
+
             </ul>
 
             <div class="row">
@@ -117,9 +104,10 @@
                         <h5 class="header-title">USERS</h5>
                             <p class="sub-header"></p>
                         <div class="card-box table-responsive">
-                            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table id="datatable-responsive" class="table text-center table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
+                                        <th>Image</th>
                                         <th>Name</th>
                                         <th>Serial</th>
                                         <th>Phone</th>
@@ -132,12 +120,13 @@
                                     <tbody>
                                     @forelse($users as $user)
                                     <tr>
+                                        <td><img src="{{$user->image}}" class="rounded-circle w-50" alt="user-image"></td>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->serial}}</td>
                                         <td>{{$user->phone}}</td>
                                         <td>********</td>
                                         <td>{{$user->email}}</td>
-                                        <td class="row"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#con-close-modal-edit-{{$user->id}}">Edit</button><a href="{{route('deleteUser',$user->id)}}" class="btn btn-danger waves-effect waves-light" >Delete</a></td>
+                                        <td class="row justify-content-center"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#con-close-modal-edit-{{$user->id}}">Edit</button><a href="{{route('deleteUser',$user->id)}}" class="btn btn-danger waves-effect waves-light" >Delete</a></td>
                                     </tr>
                                     <div id="con-close-modal-edit-{{$user->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                                         <div class="modal-dialog">

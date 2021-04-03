@@ -92,16 +92,16 @@
                 <div class="slimscroll noti-scroll">
 
                     <div class="inbox-widget" id="parentForUserChatInNavbar">
-                        @forelse(auth()->user()->messagesAsReceiver()->with('sender')->groupBy('sender_id')->latest()->get() as $message)
-                            <a class="userChat" href="/Chat#Chat{{$message->sender_id}}" id="userChatInNavbar-{{$message->sender_id}}">
+                        @forelse(UsersWhichHasMessagesWithAuthenticatedUser() as $user)
+                            <a class="userChat" href="/Chat#Chat{{$user['id']}}" id="userChatInNavbar-{{$user['id']}}">
                                 <div class="inbox-item" >
-                                    <div class="inbox-item-img"><img src="{{asset('images/users/avatar-1.jpg')}}" class="rounded-circle" alt=""></div>
-                                    <p class="inbox-item-author">{{$message->sender->name}}</p>
-                                    <p class="inbox-item-text text-truncate">{{messagesForAuthenticatedUser($message->sender_id)->last()->text}}</p>
+                                    <div class="inbox-item-img"><img src="{{$user['image']}}" class="rounded-circle" alt=""></div>
+                                    <p class="inbox-item-author">{{$user['name']}}</p>
+                                    <p class="inbox-item-text text-truncate">{{$user['lastMessage']}}</p>
                                 </div>
                             </a>
                         @empty
-                            <a href="/Chat">
+                            <a href="/Chat" class="no-messages">
                                 <div class="inbox-item">
                                     <p class="text-muted">You don't have any conversation yet!</p>
                                 </div>
@@ -174,7 +174,7 @@
 
     <!-- LOGO -->
     <div class="logo-box" style="background-image: url({{asset('images/22.jpg')}})">
-        <a href="dashboard.html" class="logo text-center">
+        <a href="{{route('dashboard')}}" class="logo text-center">
                     <span class="logo-lg">
                         <img src="{{asset('images/logo-light.png')}}" alt="" height="">
                         <!-- <span class="logo-lg-text-light">Zircos</span> -->
@@ -193,24 +193,24 @@
             </button>
         </li>
 
-        <li class="d-none d-sm-block">
+      {{--  <li class="d-none d-sm-block">
             <form class="app-search">
                 <div class="app-search-box">
-                    <div class="input-group">
+                    <div class="input-group flex-nowrap">
                         <input type="text" class="form-control" placeholder="Search...">
                         <div class="input-group-append">
-                            <button class="btn" type="submit">
+                            <button class="btn pb-0" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </div>
                 </div>
             </form>
-        </li>
+        </li>--}}
 
-        <li class="d-none d-lg-block">
+        <li class="d-none d-lg-block pt-2">
             <div class="col-3 mb-4 text-left mt-2">
-                <a href="{{route('viewCalculator')}}">   <button type="submit" class="btn btn-secondary waves-effect waves-light mdi mdi-calculator  "><i class=""></i> </button></a>
+                <a href="{{route('viewCalculator')}}">   <button type="submit" class="btn btn-secondary waves-effect waves-light mdi mdi-calculator  bg-dark"><i class=""></i> </button></a>
             </div>
         </li>
 

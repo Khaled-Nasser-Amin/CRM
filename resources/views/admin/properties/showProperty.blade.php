@@ -85,7 +85,7 @@
                             </div>
                             <div class="member-card">
                                 <div class="avatar-xl member-thumb mb-2 mx-auto d-block">
-                                    <img src="{{asset('images/users/avatar-4.jpg')}}" class="rounded-circle img-thumbnail" alt="profile-image">
+                                    <img src="{{$user->image}}" class="rounded-circle img-thumbnail" alt="profile-image">
                                     <i class="mdi mdi-star-circle member-star text-success" title="Featured Agent"></i>
                                 </div>
 
@@ -107,7 +107,7 @@
                                     </ul>
                                 </div>
 
-                                <button type="button" class="btn btn-brown btn-rounded waves-effect mb-3 waves-light">Send Message</button>
+                                <a href="/Chat#Chat{{$user->id}}" class="btn btn-brown btn-rounded waves-effect mb-3 waves-light">Send Message</a>
 
                             </div>
                             <!-- end membar card -->

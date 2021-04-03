@@ -50,9 +50,13 @@ class MessageController extends Controller
         $message=collect($message);
         $message->put('dateForHumans',$dateForHuman);
         $user=User::find(auth()->user()->id);
-        broadcast(new ChatEvent($user,$message,$this->lastMessageBetweenTwoUsers($receiver_id),$receiver_id))->toOthers();
+        dispatch(function () use($user,$message,$receiver_id){
+            broadcast(new ChatEvent($user,$message,$this->lastMessageBetweenTwoUsers($receiver_id),$receiver_id))->toOthers();
+        })->afterResponse();
         $this->readMessages($receiver_id);
-        $message->put('receiverName',User::find($receiver_id)->name);
+        $user=User::find($receiver_id);
+        $message->put('receiverName',$user->name);
+        $message->put('receiverImage',$user->image);
         $message->put('lastMessage',$this->lastMessageBetweenTwoUsers($receiver_id));
         $message['type'] != 'text' ?$message->put('name',$fileName):null;
         return $message;

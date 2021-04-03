@@ -1855,20 +1855,54 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
 });
 var id = $('meta[name=user_id]').attr('content');
 window.Echo.channel("Chat.".concat(id)).listen('ChatEvent', function (e) {
+  var element = $('#appendMessages-' + e.message.sender_id);
+  $('#typing-' + e.message.sender_id).remove();
+
   if (e.message.type == 'text') {
-    $('#appendMessages-' + e.message.sender_id).append(' <div class="message mb-0 e">' + '<img class="avatar-md" src="/dist/img/avatars/avatar-female-5.jpg" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '<div class="text-main">' + '<div class="text-group">' + '  <div class="text bg-info text-white">' + '    <p>' + e.message.text + '</p>' + '   </div>' + '</div>' + '<span>' + e.message.dateForHumans + '</span>' + '</div>' + '</div>');
+    element.append(' <div class="message mb-0 e">' + '<img class="avatar-md" src="' + e.sender.image + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '<div class="text-main">' + '<div class="text-group">' + '  <div class="text bg-info text-white">' + '    <p>' + e.message.text + '</p>' + '   </div>' + '</div>' + '<span>' + e.message.dateForHumans + '</span>' + '</div>' + '</div>');
   } else if (e.message.type == 'file') {
     var url = "/Chat/" + e.message.id;
-    $('#appendMessages-' + e.message.sender_id).append('<div class="message mb-0 ">' + '<img class="avatar-md" src="/dist/img/avatars/avatar-female-5.jpg" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '   <div class="text-main">' + '       <div class="text-group">' + '          <div class="text">' + '               <div class="attachment">' + '                    <a href="' + url + '" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' + '                       <div class="file">' + '                            <h5>' + '                               <a href="' + url + '">' + e.message.name + '                               </a>' + '                            </h5>' + '                         <span>Document</span>' + '                    </div>' + '                </div>' + '             </div>' + '          </div>' + '       <span>' + e.message.dateForHumans + '</span>' + '   </div>' + ' </div>');
+    element.append('<div class="message mb-0 ">' + '<img class="avatar-md" src="' + e.sender.image + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '   <div class="text-main">' + '       <div class="text-group">' + '          <div class="text">' + '               <div class="attachment">' + '                    <a href="' + url + '" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' + '                       <div class="file">' + '                            <h5>' + '                               <a href="' + url + '">' + e.message.name + '                               </a>' + '                            </h5>' + '                         <span>Document</span>' + '                    </div>' + '                </div>' + '             </div>' + '          </div>' + '       <span>' + e.message.dateForHumans + '</span>' + '   </div>' + ' </div>');
   } else if (e.message.type == 'image') {
-    $('#appendMessages-' + e.message.sender_id).append('<div class="message mb-0 ">' + ' <img class="avatar-md" src="/dist/img/avatars/avatar-female-5.jpg" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '    <div class="text-main row flex-column">' + '       <div class="text-group">' + '             <div class="">' + '                   <img class="w-25 float-left" src="/chat_files/' + e.message.text + '" alt="' + e.message.text + '">' + '              </div>' + '     </div>' + '     <span>' + e.message.dateForHumans + '</span>' + '  </div>' + '</div>');
+    element.append('<div class="message mb-0 ">' + ' <img class="avatar-md" src="' + e.sender.image + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '    <div class="text-main row flex-column">' + '       <div class="text-group">' + '             <div class="">' + '                   <img class="w-25 float-left" src="/chat_files/' + e.message.text + '" alt="' + e.message.text + '">' + '              </div>' + '     </div>' + '     <span>' + e.message.dateForHumans + '</span>' + '  </div>' + '</div>');
   }
 
+  element.has('div .no-messages') ? element.children('div .no-messages').remove() : null;
   changeListChatItem(e.message);
   getUnReadMessages(e.message.sender_id);
   getAllUnreadMessages();
   pushMessageInNavbar(e);
   scrollToBottom(document.getElementById('content'));
+});
+window.Echo.join("chat").here(function (users) {
+  users.forEach(function (user) {
+    $('#list-chat-' + user.id).children('div .status').removeClass('d-none');
+    $('#inside' + user.id).children('div .status').removeClass('d-none');
+    $('#activeNow' + user.id).removeClass('d-none');
+  });
+}).joining(function (user) {
+  $('#list-chat-' + user.id).children('div .status').removeClass('d-none');
+  $('#inside' + user.id).children('div .status').removeClass('d-none');
+  $('#activeNow' + user.id).removeClass('d-none');
+}).leaving(function (user) {
+  $('#list-chat-' + user.id).children('div .status').addClass('d-none');
+  $('#inside' + user.id).children('div .status').addClass('d-none');
+  $('#activeNow' + user.id).addClass('d-none');
+}); //listen for event
+
+var myId = $('meta[name=user_id]').attr('content');
+window.Echo["private"]("whisper-".concat(myId)).listenForWhisper('typing', function (e) {
+  if (!$('#typing-' + e.id).length) {
+    $('#appendMessages-' + e.id).append('<div id="typing-' + e.id + '" class="message mb-0 ">' + '                                                            <div class="text-main">' + '                                                                <div class="text-group">' + '                                                                    <div class="text typing">' + '                                                                        <div class="wave">' + '                                                                            <span class="dot"></span>' + '                                                                            <span class="dot"></span>' + '                                                                            <span class="dot"></span>' + '                                                                        </div>' + '                                                                    </div>' + '                                                                </div>' + '                                                            </div>' + '                                                        </div>');
+    scrollToBottom(document.getElementById('content'));
+  }
+}); //fire event
+
+$(document).on('keydown', '.textarea', function () {
+  var receiver_id = $(this).data('receiver');
+  window.Echo["private"]("whisper-".concat(receiver_id)).whisper('typing', {
+    id: myId
+  });
 });
 
 function changeListChatItem(message) {
@@ -1920,8 +1954,9 @@ function getAllUnreadMessages() {
 
 function pushMessageInNavbar(e) {
   var parentDiv = $('#parentForUserChatInNavbar');
+  parentDiv.has('.no-messages') ? parentDiv.children('.no-messages').remove() : null;
   parentDiv.has('#userChatInNavbar-' + e.message.sender_id) ? $('#userChatInNavbar-' + e.message.sender_id).remove() : null;
-  parentDiv.prepend('' + '<a href="#" id="userChatInNavbar-' + e.message.sender_id + '">' + '   <div class="inbox-item" >' + '       <div class="inbox-item-img"><img src="/images/users/avatar-1.jpg" class="rounded-circle" alt=""></div>' + '       <p class="inbox-item-author">' + e.sender.name + '</p>' + '       <p class="inbox-item-text text-truncate text-black-50">' + e.lastMessage + '</p>' + '    </div>' + ' </a>');
+  parentDiv.prepend('' + '<a href="#" id="userChatInNavbar-' + e.message.sender_id + '">' + '   <div class="inbox-item" >' + '       <div class="inbox-item-img"><img src="' + e.sender.image + '" class="rounded-circle" alt=""></div>' + '       <p class="inbox-item-author">' + e.sender.name + '</p>' + '       <p class="inbox-item-text text-truncate text-black-50">' + e.lastMessage + '</p>' + '    </div>' + ' </a>');
 }
 
 function scrollToBottom(el) {

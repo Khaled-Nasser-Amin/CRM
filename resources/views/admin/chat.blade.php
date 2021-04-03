@@ -14,7 +14,7 @@
 
             <!-- start page title -->
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 pl-0">
 
 
                     <main>
@@ -26,7 +26,7 @@
                                 <div class="container">
                                     <div class="inside">
                                         <div class="nav nav-tab menu">
-                                            <button class="btn"><img class="avatar-xl" src="{{asset('dist/img/avatars/avatar-male-1.jpg')}}" alt="avatar"></button>
+                                            <button class="btn"><img class="avatar-xl" src="{{auth()->user()->image}}" alt="avatar"></button>
                                             <a href="#discussions" data-toggle="tab" class="active"><i class="material-icons active">chat_bubble_outline</i></a>
                                             <button class="btn power" onclick="event.preventDefault(); document.getElementById('form-logout').submit()"><i class="material-icons">power_settings_new</i></button>
                                             <form action="{{route('logout')}}" method="post" id="form-logout">
@@ -64,8 +64,8 @@
 
                                                         @forelse($users as $user)
                                                             <a href="#Chat{{$user->id}}" id="list-chat-{{$user->id}}" data-toggle="list" role="tab" data-receiver="{{$user->id}}" class="filterDiscussions all {{  $user->messagesAsSender->where('receiver_id',auth()->user()->id)->last() ? ($user->messagesAsSender->where('receiver_id',auth()->user()->id)->last()->state == 0 ? 'unread' :'read'):''}} single" >
-                                                                <img class="avatar-md" src="{{asset('dist/img/avatars/avatar-female-1.jpg')}}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
-                                                                <div class="status">
+                                                                <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+                                                                <div class="status d-none">
                                                                     <i class="material-icons online">fiber_manual_record</i>
                                                                 </div>
 
@@ -93,7 +93,7 @@
 
                             <!-- Start of Create Chat -->
                             <div class="main">
-                                <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-content pt-0" id="nav-tabContent">
 
                                     @forelse($users as $user)
                                         <div aria-labelledby="list-chat-{{$user->id}}" id="Chat{{$user->id}}"  class="babble tab-pane fade " role="tabpanel"  >
@@ -102,14 +102,14 @@
                                                 <div class="top">
                                                     <div class="container">
                                                         <div class="col-md-12">
-                                                            <div class="inside">
-                                                                <a href="#"><img class="avatar-md" src="{{asset('dist/img/avatars/avatar-female-5.jpg')}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar"></a>
-                                                                <div class="status">
+                                                            <div class="inside" id="inside{{$user->id}}">
+                                                                <a href="#"><img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar"></a>
+                                                                <div class="status d-none">
                                                                     <i class="material-icons online">fiber_manual_record</i>
                                                                 </div>
                                                                 <div class="data">
                                                                     <h5><a href="#"> {{$user->name}}</a></h5>
-                                                                    <span>Active now</span>
+                                                                    <span id="activeNow{{$user->id}}" class=" d-none">Active now</span>
                                                                 </div>
                                                                 <div class="dropdown">
                                                                     <a class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
@@ -144,7 +144,7 @@
                                                                 </div>
                                                             @else
                                                                 <div class="message mb-0 ">
-                                                                    <img class="avatar-md" src="{{asset('dist/img/avatars/avatar-female-5.jpg')}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
+                                                                    <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
                                                                     <div class="text-main">
                                                                         <div class="text-group">
                                                                             <div class="text bg-info text-white">
@@ -179,7 +179,7 @@
                                                                 </div>
                                                             @else
                                                                 <div class="message mb-0 ">
-                                                                    <img class="avatar-md" src="{{asset('dist/img/avatars/avatar-female-5.jpg')}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
+                                                                    <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
                                                                     <div class="text-main">
                                                                         <div class="text-group">
                                                                             <div class="text">
@@ -215,7 +215,7 @@
                                                                 </div>
                                                             @else
                                                                 <div class="message mb-0 ">
-                                                                    <img class="avatar-md" src="{{asset('dist/img/avatars/avatar-female-5.jpg')}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
+                                                                    <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
                                                                     <div class="text-main row flex-column">
                                                                         <div class="text-group">
                                                                             <div class="">
@@ -226,6 +226,7 @@
                                                                     </div>
                                                                 </div>
                                                             @endif
+
                                                         @endif
 
                                                     @empty
@@ -246,7 +247,7 @@
                                                         <div class="bottom">
                                                             <form class="position-relative w-100" >
                                                                 @csrf
-                                                                <textarea data-receiver="{{$user->id}}" name="message" class="form-control" placeholder="Start typing for reply..." rows="1"></textarea>
+                                                                <textarea data-receiver="{{$user->id}}" name="message" class="form-control textarea" placeholder="Start typing for reply..." rows="1"></textarea>
                                                                 <button id="btnChat{{$user->id}}"  data-receiver="{{$user->id}}" class="btnChat btn send"><i class="material-icons">send</i></button>
                                                             </form>
                                                             <form enctype="multipart/form-data" id="formAttachFile">
@@ -302,8 +303,9 @@
                 contentType: false,
                 processData: false,
                 success:function (result){
+                    let element= $('#appendMessages-'+receiver_id);
                     if (result.type == 'file'){
-                        $('#appendMessages-'+receiver_id).append('<div class="message me mb-0"><div class="text-main"><div class="text-group me"> <div class="text me"><div class="attachment">'
+                        element.append('<div class="message me mb-0"><div class="text-main"><div class="text-group me"> <div class="text me"><div class="attachment">'
                             +'   <a href="Chat/'+result.id+'" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>'
                             +' <div class="file"><h5>'
                             +'    <a href="Chat/'+result.id+'">'+result.name +'  </a>' +' </h5>' +' <span>Document</span>' +'</div> </div> </div></div>' +
@@ -312,10 +314,11 @@
                         let url="{{asset('chat_files/'.':name')}}";
                         let name=result.text;
                         url=url.replace(':name',name);
-                        $('#appendMessages-'+receiver_id).append(' <div class="message me mb-0"> <div class="text-main"> <div class="text-group me"> <div>'
+                        element.append(' <div class="message me mb-0"> <div class="text-main"> <div class="text-group me"> <div>'
                             +'<img class="w-25 float-right" src="'+url+'" alt="'+result.text+'"> </div></div>'
                             +'<span>'+result.dateForHumans+'</span></div></div> ')
                     }
+                    element.has('div .no-messages') ? element.children('div .no-messages').remove(): null;
                     changeListChatItem(result);
                     pushMessageInNavbar(result);
                     scrollToBottom(document.getElementById('content'));
@@ -336,7 +339,8 @@
                 type:'post',
                 data:data,
                 success:function (result){
-                    $('#appendMessages-'+receiver_id).append('<div class="message me mb-0">'
+                    let element= $('#appendMessages-'+receiver_id);
+                    element.append('<div class="message me mb-0">'
                         +'<div class="text-main">'
                         +'<div class="text-group me">'
                         +'<div class="text me">'
@@ -346,6 +350,8 @@
                         +'<span><i class="material-icons"></i>'+result.dateForHumans+'</span>'
                         +'</div>'
                         +'</div>')
+                    element.has('div .no-messages') ? element.children('div .no-messages').remove(): null;
+
                     changeListChatItem(result);
                     pushMessageInNavbar(result);
                     scrollToBottom(document.getElementById('content'));
@@ -367,7 +373,6 @@
         $('textarea[name=message]').on('click',function(e){
             scrollToBottom(document.getElementById('content'));
             let receiver_id=$(this).data('receiver');
-            console.log(receiver_id);
             readMessages(receiver_id,$('#list-chat-'+receiver_id));
             getAllUnreadMessages();
             scrollToBottom(document.getElementById('content'));
@@ -380,7 +385,6 @@
             readMessages(receiver_id,$(this));
             getAllUnreadMessages();
             scrollToBottom(document.getElementById('content'));
-            console.log('clickable');
         })
         function readMessages(receiver_id,item){
             $.ajax({
@@ -421,17 +425,19 @@
         }
 
         function pushMessageInNavbar(e){
-            console.log(e);
             let parentDiv = $('#parentForUserChatInNavbar');
+            parentDiv.has('.no-messages') ? parentDiv.children('.no-messages').remove(): null;
             parentDiv.has('#userChatInNavbar-'+e.receiver_id) ? $('#userChatInNavbar-'+e.receiver_id).remove() :null;
             parentDiv.prepend('' +
                 '<a href="#" id="userChatInNavbar-'+e.receiver_id+'">' +
                 '   <div class="inbox-item" >' +
-                '       <div class="inbox-item-img"><img src="/images/users/avatar-1.jpg" class="rounded-circle" alt=""></div>' +
+                '       <div class="inbox-item-img"><img src="'+e.receiverImage+'" class="rounded-circle" alt=""></div>' +
                 '       <p class="inbox-item-author">'+e.receiverName+'</p>' +
                 '       <p class="inbox-item-text text-truncate text-black-50">'+e.lastMessage+'</p>' +
                 '    </div>' +
                 ' </a>')
+
+
         }
         //scroll function
         function scrollToBottom(el)

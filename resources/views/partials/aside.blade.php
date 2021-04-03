@@ -22,7 +22,7 @@
                         @endcan
                         @can('create',App\Models\User::class)
                             <li><a href="{{route('ViewUser')}}" class="mdi mdi-account-key"> Users</a></li>
-                            <li><a href="{{route('projects.index')}}" class="mdi mdi-account-key"> Projects&Developers</a></li>
+                            <li><a href="{{route('projects.index')}}" class="mdi mdi-home-analytics "> Developers</a></li>
                             <li><a href="{{route('Invoices.index')}}" class="mdi mdi-account-cash"> Invoices</a></li>
                         @endcan
                         <li><a href="{{route('calendar')}}" class="mdi mdi-calendar-text"> Calendar</a></li>
