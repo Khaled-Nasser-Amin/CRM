@@ -7,6 +7,7 @@ use App\Http\Traits\ImageTrait;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\DatabaseNotification;
 
 class MessageController extends Controller
 {
@@ -49,16 +50,18 @@ class MessageController extends Controller
         $dateForHuman=$message->created_at->diffForHumans();
         $message=collect($message);
         $message->put('dateForHumans',$dateForHuman);
-        $user=User::find(auth()->user()->id);
-        dispatch(function () use($user,$message,$receiver_id){
-            broadcast(new ChatEvent($user,$message,$this->lastMessageBetweenTwoUsers($receiver_id),$receiver_id))->toOthers();
+        $sender=User::find(auth()->user()->id);
+        dispatch(function () use($sender,$message,$receiver_id){
+            broadcast(new ChatEvent($sender,$message,$this->lastMessageBetweenTwoUsers($receiver_id),$receiver_id))->toOthers();
         })->afterResponse();
         $this->readMessages($receiver_id);
         $user=User::find($receiver_id);
         $message->put('receiverName',$user->name);
         $message->put('receiverImage',$user->image);
+        $message->put('senderImage',$sender->image);
         $message->put('lastMessage',$this->lastMessageBetweenTwoUsers($receiver_id));
         $message['type'] != 'text' ?$message->put('name',$fileName):null;
+
         return $message;
 
     }

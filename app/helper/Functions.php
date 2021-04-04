@@ -13,7 +13,7 @@ function UsersWhichHasMessagesWithAuthenticatedUser(){
        })->orWhereHas('messagesAsSender',function ($q){
            return $q->where('receiver_id',auth()->user()->id)->orderBy('messages.created_at');
        })->get();
-
+    $data=[];
    foreach ($users as $user){
        $data[]=[
            'id' => $user->id,

@@ -21,57 +21,20 @@
                 </div>
 
                 <div class="slimscroll noti-scroll">
+                    @forelse(auth()->user()->notifications as $notification)
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <div class="notify-icon bg-secondary">
+                                <img src="{{$notification->user->image}}" class="rounded-circle w-100" alt="image">
+                            </div>
+                            <p class="notify-details ml-1">
+                                <b>{{$notification->user->name}}</b>
+                                <span class="text-info">{{$notification->notification_text}}</span>
+                                <small class="text-muted">{{$notification->created_at->diffForHumans()}}</small>
+                            </p>
+                        </a>
+                    @empty
+                    @endforelse
 
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-success">
-                            <i class="mdi mdi-settings-outline"></i>
-                        </div>
-                        <p class="notify-details">New settings
-                            <small class="text-muted">There are new settings available</small>
-                        </p>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-info">
-                            <i class="mdi mdi-bell-outline"></i>
-                        </div>
-                        <p class="notify-details">Updates
-                            <small class="text-muted">There are 2 new updates available</small>
-                        </p>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-danger">
-                            <i class="mdi mdi-account-plus"></i>
-                        </div>
-                        <p class="notify-details">New user
-                            <small class="text-muted">You have 10 unread messages</small>
-                        </p>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-info">
-                            <i class="mdi mdi-comment-account-outline"></i>
-                        </div>
-                        <p class="notify-details">Adham Ali commented on Admin
-                            <small class="text-muted">4 days ago</small>
-                        </p>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-secondary">
-                            <i class="mdi mdi-heart"></i>
-                        </div>
-                        <p class="notify-details">Mickel Adel liked
-                            <b>Admin</b>
-                            <small class="text-muted">13 days ago</small>
-                        </p>
-                    </a>
                 </div>
 
                 <!-- All-->
@@ -123,7 +86,7 @@
 
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img src="{{auth()->user()->image}}" alt="user-image" class="rounded-circle">
+                <img id="userImage-{{auth()->user()->id}}" src="{{auth()->user()->image}}" alt="user-image" class="rounded-circle">
                 <span class="d-none d-sm-inline-block ml-1">{{auth()->user()->name}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -131,24 +94,6 @@
                 <div class="dropdown-header noti-title">
                     <h6 class="text-overflow m-0">Welcome !</h6>
                 </div>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <i class="mdi mdi-account-outline"></i>
-                    <span>Profile</span>
-                </a>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <i class="mdi mdi-settings-outline"></i>
-                    <span>Settings</span>
-                </a>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                    <i class="mdi mdi-lock-outline"></i>
-                    <span>Lock Screen</span>
-                </a>
 
                 <div class="dropdown-divider"></div>
 
@@ -164,11 +109,6 @@
             </div>
         </li>
 
-        <li class="dropdown notification-list">
-            <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect">
-                <i class="mdi mdi-settings noti-icon"></i>
-            </a>
-        </li>
 
     </ul>
 

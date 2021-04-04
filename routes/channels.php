@@ -23,5 +23,8 @@ Broadcast::channel('chat', function ($user) {
 Broadcast::channel('whisper-{id}', function ($user,$id) {
     return  true;
 });
+Broadcast::channel('user.{id}', function ($user,$id) {
+    return  true;
+});
 
 

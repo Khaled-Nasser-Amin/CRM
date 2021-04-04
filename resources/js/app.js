@@ -18,7 +18,7 @@ window.Echo.channel(`Chat.${id}`)
         $('#typing-'+e.message.sender_id).remove();
         if(e.message.type == 'text'){
             element.append(' <div class="message mb-0 e">' +
-                '<img class="avatar-md" src="'+e.sender.image+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
+                '<img class="avatar-md" src="'+e.message.senderImage+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
                 '<div class="text-main">' +
                 '<div class="text-group">' +
                 '  <div class="text bg-info text-white">' +
@@ -33,7 +33,7 @@ window.Echo.channel(`Chat.${id}`)
         else if(e.message.type == 'file'){
             let url = "/Chat/"+e.message.id;
             element.append('<div class="message mb-0 ">' +
-                '<img class="avatar-md" src="'+e.sender.image+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
+                '<img class="avatar-md" src="'+e.message.senderImage+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
                 '   <div class="text-main">' +
                 '       <div class="text-group">' +
                 '          <div class="text">' +
@@ -56,7 +56,7 @@ window.Echo.channel(`Chat.${id}`)
 
         }else if(e.message.type == 'image'){
             element.append('<div class="message mb-0 ">' +
-                ' <img class="avatar-md" src="'+e.sender.image+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' +
+                ' <img class="avatar-md" src="'+e.message.senderImage+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' +
                 '    <div class="text-main row flex-column">' +
                 '       <div class="text-group">' +
                 '             <div class="">' +
@@ -99,11 +99,14 @@ window.Echo.join(`chat`)
 
 //listen for event
 let myId=$('meta[name=user_id]').attr('content');
+let userImage=$('#userImage-'+myId).attr('src');
 window.Echo.private(`whisper-${myId}`)
     .listenForWhisper('typing', (e) => {
         if(!$('#typing-'+e.id).length){
             $('#appendMessages-'+e.id).append('<div id="typing-'+e.id+'" class="message mb-0 ">' +
-               '                                                            <div class="text-main">' +
+                ' <img class="avatar-md" src="'+e.image+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' +
+
+                '                                                            <div class="text-main">' +
                '                                                                <div class="text-group">' +
                '                                                                    <div class="text typing">' +
                '                                                                        <div class="wave">' +
@@ -123,10 +126,16 @@ window.Echo.private(`whisper-${myId}`)
 //fire event
 $(document).on('keydown','.textarea',function (){
     let receiver_id=$(this).data('receiver');
-    window.Echo.private(`whisper-${receiver_id}`)
-        .whisper('typing', {
-            id: myId
-        });
+
+    setTimeout(function(){
+        window.Echo.private(`whisper-${receiver_id}`)
+            .whisper('typing', {
+                id: myId,
+                image: userImage,
+
+            });
+    },300)
+
 
 })
 
@@ -180,13 +189,16 @@ function pushMessageInNavbar(e){
     parentDiv.prepend('' +
         '<a href="#" id="userChatInNavbar-'+e.message.sender_id+'">' +
         '   <div class="inbox-item" >' +
-        '       <div class="inbox-item-img"><img src="'+e.sender.image+'" class="rounded-circle" alt=""></div>' +
+        '       <div class="inbox-item-img"><img src="'+e.message.senderImage+'" class="rounded-circle" alt=""></div>' +
         '       <p class="inbox-item-author">'+e.sender.name+'</p>' +
         '       <p class="inbox-item-text text-truncate text-black-50">'+e.lastMessage+'</p>' +
         '    </div>' +
         ' </a>')
 }
 
-
+window.Echo.private('user.' + myId)
+    .notification((notification) => {
+        console.log(notification.type);
+    });
 function scrollToBottom(el)
 { el.scrollTop = el.scrollHeight; }

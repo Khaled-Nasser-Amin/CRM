@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
@@ -58,5 +59,16 @@ class User extends Authenticatable
     public function getImageAttribute($value){
         return asset('images/users/'.$value);
     }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'user.'.$this->id;
+    }
+
+    public function myNotifications(){
+        return $this->hasMany(DatabaseNotification::class);
+    }
+
+
 
 }

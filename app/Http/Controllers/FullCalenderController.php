@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\User;
+use App\Notifications\NewEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class FullCalenderController extends Controller
 {
     public function index(Request $request)
     {
+
         if($request->ajax())
         {
             $data = Event::
@@ -30,6 +34,7 @@ class FullCalenderController extends Controller
                     'end'		=>	$request->end
                 ]);
 
+                $this->sendNotification($event);
                 return response()->json($event);
             }
 
@@ -51,5 +56,11 @@ class FullCalenderController extends Controller
                 return response()->json($event);
             }
         }
+    }
+
+    public function sendNotification($event){
+        $users=User::where('id','!=',auth()->user()->id)->get();
+        Notification::send($users,new NewEvent($event,auth()->user()));
+
     }
 }
