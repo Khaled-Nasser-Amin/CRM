@@ -2,23 +2,25 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewEvent extends Notification implements ShouldQueue
+class DeleteProject extends Notification
 {
     use Queueable;
-    public $event;
+    public $project;
     public $user;
+    public $developerName;
 
-    public function __construct($event,$user)
+    public function __construct($project,$user,$developerName)
     {
-        $this->event=$event;
+        $this->project=$project;
         $this->user=$user;
+        $this->developerName=$developerName;
     }
 
     public function via($notifiable)
@@ -30,10 +32,10 @@ class NewEvent extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-            'event' => $this->event,
+            'event' => $this->project,
             'user_id' => $this->user->id,
-            'notification_text' => "Added New Event : ".$this->event->title,
-            'details' => $this->event->title.' starts at :'.$this->event->start ." and ends at :".$this->event->end,
+            'notification_text' => "Deleted Project : ".$this->project['name'],
+            'details' => $this->developerName?'This project exists in' . $this->developerName :'',
 
         ];
 
@@ -44,9 +46,9 @@ class NewEvent extends Notification implements ShouldQueue
             'userImage' =>$this->user->image,
             'userId' =>$this->user->id,
             'userName' =>$this->user->name,
-            'notification_text' => "Added New Event : ".$this->event->title,
-            'created_at' => $this->event->created_at->diffForHumans(),
-            'details' => $this->event->title.' starts at :'.$this->event->start ." and ends at :".$this->event->end,
+            'notification_text' => "Deleted Project : ".$this->project['name'],
+            'created_at' => Carbon::now()->diffForHumans(),
+            'details' => $this->developerName?'This project exists in ' . $this->developerName :'',
 
         ]));
     }

@@ -6,7 +6,9 @@ use App\Http\Requests\UserRequest;
 use App\Http\Traits\ImageTrait;
 use App\Models\Employee;
 use App\Models\User;
+use App\Notifications\AddNewUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -39,6 +41,7 @@ class UserController extends Controller
             && $employee->phone == $request->phone
             && $employee->serial == $request->serial){
             $user=User::create($data);
+            $this->sendNotification($user);
             return redirect()->back()->with(['success' => 'Added Successfully']);
         }else{
             return redirect()->back()->with(['danger' => 'data does not match any record']);
@@ -58,9 +61,11 @@ class UserController extends Controller
             $data=$request->except('password');
             $data['password']=bcrypt($request->password);
             $user->update([$request])->save();
+            $this->notifyUpdatedUser($user);
 
         }else{
-            $user->update([$request->except('password')])->save();
+            $user->update([$request->except('password')]);
+            $user->save();
         }
         return redirect()->back()->with(['success' =>'Updated Successfully']);
     }
@@ -79,5 +84,15 @@ class UserController extends Controller
             $user->update(['image'=>$newImageName]);
         }
 
+    }
+
+    public function sendNotification($employee){
+        $users=User::where('id','!=',auth()->user()->id)->get();
+        Notification::send($users,new AddNewUser($employee,auth()->user()));
+    }
+
+    public function notifyUpdatedUser($employee){
+        $user=User::where('id',$employee->id)->first();
+        Notification::send($user,new AddNewUser($employee,auth()->user()));
     }
 }

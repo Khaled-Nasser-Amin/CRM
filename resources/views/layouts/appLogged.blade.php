@@ -34,6 +34,7 @@
     <link href="{{asset('libs/datatables/fixedColumns.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- App css -->
     <link href="{{asset('libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('libs/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Plugins css -->
     <link href="{{asset('libs/nestable2/jquery.nestable.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
@@ -42,8 +43,6 @@
     <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css" />
 
     <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
-
-
 </head>
 <body>
 
@@ -88,8 +87,8 @@
 <script src="{{asset('libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('libs/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('libs/sweetalert2/sweetalert2.min.js')}}"></script>
-
 <script src="{{asset('js/pages/sweetalerts.init.js')}}"></script>
+<script src="{{asset('js/pages/toastr.init.js')}}"></script>
 <!-- Init js-->
 <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
 
@@ -99,6 +98,7 @@
 
 <script src="{{asset('js/app.min.js')}}"></script>
 <script src="{{asset('js/app.js')}}"></script>
+
 
 </body>
 </html>

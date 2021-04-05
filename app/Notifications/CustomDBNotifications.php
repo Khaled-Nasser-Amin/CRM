@@ -21,6 +21,7 @@ class CustomDBNotifications
             'type' => get_class($notification),
             'data' => $data['event'],
             'notification_text' => $data['notification_text'],
+            'details' => $data['details'],
             'read_at' => null,
         ]);
     }

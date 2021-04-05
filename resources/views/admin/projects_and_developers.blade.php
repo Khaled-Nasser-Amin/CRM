@@ -374,7 +374,7 @@
                                         @forelse($projects as $project)
                                             <tr>
                                                 <td>{{$project->name}}</td>
-                                                <td>{{$project->developer->name}}</td>
+                                                <td>{{$project->developer->name ?? ''}}</td>
                                                 <td>{{$project->amenities->count()}}</td>
                                                 <td class="row justify-content-center"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#edit-project-{{$project->id}}">Edit</button>
                                                     <button type="button" onclick="document.getElementById('deleteProject-{{$project->id}}').submit()"  class="btn btn-danger waves-effect waves-light" >Delete</button>

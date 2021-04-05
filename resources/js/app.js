@@ -82,17 +82,20 @@ window.Echo.join(`chat`)
         users.forEach(function (user){
             $('#list-chat-'+user.id).children('div .status').removeClass('d-none');
             $('#inside'+user.id).children('div .status').removeClass('d-none');
+            $('.notificationAuthor-'+user.id).children('div .status').removeClass('d-none');
             $('#activeNow'+user.id).removeClass('d-none');
         })
     })
     .joining((user) => {
         $('#list-chat-'+user.id).children('div .status').removeClass('d-none');
         $('#inside'+user.id).children('div .status').removeClass('d-none');
+        $('.notificationAuthor-'+user.id).children('div .status').removeClass('d-none');
         $('#activeNow'+user.id).removeClass('d-none');
     })
     .leaving((user) => {
         $('#list-chat-'+user.id).children('div .status').addClass('d-none');
         $('#inside'+user.id).children('div .status').addClass('d-none');
+        $('.notificationAuthor-'+user.id).children('div .status').addClass('d-none');
         $('#activeNow'+user.id).addClass('d-none');
     })
 
@@ -198,7 +201,67 @@ function pushMessageInNavbar(e){
 
 window.Echo.private('user.' + myId)
     .notification((notification) => {
-        console.log(notification.type);
+        pushNotificationInNavbar(notification);
+        pushNotificationInAsideBar(notification);
+        NumberOfUnreadNotifications();
     });
+
+
+function pushNotificationInNavbar(e){
+    let image=e.userImage.slice(e.userImage.search('/images'),e.userImage.length)
+
+    $('#pushNotificationInNavbar').prepend('<a href="javascript:void(0);" class="dropdown-item notify-item">' +
+        '                            <div class="notify-icon bg-secondary">' +
+        '                                <img src="'+image+'" class="rounded-circle w-100" alt="image">' +
+        '                            </div>\n' +
+        '                            <p class="notify-details ml-1">' +
+        '                                '+e.userName+'' +
+        '                                <span class="text-info">'+e.notification_text+'</span>' +
+        '                                <small class="text-muted">'+e.created_at+'</small>\n' +
+        '                            </p>\n' +
+        '                        </a>')
+}
+
+function pushNotificationInAsideBar(e){
+    let image=e.userImage.slice(e.userImage.search('/images'),e.userImage.length)
+    $('.pushNotificationInAsideBar').prepend('<a href="#"  class="notificationAuthor-'+e.userId+' filterNotifications all latest notification bg-warning" data-toggle="list">' +
+        '                                                                <img class="avatar-md" src="'+image+'" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">' +
+        '                                                                <div class="status">' +
+        '                                                                    <i class="material-icons online">fiber_manual_record</i>' +
+        '                                                                </div>' +
+        '                                                                <div class="data">' +
+        '                                                                    <p> <b>'+e.userName+' </b><b class="text-info">'+e.notification_text+'</b> </p>' +
+        '                                                                    <p>'+e.details+'</p>' +
+        '                                                                    <span>'+e.created_at+'</span>' +
+        '                                                                </div>' +
+        '                                                            </a>')
+
+}
+
+function NumberOfUnreadNotifications(){
+    $.ajax({
+        method:"post",
+        url:"/NumberOfNotifications",
+        data:{
+            '_token':$('meta[name=csrf-token]').attr('content')
+        },
+        success:function (result){
+            if (result == 0) {
+                $('#badgeSidebarNotifications').addClass('d-none')
+            }else{
+                $('#badgeSidebarNotifications').removeClass('d-none')
+                $('#badgeSidebarNotifications').html(result);
+            }
+
+        }
+    })
+
+
+}
+
 function scrollToBottom(el)
 { el.scrollTop = el.scrollHeight; }
+
+
+
+

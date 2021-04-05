@@ -2,14 +2,14 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewEvent extends Notification implements ShouldQueue
+class DeleteEvent extends Notification
 {
     use Queueable;
     public $event;
@@ -32,8 +32,8 @@ class NewEvent extends Notification implements ShouldQueue
         return [
             'event' => $this->event,
             'user_id' => $this->user->id,
-            'notification_text' => "Added New Event : ".$this->event->title,
-            'details' => $this->event->title.' starts at :'.$this->event->start ." and ends at :".$this->event->end,
+            'notification_text' => "Event Deleted : ".$this->event->title,
+            'details' => '',
 
         ];
 
@@ -44,9 +44,9 @@ class NewEvent extends Notification implements ShouldQueue
             'userImage' =>$this->user->image,
             'userId' =>$this->user->id,
             'userName' =>$this->user->name,
-            'notification_text' => "Added New Event : ".$this->event->title,
-            'created_at' => $this->event->created_at->diffForHumans(),
-            'details' => $this->event->title.' starts at :'.$this->event->start ." and ends at :".$this->event->end,
+            'notification_text' => "Event Deleted : ".$this->event->title,
+            'created_at' => Carbon::now()->diffForHumans(),
+            'details' => '',
 
         ]));
     }

@@ -3,21 +3,19 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewEvent extends Notification implements ShouldQueue
+class UpdateUser extends Notification
 {
-    use Queueable;
-    public $event;
+    public $employee;
     public $user;
 
-    public function __construct($event,$user)
+    public function __construct($employee,$user)
     {
-        $this->event=$event;
+        $this->employee=$employee;
         $this->user=$user;
     }
 
@@ -30,10 +28,10 @@ class NewEvent extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-            'event' => $this->event,
+            'event' => $this->employee,
             'user_id' => $this->user->id,
-            'notification_text' => "Added New Event : ".$this->event->title,
-            'details' => $this->event->title.' starts at :'.$this->event->start ." and ends at :".$this->event->end,
+            'notification_text' => "Your account updated: ".$this->employee->name,
+            'details' =>'',
 
         ];
 
@@ -44,9 +42,9 @@ class NewEvent extends Notification implements ShouldQueue
             'userImage' =>$this->user->image,
             'userId' =>$this->user->id,
             'userName' =>$this->user->name,
-            'notification_text' => "Added New Event : ".$this->event->title,
-            'created_at' => $this->event->created_at->diffForHumans(),
-            'details' => $this->event->title.' starts at :'.$this->event->start ." and ends at :".$this->event->end,
+            'notification_text' => "Your account updated : ".$this->employee->name,
+            'created_at' => $this->employee->created_at->diffForHumans(),
+            'details' =>'',
 
         ]));
     }

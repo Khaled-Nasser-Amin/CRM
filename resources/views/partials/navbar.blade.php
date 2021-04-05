@@ -5,44 +5,49 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle  waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="mdi mdi-bell noti-icon"></i>
-                <span class="badge badge-success rounded-circle noti-icon-badge">4</span>
+                <span id="badgeSidebarNotifications" class="badge badge-success rounded-circle noti-icon-badge {{auth()->user()->unreadNotifications->count() == 0 ? 'd-none' : ''}}">{{auth()->user()->unreadNotifications->count()}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-lg">
 
                 <!-- item-->
                 <div class="dropdown-item noti-title">
                     <h5 class="font-16 m-0">
-                                <span class="float-right">
-                                    <a href="" class="text-dark">
-                                        <small>Clear All</small>
-                                    </a>
-                                </span>Notification
+                        <span class="float-right">
+                            @if(auth()->user()->notifications->count())
+                            <a href="{{route('notification.DeleteNotifications')}}" class="text-dark">
+                                <small>Clear All</small>
+                            </a>
+                            @endif
+                        </span>Notification
                     </h5>
                 </div>
 
-                <div class="slimscroll noti-scroll">
-                    @forelse(auth()->user()->notifications as $notification)
+                <div class="slimscroll noti-scroll" id="pushNotificationInNavbar">
+                    @forelse(auth()->user()->notifications()->latest()->get() as $notification)
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <div class="notify-icon bg-secondary">
                                 <img src="{{$notification->user->image}}" class="rounded-circle w-100" alt="image">
                             </div>
                             <p class="notify-details ml-1">
-                                <b>{{$notification->user->name}}</b>
+                                {{$notification->user->name}}
                                 <span class="text-info">{{$notification->notification_text}}</span>
                                 <small class="text-muted">{{$notification->created_at->diffForHumans()}}</small>
                             </p>
                         </a>
                     @empty
+
                     @endforelse
 
                 </div>
 
                 <!-- All-->
+                @if(auth()->user()->notifications->count())
+
                 <a href="javascript:void(0);" class="dropdown-item text-center text-secondary notify-item notify-all">
                     See all Notification
                     <i class="fi-arrow-right"></i>
                 </a>
-
+                @endif
             </div>
         </li>
 
@@ -66,9 +71,9 @@
                         @empty
                             <a href="/Chat" class="no-messages">
                                 <div class="inbox-item">
-                                    <p class="text-muted">You don't have any conversation yet!</p>
+                                    <p class="text-muted">You don't have any conversation yet! <span class="text-info">Start New Chat</span></p>
                                 </div>
-                                Start New Chat
+
                             </a>
                         @endforelse
 
@@ -76,11 +81,12 @@
 
                 </div>
                 <!-- All-->
+                @if(auth()->user()->messages->count())
                 <a href="{{route('chat.index')}}" class="dropdown-item text-center text-secondary notify-item notify-all">
                     See all Messages
                     <i class="fi-arrow-right"></i>
                 </a>
-
+                @endif
             </div>
         </li>
 

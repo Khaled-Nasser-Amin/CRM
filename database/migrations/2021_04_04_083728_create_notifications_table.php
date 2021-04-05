@@ -17,6 +17,7 @@ class CreateNotificationsTable extends Migration
             $table->uuid('id')->primary();
             $table->string('type');
             $table->string('notification_text');
+            $table->string('details');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->morphs('notifiable');

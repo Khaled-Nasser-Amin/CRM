@@ -6,7 +6,12 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Amenity;
 use App\Models\Developer;
 use App\Models\Project;
+use App\Models\User;
+use App\Notifications\AddNewProject;
+use App\Notifications\DeleteProject;
+use App\Notifications\UpdateProject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class ProjectController extends Controller
 {
@@ -26,6 +31,7 @@ class ProjectController extends Controller
         $project=Project::create($data);
         $project->developer()->associate($request->developer)->save();
         $project->amenities()->syncWithoutDetaching($request->amenities);
+        $this->sendNotification($project,$project->developer->name);
         return redirect()->back()->with(['success' => 'Project Created Successfully']);
     }
     public function update(Request $request,Project $project)
@@ -36,11 +42,15 @@ class ProjectController extends Controller
         $project->save();
         $project->developer()->associate($request->developer)->save();
         $project->amenities()->syncWithoutDetaching($request->amenities);
+        $this->updateEventNotify($project,$project->developer->name);
+
         return redirect()->back()->with(['success' => 'Project Updated Successfully']);
 
     }
     public function destroy(Project $project){
-
+        $pro=['name'=>$project->name];
+        $developerName=$project->developer->name ?? null;
+        $this->deleteEventNotify($pro,$developerName);
         $project->delete();
         return redirect()->back()->with(['success' => 'Project Deleted Successfully']);
 
@@ -54,5 +64,21 @@ class ProjectController extends Controller
             'developer' => 'required|string|max:255|exists:developers,id',
             'amenities' => 'required|array|min:1'
         ]);
+    }
+
+    public function sendNotification($project,$developerName = null){
+        $users=User::where('id','!=',auth()->user()->id)->get();
+        Notification::send($users,new AddNewProject($project,auth()->user(),$developerName));
+
+    }
+    public function updateEventNotify($project,$developerName = null){
+        $users=User::where('id','!=',auth()->user()->id)->get();
+        Notification::send($users,new UpdateProject($project,auth()->user(),$developerName));
+
+    }
+    public function deleteEventNotify($project,$developerName = null){
+        $users=User::where('id','!=',auth()->user()->id)->get();
+        Notification::send($users,new DeleteProject($project,auth()->user(),$developerName));
+
     }
 }

@@ -99,18 +99,29 @@
                                                     <button class="btn filterNotificationsBtn" data-toggle="list" data-filter="oldest">Oldest</button>
                                                 </div>
                                                 <div class="notifications">
-                                                    <h1>Notifications</h1>
-                                                    <div class="list-group" id="alerts" role="tablist">
-                                                        <a href="#" class="filterNotifications all latest notification" data-toggle="list">
-                                                            <img class="avatar-md" src="dist/img/avatars/avatar-female-1.jpg" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
-                                                            <div class="status">
-                                                                <i class="material-icons online">fiber_manual_record</i>
-                                                            </div>
-                                                            <div class="data">
-                                                                <p>Janette has accepted your friend request on Swipe.</p>
-                                                                <span>Oct 17, 2018</span>
-                                                            </div>
-                                                        </a>
+                                                    <div class="row justify-content-between">
+                                                        <h1 class="mt-0">Notifications</h1>
+                                                        @if(auth()->user()->notifications->count())
+                                                            <a href="#" id="markAllAsRead">Mark all as read</a>
+                                                        @endif
+                                                    </div>
+
+                                                    <div class="list-group pushNotificationInAsideBar" id="alerts" role="tablist" id="">
+                                                        @forelse(auth()->user()->notifications as $notification)
+                                                            <a href="#"  class="notificationAuthor-{{$notification->user->id}} filterNotifications all {{date_format($notification->created_at,'Y-m-d') == date_format(now(),'Y-m-d') ? 'latest' :'oldest'}} notification {{$notification->read_at == null ? 'bg-warning' : ''}}" data-toggle="list">
+                                                                <img class="avatar-md" src="{{$notification->user->image}}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+                                                                <div class="status d-none">
+                                                                    <i class="material-icons online">fiber_manual_record</i>
+                                                                </div>
+                                                                <div class="data">
+                                                                    <p> <b>{{$notification->user->name}} </b><b class="text-info">{{$notification->notification_text}}</b> </p>
+                                                                    <p>{{$notification->details}}</p>
+                                                                    <span>{{$notification->created_at->diffForHumans()}}</span>
+                                                                </div>
+                                                            </a>
+                                                        @empty
+                                                        @endforelse
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -280,7 +291,7 @@
                                                                 <textarea data-receiver="{{$user->id}}" name="message" class="form-control textarea" placeholder="Start typing for reply..." rows="1"></textarea>
                                                                 <button id="btnChat{{$user->id}}"  data-receiver="{{$user->id}}" class="btnChat btn send"><i class="material-icons">send</i></button>
                                                             </form>
-                                                            <form enctype="multipart/form-data" id="formAttachFile">
+                                                            <form enctype="multipart/form-data">
                                                                 <label>
                                                                     <input type="file" name="file" class="attachFile" data-receiver="{{$user->id}}">
                                                                     <span class="btn attach d-sm-block d-none"><i class="material-icons">attach_file</i></span>
@@ -419,6 +430,7 @@
             getAllUnreadMessages();
             scrollToBottom(document.getElementById('content'));
         })
+
         function readMessages(receiver_id,item){
             $.ajax({
                 url:"/Chat/readMessages/"+receiver_id,
@@ -471,6 +483,22 @@
                 ' </a>')
 
         }
+
+        $('#markAllAsRead').on('click',function (){
+            $.ajax({
+                method:'post',
+                url:'{{route('notification.markAllAsRead')}}',
+                data:{
+                    '_token':$('meta[name=csrf-token]').attr('content')
+                },
+                success:function(){
+                    $('.filterNotifications').removeClass('bg-warning')
+                    $('#badgeSidebarNotifications').addClass('d-none')
+
+                }
+            })
+
+        })
         //scroll function
         function scrollToBottom(el)
         { el.scrollTop = el.scrollHeight; }
