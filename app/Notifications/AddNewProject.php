@@ -34,7 +34,7 @@ class AddNewProject extends Notification
             'event' => $this->project,
             'user_id' => $this->user->id,
             'notification_text' => "Added New Project : ".$this->project->name,
-            'details' => $this->developerName?'This project exists in' . $this->developerName :'',
+            'details' => $this->developerName?'This project exists in ' . $this->developerName. ' developer':'',
 
         ];
 
@@ -47,7 +47,7 @@ class AddNewProject extends Notification
             'userName' =>$this->user->name,
             'notification_text' => "Added New Project : ".$this->project->name,
             'created_at' => $this->project->created_at->diffForHumans(),
-            'details' => $this->developerName?'This project exists in ' . $this->developerName :'',
+            'details' => $this->developerName?'This project exists in ' . $this->developerName. ' developer' :'',
 
         ]));
     }

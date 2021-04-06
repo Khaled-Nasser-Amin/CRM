@@ -42,9 +42,12 @@ class DeveloperController extends Controller
 
     }
     public function destroy(Developer $developer){
-        $dev=['name'=>$developer->name];
+        $dev=collect($developer);
         $this->deleteEventNotify($dev);
         $developer->projects()->update([
+            'developer_id' => null
+        ]);
+        $developer->leads()->update([
             'developer_id' => null
         ]);
         $developer->delete();

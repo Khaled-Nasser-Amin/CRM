@@ -27,7 +27,7 @@ class DashboardController extends Controller
             $leads = Lead::all();
             $numberOfLeads = $leads->count();
             $invoices = Invoice::count();
-            $tickets = Ticket::all();
+            $tickets = Ticket::latest()->get();
             $projects = Project::withCount('leads')->orderBy('leads_count', 'DESC')->pluck('name', 'leads_count')->take(5)->toArray();
             $dataStatistic=[];
             $sumOfOthers=0;
@@ -44,7 +44,7 @@ class DashboardController extends Controller
         $leads = $user->leads;
         $numberOfLeads = $leads->count();
         $invoices = $user->invoices;
-        $tickets = Ticket::where('id',1)->orWhere('id',auth()->user()->id)->get();
+        $tickets = Ticket::where('id',1)->orWhere('id',auth()->user()->id)->latest()->get();
         $projects = $user->projects()->pluck('projects.name','projects.id')->unique();
         $sumOfOthers=0;
         foreach ($projects as $key => $value){

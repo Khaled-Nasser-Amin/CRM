@@ -20,7 +20,7 @@
                             <form action="{{route('login')}}" method='post'>
                                 @csrf
                                 <div class="form-group">
-                                    <input class="form-control" type="text" value="{{old('email')}}" name='email' id="username" required="" placeholder="Username">
+                                    <input class="form-control" type="text" placeholder="Username"  name='email' value="{{old('email')}}" id="username" required="" >
                                     @error('email')
                                         <span class=" alert-danger ">{{$message}}</span>
                                     @enderror

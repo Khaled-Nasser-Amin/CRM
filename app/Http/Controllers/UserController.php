@@ -71,6 +71,12 @@ class UserController extends Controller
     }
     public function deleteUser(User $user){
         $this->authorize('delete',$user);
+        $user->leads()->update([
+            'user_id' => null
+        ]);
+        $user->properties()->update([
+            'user_id' => null
+        ]);
         $this->unlinkImage($user->image);
         User::find($user->id)->delete();
         return redirect()->back()->with(['success' =>'Deleted Successfully']);

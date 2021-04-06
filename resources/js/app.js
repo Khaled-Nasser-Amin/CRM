@@ -3,6 +3,7 @@ require('./bootstrap');
 import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
+let VanillaToasts = window.VanillaToasts = require('vanillatoasts');
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
@@ -17,7 +18,7 @@ window.Echo.channel(`Chat.${id}`)
         let element =$('#appendMessages-'+e.message.sender_id);
         $('#typing-'+e.message.sender_id).remove();
         if(e.message.type == 'text'){
-            element.append(' <div class="message mb-0 e">' +
+            element.append(' <div class="message mb-0 notMe">' +
                 '<img class="avatar-md" src="'+e.message.senderImage+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
                 '<div class="text-main">' +
                 '<div class="text-group">' +
@@ -32,7 +33,7 @@ window.Echo.channel(`Chat.${id}`)
         }
         else if(e.message.type == 'file'){
             let url = "/Chat/"+e.message.id;
-            element.append('<div class="message mb-0 ">' +
+            element.append('<div class="message mb-0 notMe">' +
                 '<img class="avatar-md" src="'+e.message.senderImage+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
                 '   <div class="text-main">' +
                 '       <div class="text-group">' +
@@ -55,7 +56,7 @@ window.Echo.channel(`Chat.${id}`)
                 ' </div>')
 
         }else if(e.message.type == 'image'){
-            element.append('<div class="message mb-0 ">' +
+            element.append('<div class="message mb-0 notMe">' +
                 ' <img class="avatar-md" src="'+e.message.senderImage+'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' +
                 '    <div class="text-main row flex-column">' +
                 '       <div class="text-group">' +
@@ -75,6 +76,9 @@ window.Echo.channel(`Chat.${id}`)
         pushMessageInNavbar(e);
         scrollToBottom(document.getElementById('content'));
 
+    })
+    .listen('ClearChatEvent',(e)=>{
+        $('#appendMessages-'+e.sender.id).children('.notMe').remove();
     });
 
 window.Echo.join(`chat`)
@@ -121,6 +125,10 @@ window.Echo.private(`whisper-${myId}`)
                '                                                                </div>' +
                '                                                            </div>' +
                '                                                        </div>')
+
+            setTimeout(function (){
+                $('#typing-'+e.id).remove();
+            },4000)
             scrollToBottom(document.getElementById('content'));
 
         }
@@ -137,7 +145,7 @@ $(document).on('keydown','.textarea',function (){
                 image: userImage,
 
             });
-    },300)
+    },1000)
 
 
 })
@@ -201,16 +209,32 @@ function pushMessageInNavbar(e){
 
 window.Echo.private('user.' + myId)
     .notification((notification) => {
+        window.VanillaToasts.create({
+            title: 'Message Title',
+            text: 'Notification text',
+        });
         pushNotificationInNavbar(notification);
         pushNotificationInAsideBar(notification);
         NumberOfUnreadNotifications();
+        if (notification.type == 'App\\Notifications\\AddNewTicket'){
+            $('#tickets').prepend('<a href="#">' +
+                '                                    <div class="inbox-item">' +
+                '                                        <div class="inbox-item-img">' +
+                '                                            <img src="'+notification.userImage+'" class="rounded-circle" alt="">' +
+                '                                        </div>' +
+                '                                        <p class="inbox-item-author">'+notification.userName+' ( '+notification.ticketName+' )</p>' +
+                '                                        <p class="inbox-item-text font-12">'+notification.details+'</p>' +
+                '                                        <p class="inbox-item-date">'+notification.created_at+'</p>' +
+                '                                    </div>' +
+                '                                </a>')
+        }
     });
 
 
 function pushNotificationInNavbar(e){
     let image=e.userImage.slice(e.userImage.search('/images'),e.userImage.length)
 
-    $('#pushNotificationInNavbar').prepend('<a href="javascript:void(0);" class="dropdown-item notify-item">' +
+    $('#pushNotificationInNavbar').prepend('<a href="/Chat#notifications" class="dropdown-item notify-item">' +
         '                            <div class="notify-icon bg-secondary">' +
         '                                <img src="'+image+'" class="rounded-circle w-100" alt="image">' +
         '                            </div>\n' +
@@ -264,4 +288,5 @@ function scrollToBottom(el)
 
 
 
+$('#toast-1').addClass('toasts-top-right')
 

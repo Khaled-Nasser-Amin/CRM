@@ -15,17 +15,13 @@
             <!-- start page title -->
             <div class="row">
                 <div class="col-12 pl-0">
-
-
                     <main>
-
-
                         <div class="layout">
                             <!-- Start of Navigation -->
                             <div class="navigation">
                                 <div class="container">
                                     <div class="inside">
-                                        <div class="nav nav-tab menu">
+                                        <div class="nav nav-tab menu" id="menuSidebar">
                                             <button class="btn"><img class="avatar-xl" src="{{auth()->user()->image}}" alt="avatar"></button>
                                             <a href="#discussions" data-toggle="tab" class="active"><i class="material-icons active">chat_bubble_outline</i></a>
                                             <a href="#notifications" data-toggle="tab" class=""><i class="material-icons">notifications_none</i></a>
@@ -156,9 +152,7 @@
                                                                     <a class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
                                                                     <div class="dropdown-menu dropdown-menu-right">
                                                                         <hr>
-                                                                        <button class="dropdown-item"><i class="material-icons">clear</i>Clear History</button>
-                                                                        <button class="dropdown-item"><i class="material-icons">block</i>Block Contact</button>
-                                                                        <button class="dropdown-item"><i class="material-icons">delete</i>Delete Contact</button>
+                                                                        <button class="dropdown-item clearChat" data-receiver="{{$user->id}}"><i class="material-icons">clear</i>Clear Chat</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -184,7 +178,7 @@
                                                                     </div>
                                                                 </div>
                                                             @else
-                                                                <div class="message mb-0 ">
+                                                                <div class="message mb-0 notMe">
                                                                     <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
                                                                     <div class="text-main">
                                                                         <div class="text-group">
@@ -219,7 +213,7 @@
                                                                     </div>
                                                                 </div>
                                                             @else
-                                                                <div class="message mb-0 ">
+                                                                <div class="message mb-0 notMe">
                                                                     <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
                                                                     <div class="text-main">
                                                                         <div class="text-group">
@@ -255,7 +249,7 @@
                                                                     </div>
                                                                 </div>
                                                             @else
-                                                                <div class="message mb-0 ">
+                                                                <div class="message mb-0 notMe">
                                                                     <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
                                                                     <div class="text-main row flex-column">
                                                                         <div class="text-group">
@@ -392,7 +386,7 @@
                         +'</div>'
                         +'</div>')
                     element.has('div .no-messages') ? element.children('div .no-messages').remove(): null;
-
+                    $('textarea[name=message]').val('');
                     changeListChatItem(result);
                     pushMessageInNavbar(result);
                     scrollToBottom(document.getElementById('content'));
@@ -513,18 +507,37 @@
             let href=$(this).attr('href');
             let hash=href.slice(href.search('#'),href.length);
             $('#chats a[href="'+hash+'"]').tab('show');
+            console.log(hash);
+
 
             scrollToBottom(document.getElementById('content'));
 
         });
         function activeTab(){
             var hash =window.location.hash ;
+            if(hash == '#notifications'){
+                $('#menuSidebar a[href="'+hash+'"]').tab('show');
+            }
 
             if (hash != "")
                 $('#chats a[href="'+hash +'"]').tab('show');
             else
                 $('#chats a:first').tab('show');
         }
+
+        $('.clearChat').on('click',function (){
+            let userId=$(this).data('receiver');
+            $.ajax({
+                'method':'post',
+                url:'/Chat/clearChat/'+userId,
+                data:{
+                    '_token': $('meta[name=csrf-token]').attr('content')
+                },
+                success:function (result){
+                    $('#appendMessages-'+userId).children('.me').remove();
+                }
+            })
+        })
 
     </script>
     <script src="{{asset('dist/js/vendor/popper.min.js')}}"></script>

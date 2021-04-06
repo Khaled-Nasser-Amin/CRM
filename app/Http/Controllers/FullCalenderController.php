@@ -55,8 +55,9 @@ class FullCalenderController extends Controller
 
                 if($request->type == 'delete')
                 {
+
                     $event = Event::find($request->id);
-                    $ev=$event;
+                    $ev=collect($event);
                     $event->delete();
                     $this->deleteEventNotify($ev);
                     return response()->json($event);

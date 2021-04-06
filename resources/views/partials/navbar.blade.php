@@ -43,7 +43,7 @@
                 <!-- All-->
                 @if(auth()->user()->notifications->count())
 
-                <a href="javascript:void(0);" class="dropdown-item text-center text-secondary notify-item notify-all">
+                <a href="/Chat#notifications" class="dropdown-item text-center text-secondary notify-item notify-all">
                     See all Notification
                     <i class="fi-arrow-right"></i>
                 </a>

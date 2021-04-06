@@ -12,15 +12,15 @@ use Illuminate\Notifications\Notification;
 class DeleteLead extends Notification
 {
     use Queueable;
-    public $project;
+    public $lead;
     public $user;
-    public $developerName;
+    public $projectName;
 
-    public function __construct($project,$user,$developerName)
+    public function __construct($lead,$user,$projectName)
     {
-        $this->project=$project;
+        $this->lead=$lead;
         $this->user=$user;
-        $this->developerName=$developerName;
+        $this->projectName=$projectName;
     }
 
     public function via($notifiable)
@@ -32,10 +32,10 @@ class DeleteLead extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'event' => $this->project,
+            'event' => $this->lead,
             'user_id' => $this->user->id,
-            'notification_text' => "Deleted Project : ".$this->project->name,
-            'details' => 'This project exists in' . $this->developerName ,
+            'notification_text' => "Deleted Lead Called: ".$this->lead .($this->user->id == 1 ? ' from your leads' : ''),
+            'details' => $this->projectName?'This lead exists in ' . $this->projectName :'',
 
         ];
 
@@ -46,9 +46,9 @@ class DeleteLead extends Notification
             'userImage' =>$this->user->image,
             'userId' =>$this->user->id,
             'userName' =>$this->user->name,
-            'notification_text' => "Deleted Project : ".$this->project->name,
+            'notification_text' => "Deleted Lead Called: ".$this->lead .($this->user->id == 1 ? ' from your leads' : ''),
             'created_at' => Carbon::now()->diffForHumans(),
-            'details' => 'This project exists in' . $this->developerName ,
+            'details' => $this->projectName?'This lead exists in ' . $this->projectName :'',
 
         ]));
     }

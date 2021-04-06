@@ -4,54 +4,56 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class AddNewLead extends Notification
 {
     use Queueable;
+    public $lead;
+    public $user;
+    public $projectName;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct($lead,$user,$projectName)
     {
-        //
+        $this->lead=$lead;
+        $this->user=$user;
+        $this->projectName=$projectName;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
-        return ['mail'];
+        return [CustomDBNotifications::class,'broadcast'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+
+    public function toDatabase($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+
+        return [
+            'event' => $this->lead,
+            'user_id' => $this->user->id,
+            'notification_text' => "Added New Lead Called: " . $this->lead->name . ($this->user->id == 1 ? ' to you' : ''),
+            'details' => $this->projectName?'This lead exists in ' . $this->projectName :'',
+
+        ];
+
+    }
+    public function toBroadcast($notifiable)
+    {
+        return (new BroadcastMessage([
+            'userImage' =>$this->user->image,
+            'userId' =>$this->user->id,
+            'userName' =>$this->user->name,
+            'notification_text' => "Added New Lead Called: ".$this->lead->name . ($this->user->id == 1 ? ' to you' : ''),
+            'created_at' => $this->lead->created_at->diffForHumans(),
+            'details' => $this->projectName?'This lead exists in ' . $this->projectName :'',
+
+        ]));
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
+
     public function toArray($notifiable)
     {
         return [

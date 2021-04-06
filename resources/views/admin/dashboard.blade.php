@@ -385,14 +385,13 @@
                 <div class="col-lg-8">
                     <div class="card-box">
                         <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
-                        <script src="canvasjs.min.js"></script>
                     </div>
                 </div>
                 <div class="col-lg-4 h-auto">
                     <div class="card-box">
                         <h4 class="header-title mb-4">Last Comment</h4>
 
-                        <div class="inbox-widget slimscroll h-100" style="max-height: 360px; overflow-y: scroll">
+                        <div class="inbox-widget slimscroll h-100" id="tickets" style="max-height: 360px; overflow-y: scroll">
 
                             @forelse($tickets as $ticket)
                                 <a href="#">
@@ -421,7 +420,6 @@
 @endsection
 @push('script')
     <!-- Vendor js dashboard -->
-    <script src="{{asset('js/canvasjs.min.js')}}"></script>
     <script src="{{asset('libs/flot-charts/jquery.flot.js')}}"></script>
     <script src="{{asset('libs/flot-charts/jquery.flot.time.js')}}"></script>
     <script src="{{asset('libs/flot-charts/jquery.flot.tooltip.min.js')}}"></script>

@@ -41,7 +41,7 @@ class AmenitiesController extends Controller
 
     }
     public function destroy(Amenity $amenity){
-        $ame=['name'=>$amenity->name];;
+        $ame=collect($amenity);;
         $this->deleteEventNotify($ame);
         $amenity->delete();
         return redirect()->back()->with(['success' => 'Amenity Deleted Successfully']);

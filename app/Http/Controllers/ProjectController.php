@@ -43,12 +43,13 @@ class ProjectController extends Controller
         $project->developer()->associate($request->developer)->save();
         $project->amenities()->syncWithoutDetaching($request->amenities);
         $this->updateEventNotify($project,$project->developer->name);
-
         return redirect()->back()->with(['success' => 'Project Updated Successfully']);
-
     }
     public function destroy(Project $project){
-        $pro=['name'=>$project->name];
+        $project->leads()->update([
+            'project_id' => null
+        ]);
+        $pro=collect($project);
         $developerName=$project->developer->name ?? null;
         $this->deleteEventNotify($pro,$developerName);
         $project->delete();

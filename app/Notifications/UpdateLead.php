@@ -11,15 +11,15 @@ use Illuminate\Notifications\Notification;
 class UpdateLead extends Notification
 {
     use Queueable;
-    public $project;
+    public $lead;
     public $user;
-    public $developerName;
+    public $projectName;
 
-    public function __construct($project,$user,$developerName)
+    public function __construct($lead,$user,$projectName)
     {
-        $this->project=$project;
+        $this->lead=$lead;
         $this->user=$user;
-        $this->developerName=$developerName;
+        $this->projectName=$projectName;
     }
 
     public function via($notifiable)
@@ -31,10 +31,10 @@ class UpdateLead extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'event' => $this->project,
+            'event' => $this->lead,
             'user_id' => $this->user->id,
-            'notification_text' => "Updated Project : ".$this->project->name,
-            'details' => 'This project exists in' . $this->developerName ,
+            'notification_text' => "Updated Lead Called: ".$this->lead->name . ($this->user->id == 1 ? ' from your leads' : ''),
+            'details' => $this->projectName?'This lead exists in ' . $this->projectName :'',
 
         ];
 
@@ -45,9 +45,9 @@ class UpdateLead extends Notification
             'userImage' =>$this->user->image,
             'userId' =>$this->user->id,
             'userName' =>$this->user->name,
-            'notification_text' => "Updated Project : ".$this->project->name,
-            'created_at' => $this->project->updated_at->diffForHumans(),
-            'details' => 'This project exists in ' . $this->developerName ,
+            'notification_text' => "Updated Lead Called: ".$this->lead->name .($this->user->id == 1 ? ' from your leads' : ''),
+            'created_at' => $this->lead->updated_at->diffForHumans(),
+            'details' => $this->projectName?'This lead exists in ' . $this->projectName :'',
 
         ]));
     }

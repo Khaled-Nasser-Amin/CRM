@@ -45,7 +45,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 control-label " for="password"> Password *</label>
                                         <div class="col-lg-10">
-                                            <input id="password" name="password" type="text" class="required form-control" required>
+                                            <input id="password" name="password" type="password" class="required form-control" required>
 
                                         </div>
                                     </div>
@@ -53,7 +53,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 control-label " for="confirm">Confirm Password *</label>
                                         <div class="col-lg-10">
-                                            <input id="confirm" name="password_confirmation" type="text" class="required form-control" required>
+                                            <input id="confirm" name="password_confirmation" type="password" class="required form-control" required>
                                         </div>
                                     </div>
 
@@ -62,7 +62,7 @@
                                 <section>
                                     <div class="form-group row">
 
-                                        <label class="col-lg-2 control-label" for="name"> First name *</label>
+                                        <label class="col-lg-2 control-label" for="name"> Ticket name *</label>
                                         <div class="col-lg-10">
                                             <input id="name" name="name" type="text" class="required form-control" >
                                         </div>

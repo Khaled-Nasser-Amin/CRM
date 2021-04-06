@@ -13,13 +13,13 @@ class CreateLeadsTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('user_id')->nullable()->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->bigInteger('developer_id')->nullable()->unsigned();
-            $table->foreign('developer_id')->references('id')->on('developers')->onDelete('cascade');
+            $table->foreign('developer_id')->references('id')->on('developers');
 
             $table->bigInteger('project_id')->nullable()->unsigned();
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects');
 
             $table->string('firstPhone');
             $table->string('secondPhone')->nullable();

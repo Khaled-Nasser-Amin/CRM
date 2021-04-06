@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ChatEvent;
+use App\Events\ClearChatEvent;
 use App\Http\Traits\ImageTrait;
 use App\Models\Message;
 use App\Models\User;
@@ -102,5 +103,20 @@ class MessageController extends Controller
             $arrayOfText= explode('_',messagesForAuthenticatedUser($sender_id)->last()->text);
             return end($arrayOfText);
         }
+    }
+
+    public function deleteMessages($id){
+
+        $files=auth()->user()->messagesAsSender()->where('receiver_id',$id)->where('type','file')->orWhere('type','image')->get();
+        if($files){
+            foreach ($files as $file)
+                unlink(public_path('chat_files').'\\'.$file->text);
+        }
+        dispatch(function () use($id){
+            broadcast(new ClearChatEvent(auth()->user(),$id))->toOthers();
+        })->afterResponse();
+        auth()->user()->messagesAsSender()->where('receiver_id',$id)->delete();
+        return redirect()->back()->with(['success' => 'deleted successfully']);
+
     }
 }

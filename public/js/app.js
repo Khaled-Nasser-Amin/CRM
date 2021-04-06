@@ -1847,6 +1847,9 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+
+var VanillaToasts = window.VanillaToasts = __webpack_require__(/*! vanillatoasts */ "./node_modules/vanillatoasts/vanillatoasts.js");
+
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   broadcaster: 'pusher',
   key: "7df5376f4a991613602d",
@@ -1859,12 +1862,12 @@ window.Echo.channel("Chat.".concat(id)).listen('ChatEvent', function (e) {
   $('#typing-' + e.message.sender_id).remove();
 
   if (e.message.type == 'text') {
-    element.append(' <div class="message mb-0 e">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '<div class="text-main">' + '<div class="text-group">' + '  <div class="text bg-info text-white">' + '    <p>' + e.message.text + '</p>' + '   </div>' + '</div>' + '<span>' + e.message.dateForHumans + '</span>' + '</div>' + '</div>');
+    element.append(' <div class="message mb-0 notMe">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '<div class="text-main">' + '<div class="text-group">' + '  <div class="text bg-info text-white">' + '    <p>' + e.message.text + '</p>' + '   </div>' + '</div>' + '<span>' + e.message.dateForHumans + '</span>' + '</div>' + '</div>');
   } else if (e.message.type == 'file') {
     var url = "/Chat/" + e.message.id;
-    element.append('<div class="message mb-0 ">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '   <div class="text-main">' + '       <div class="text-group">' + '          <div class="text">' + '               <div class="attachment">' + '                    <a href="' + url + '" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' + '                       <div class="file">' + '                            <h5>' + '                               <a href="' + url + '">' + e.message.name + '                               </a>' + '                            </h5>' + '                         <span>Document</span>' + '                    </div>' + '                </div>' + '             </div>' + '          </div>' + '       <span>' + e.message.dateForHumans + '</span>' + '   </div>' + ' </div>');
+    element.append('<div class="message mb-0 notMe">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '   <div class="text-main">' + '       <div class="text-group">' + '          <div class="text">' + '               <div class="attachment">' + '                    <a href="' + url + '" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' + '                       <div class="file">' + '                            <h5>' + '                               <a href="' + url + '">' + e.message.name + '                               </a>' + '                            </h5>' + '                         <span>Document</span>' + '                    </div>' + '                </div>' + '             </div>' + '          </div>' + '       <span>' + e.message.dateForHumans + '</span>' + '   </div>' + ' </div>');
   } else if (e.message.type == 'image') {
-    element.append('<div class="message mb-0 ">' + ' <img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '    <div class="text-main row flex-column">' + '       <div class="text-group">' + '             <div class="">' + '                   <img class="w-25 float-left" src="/chat_files/' + e.message.text + '" alt="' + e.message.text + '">' + '              </div>' + '     </div>' + '     <span>' + e.message.dateForHumans + '</span>' + '  </div>' + '</div>');
+    element.append('<div class="message mb-0 notMe">' + ' <img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '    <div class="text-main row flex-column">' + '       <div class="text-group">' + '             <div class="">' + '                   <img class="w-25 float-left" src="/chat_files/' + e.message.text + '" alt="' + e.message.text + '">' + '              </div>' + '     </div>' + '     <span>' + e.message.dateForHumans + '</span>' + '  </div>' + '</div>');
   }
 
   element.has('div .no-messages') ? element.children('div .no-messages').remove() : null;
@@ -1873,6 +1876,8 @@ window.Echo.channel("Chat.".concat(id)).listen('ChatEvent', function (e) {
   getAllUnreadMessages();
   pushMessageInNavbar(e);
   scrollToBottom(document.getElementById('content'));
+}).listen('ClearChatEvent', function (e) {
+  $('#appendMessages-' + e.sender.id).children('.notMe').remove();
 });
 window.Echo.join("chat").here(function (users) {
   users.forEach(function (user) {
@@ -1898,6 +1903,9 @@ var userImage = $('#userImage-' + myId).attr('src');
 window.Echo["private"]("whisper-".concat(myId)).listenForWhisper('typing', function (e) {
   if (!$('#typing-' + e.id).length) {
     $('#appendMessages-' + e.id).append('<div id="typing-' + e.id + '" class="message mb-0 ">' + ' <img class="avatar-md" src="' + e.image + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '                                                            <div class="text-main">' + '                                                                <div class="text-group">' + '                                                                    <div class="text typing">' + '                                                                        <div class="wave">' + '                                                                            <span class="dot"></span>' + '                                                                            <span class="dot"></span>' + '                                                                            <span class="dot"></span>' + '                                                                        </div>' + '                                                                    </div>' + '                                                                </div>' + '                                                            </div>' + '                                                        </div>');
+    setTimeout(function () {
+      $('#typing-' + e.id).remove();
+    }, 4000);
     scrollToBottom(document.getElementById('content'));
   }
 }); //fire event
@@ -1909,7 +1917,7 @@ $(document).on('keydown', '.textarea', function () {
       id: myId,
       image: userImage
     });
-  }, 300);
+  }, 1000);
 });
 
 function changeListChatItem(message) {
@@ -1967,14 +1975,22 @@ function pushMessageInNavbar(e) {
 }
 
 window.Echo["private"]('user.' + myId).notification(function (notification) {
+  window.VanillaToasts.create({
+    title: 'Message Title',
+    text: 'Notification text'
+  });
   pushNotificationInNavbar(notification);
   pushNotificationInAsideBar(notification);
   NumberOfUnreadNotifications();
+
+  if (notification.type == 'App\\Notifications\\AddNewTicket') {
+    $('#tickets').prepend('<a href="#">' + '                                    <div class="inbox-item">' + '                                        <div class="inbox-item-img">' + '                                            <img src="' + notification.userImage + '" class="rounded-circle" alt="">' + '                                        </div>' + '                                        <p class="inbox-item-author">' + notification.userName + ' ( ' + notification.ticketName + ' )</p>' + '                                        <p class="inbox-item-text font-12">' + notification.details + '</p>' + '                                        <p class="inbox-item-date">' + notification.created_at + '</p>' + '                                    </div>' + '                                </a>');
+  }
 });
 
 function pushNotificationInNavbar(e) {
   var image = e.userImage.slice(e.userImage.search('/images'), e.userImage.length);
-  $('#pushNotificationInNavbar').prepend('<a href="javascript:void(0);" class="dropdown-item notify-item">' + '                            <div class="notify-icon bg-secondary">' + '                                <img src="' + image + '" class="rounded-circle w-100" alt="image">' + '                            </div>\n' + '                            <p class="notify-details ml-1">' + '                                ' + e.userName + '' + '                                <span class="text-info">' + e.notification_text + '</span>' + '                                <small class="text-muted">' + e.created_at + '</small>\n' + '                            </p>\n' + '                        </a>');
+  $('#pushNotificationInNavbar').prepend('<a href="/Chat#notifications" class="dropdown-item notify-item">' + '                            <div class="notify-icon bg-secondary">' + '                                <img src="' + image + '" class="rounded-circle w-100" alt="image">' + '                            </div>\n' + '                            <p class="notify-details ml-1">' + '                                ' + e.userName + '' + '                                <span class="text-info">' + e.notification_text + '</span>' + '                                <small class="text-muted">' + e.created_at + '</small>\n' + '                            </p>\n' + '                        </a>');
 }
 
 function pushNotificationInAsideBar(e) {
@@ -2003,6 +2019,8 @@ function NumberOfUnreadNotifications() {
 function scrollToBottom(el) {
   el.scrollTop = el.scrollHeight;
 }
+
+$('#toast-1').addClass('toasts-top-right');
 
 /***/ }),
 
@@ -25572,6 +25590,172 @@ runtime.setup(pusher_Pusher);
 /******/ ]);
 });
 
+/***/ }),
+
+/***/ "./node_modules/vanillatoasts/vanillatoasts.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/vanillatoasts/vanillatoasts.js ***!
+  \*****************************************************/
+/***/ (function(module) {
+
+(function (root, factory) {
+  try {
+    // commonjs
+    if (true) {
+      module.exports = factory();
+      // global
+    } else {}
+  } catch (error) {
+    console.log('Isomorphic compatibility is not supported at this time for VanillaToasts.')
+  }
+})(this, function () {
+
+  // We need DOM to be ready
+  if (document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('DOMContentLoaded', init);
+  }
+
+  // Create VanillaToasts object
+  VanillaToasts = {
+    // In case toast creation is attempted before dom has finished loading!
+    create: function () {
+      console.error([
+        'DOM has not finished loading.',
+        '\tInvoke create method when DOM\s readyState is complete'
+      ].join('\n'))
+    },
+    //function to manually set timeout after create
+    setTimeout: function () {
+      console.error([
+        'DOM has not finished loading.',
+        '\tInvoke create method when DOM\s readyState is complete'
+      ].join('\n'))
+    },
+    toasts: {} //store toasts to modify later
+  };
+  var autoincrement = 0;
+
+  // Initialize library
+  function init() {
+    // Toast container
+    var container = document.createElement('div');
+    container.id = 'vanillatoasts-container';
+    document.body.appendChild(container);
+
+    // @Override
+    // Replace create method when DOM has finished loading
+    VanillaToasts.create = function (options) {
+      var toast = document.createElement('div');
+      toast.id = ++autoincrement;
+      toast.id = 'toast-' + toast.id;
+      toast.className = 'vanillatoasts-toast';
+
+      // title
+      if (options.title) {
+        var h4 = document.createElement('h4');
+        h4.className = 'vanillatoasts-title';
+        h4.innerHTML = options.title;
+        toast.appendChild(h4);
+      }
+
+      // text
+      if (options.text) {
+        var p = document.createElement('p');
+        p.className = 'vanillatoasts-text';
+        p.innerHTML = options.text;
+        toast.appendChild(p);
+      }
+
+      // icon
+      if (options.icon) {
+        var img = document.createElement('img');
+        img.src = options.icon;
+        img.className = 'vanillatoasts-icon';
+        toast.appendChild(img);
+      }
+
+      // position
+      var position = options.positionClass
+      switch (position) {
+        case 'topLeft':
+          container.classList.add('toasts-top-left');
+          break;
+        case 'bottomLeft':
+          container.classList.add('toasts-bottom-left');
+          break;
+        case 'bottomRight':
+          container.classList.add('toasts-bottom-right');
+          break;
+        case 'topRight':
+          container.classList.add('toasts-top-right');
+          break;
+        case 'topCenter':
+          container.classList.add('toasts-top-center');
+          break;
+        case 'bottomCenter':
+          container.classList.add('toasts-bottom-center');
+          break;
+        default:
+          container.classList.add('toasts-top-right');
+          break;
+      }
+
+      // click callback
+      if (typeof options.callback === 'function') {
+        toast.addEventListener('click', options.callback);
+      }
+
+      // toast api
+      toast.hide = function () {
+        toast.className += ' vanillatoasts-fadeOut';
+        toast.addEventListener('animationend', removeToast, false);
+      };
+
+      // autohide
+      if (options.timeout) {
+        setTimeout(toast.hide, options.timeout);
+      }
+
+      if (options.type) {
+        toast.className += ' vanillatoasts-' + options.type;
+      }
+
+      toast.addEventListener('click', toast.hide);
+
+
+      function removeToast() {
+        document.getElementById('vanillatoasts-container').removeChild(toast);
+        delete VanillaToasts.toasts[toast.id];  //remove toast from object
+      }
+
+      document.getElementById('vanillatoasts-container').appendChild(toast);
+
+      //add toast to object so its easily gettable by its id
+      VanillaToasts.toasts[toast.id] = toast;
+
+      return toast;
+    }
+
+    /*
+    custom function to manually initiate timeout of
+    the toast.  Useful if toast is created as persistant
+    because we don't want it to start to timeout until
+    we tell it to
+    */
+    VanillaToasts.setTimeout = function (toastid, val) {
+      if (VanillaToasts.toasts[toastid]) {
+        setTimeout(VanillaToasts.toasts[toastid].hide, val);
+      }
+    }
+  }
+
+  return VanillaToasts;
+
+});
+
+
 /***/ })
 
 /******/ 	});
@@ -25745,6 +25929,7 @@ runtime.setup(pusher_Pusher);
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
 /******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./node_modules/vanillatoasts/vanillatoasts.js")))
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	

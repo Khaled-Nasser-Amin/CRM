@@ -8,18 +8,16 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UpdateProperty extends Notification
+class AddNewTicket extends Notification
 {
     use Queueable;
-    public $property;
+    public $ticket;
     public $user;
-    public $projectName;
 
-    public function __construct($property,$user,$projectName)
+    public function __construct($ticket,$user)
     {
-        $this->property=$property;
+        $this->ticket=$ticket;
         $this->user=$user;
-        $this->projectName=$projectName;
     }
 
     public function via($notifiable)
@@ -30,11 +28,12 @@ class UpdateProperty extends Notification
 
     public function toDatabase($notifiable)
     {
+
         return [
-            'event' => $this->property,
+            'event' => $this->ticket,
             'user_id' => $this->user->id,
-            'notification_text' => "Updated Property : ".$this->property->name,
-            'details' => $this->projectName?'This Property exists in ' . $this->projectName. ' project' :'',
+            'notification_text' => "New ticket from: " . $this->user->name ,
+            'details' => $this->ticket->comment,
 
         ];
 
@@ -45,9 +44,10 @@ class UpdateProperty extends Notification
             'userImage' =>$this->user->image,
             'userId' =>$this->user->id,
             'userName' =>$this->user->name,
-            'notification_text' => "Updated Property : ".$this->property->name,
-            'created_at' => $this->property->updated_at->diffForHumans(),
-            'details' => $this->projectName?'This Property exists in ' . $this->projectName. ' project' :'',
+            'notification_text' => "New ticket from: " . $this->user->name ,
+            'created_at' => $this->ticket->created_at->diffForHumans(),
+            'details' => $this->ticket->comment,
+            'ticketName' => $this->ticket->name,
 
         ]));
     }

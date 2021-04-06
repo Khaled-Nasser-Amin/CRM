@@ -8,7 +8,11 @@ use App\Models\Project;
 use App\Models\Properties;
 use App\Models\User;
 
+use App\Notifications\AddNewProperty;
+use App\Notifications\DeleteProperty;
+use App\Notifications\UpdateProperty;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class PropertiesController extends Controller
 {
@@ -33,6 +37,7 @@ class PropertiesController extends Controller
         $this->createGroupOfImage($request,$property);
         $user->properties()->save($property);
         $this->linkProjectWithAmenities($request,$property);
+        $this->sendNotification($property,$property->project->name);
         return redirect()->back()->with(['success' => 'Created Successfully']);
     }
     public function showProperty(Properties $property){
@@ -46,13 +51,16 @@ class PropertiesController extends Controller
     }
     public function updateProperty(UpdatePropertyRequest $request,Properties $property){
         $this->authorize('update',$property);
+
         $data=$request->except(['images','project','amenities']);
         $property->update($data);
         $property->save();
         $this->ifUpdatedHasImages($request,$property);
         $property->amenities()->detach();
         $property->project()->dissociate();
-        $this->linkProjectWithAmenities($request,$property);
+        $projectName=$this->linkProjectWithAmenities($request,$property);
+        $this->updateEventNotify($property,$projectName);
+
         return redirect()->back()->with(['success' => 'Updated Successfully']);
     }
     public function deleteProperty(Properties $property){
@@ -60,6 +68,9 @@ class PropertiesController extends Controller
         foreach ($property->images as $image){
             unlink('images/properties/'.$image->name);
         }
+        $prop=collect($property);
+        $projectName=$property->project->name;
+        $this->deleteEventNotify($prop,$projectName);
         $property->delete();
         return redirect()->back()->with(['success' => 'Deleted Successfully']);
     }
@@ -74,12 +85,14 @@ class PropertiesController extends Controller
     }
 
     public function linkProjectWithAmenities($request,$property){
-        $project=Project::find($request->project)->properties()->save($property);
+        $project=Project::find($request->project);
+        $project->properties()->save($property);
         foreach ($request->amenities as $amenity){
             if (in_array($amenity,$project->amenities->pluck('id')->toArray())){
                 $property->amenities()->syncWithoutDetaching($amenity);
             }
         }
+        return $project->name;
     }
 
     public function ifUpdatedHasImages($request,$property){
@@ -95,6 +108,22 @@ class PropertiesController extends Controller
             $this->createGroupOfImage($request,$property);
 
         }
+    }
+
+    public function sendNotification($property,$projectName = null){
+        $users=User::where('id','!=',auth()->user()->id)->get();
+        Notification::send($users,new AddNewProperty($property,auth()->user(),$projectName));
+
+    }
+    public function updateEventNotify($property,$projectName = null){
+        $users=User::where('id','!=',auth()->user()->id)->get();
+        Notification::send($users,new UpdateProperty($property,auth()->user(),$projectName));
+
+    }
+    public function deleteEventNotify($property,$projectName = null){
+        $users=User::where('id','!=',auth()->user()->id)->get();
+        Notification::send($users,new DeleteProperty($property,auth()->user(),$projectName));
+
     }
 
 }

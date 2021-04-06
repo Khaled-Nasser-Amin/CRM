@@ -32,7 +32,7 @@ class DeleteEvent extends Notification
         return [
             'event' => $this->event,
             'user_id' => $this->user->id,
-            'notification_text' => "Event Deleted : ".$this->event->title,
+            'notification_text' => "Event Deleted : ".$this->event['title'],
             'details' => '',
 
         ];
@@ -44,7 +44,7 @@ class DeleteEvent extends Notification
             'userImage' =>$this->user->image,
             'userId' =>$this->user->id,
             'userName' =>$this->user->name,
-            'notification_text' => "Event Deleted : ".$this->event->title,
+            'notification_text' => "Event Deleted : ".$this->event['title'],
             'created_at' => Carbon::now()->diffForHumans(),
             'details' => '',
 

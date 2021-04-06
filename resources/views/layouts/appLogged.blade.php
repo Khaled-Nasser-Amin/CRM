@@ -16,7 +16,7 @@
 
 
     <link href="{{asset('libs/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
-
+    <link href="{{asset('css/vanillatoasts.css')}}" rel="stylesheet">
     <!--App css leads -->
     <link href="{{asset('libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('libs/bootstrap-colorpicker/bootstrap-colorpicker.min.css')}}" rel="stylesheet" type="text/css" />
@@ -34,8 +34,8 @@
     <link href="{{asset('libs/datatables/fixedColumns.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- App css -->
     <link href="{{asset('libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('libs/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Plugins css -->
+
     <link href="{{asset('libs/nestable2/jquery.nestable.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
 
@@ -43,6 +43,33 @@
     <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css" />
 
     <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
+    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
+    <script>
+        setTimeout(function(){
+            window.VanillaToasts.create({
+
+                // notification title
+                title: 'HEllo World',
+
+                // notification message
+                text: 'This toast will hide after 5000ms or when you click it',
+
+                // success, info, warning, error   / optional parameter
+                type: 'warning',
+
+                // path to notification icon
+                icon: '/images/22.jpg',
+
+                // topRight, topLeft, topCenter, bottomRight, bottomLeft, bottomCenter
+                positionClass: 'topRight',
+
+                // auto dismiss after 5000ms
+
+            });
+
+        },3000)
+    </script>
+
 </head>
 <body>
 
@@ -88,14 +115,12 @@
 <script src="{{asset('libs/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('libs/sweetalert2/sweetalert2.min.js')}}"></script>
 <script src="{{asset('js/pages/sweetalerts.init.js')}}"></script>
-<script src="{{asset('js/pages/toastr.init.js')}}"></script>
 <!-- Init js-->
 <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
 
 @stack('script')
 
 <!-- App js -->
-
 <script src="{{asset('js/app.min.js')}}"></script>
 <script src="{{asset('js/app.js')}}"></script>
 

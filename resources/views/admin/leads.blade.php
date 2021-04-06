@@ -542,7 +542,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
-                                                            <button type="button" onclick="document.getElementById('updateLead-2').submit()" class="btn btn-info waves-effect waves-light">Save</button>
+                                                            <button type="button" onclick="document.getElementById('updateLead-{{$lead->id}}').submit()" class="btn btn-info waves-effect waves-light">Save</button>
                                                         </div>
                                                     </div>
                                                 </div>

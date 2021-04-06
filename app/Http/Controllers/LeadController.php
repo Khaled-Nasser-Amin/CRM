@@ -8,8 +8,12 @@ use App\Models\Developer;
 use App\Models\Lead;
 use App\Models\Project;
 use App\Models\User;
+use App\Notifications\AddNewLead;
+use App\Notifications\DeleteLead;
+use App\Notifications\UpdateLead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 
 class LeadController extends Controller
@@ -47,11 +51,13 @@ class LeadController extends Controller
         $user->leads()->save($lead);
         $lead->project()->associate($request->project)->save();
         $lead->developer()->associate($request->developer)->save();
+        $this->sendNotification($lead,$lead->project->name,$user);
         return redirect()->back()->with(['success' => 'Lead Created Successfully']);
 
     }
-    public function updateLead(UpdateLeadRequest $request , Lead $lead){
+    public function updateLead(Request $request , Lead $lead){
         $this->authorize('update',$lead);
+        $this->updateLeadRequest($request,$lead);
         if ($this->authorize('create',User::class)){
             $request->validate([
                 "assignedEmail" => "required|email|exists:users,email",
@@ -67,11 +73,15 @@ class LeadController extends Controller
         $lead->developer()->associate($request->developer)->save();
         $lead->update($data);
         $lead->save();
+        $this->updateEventNotify($lead,$lead->project->name,$user);
+
         return redirect()->back()->with(['success' => 'Lead Updated Successfully']);
 
     }
     public function deleteLead(Lead $lead){
         $this->authorize('delete',$lead);
+        $user=auth()->user()->id == 1 ? $lead->user : User::where('id',1)->first();
+        $this->deleteEventNotify($lead->name,$lead->project->name,$user);
         Lead::find($lead->id)->delete();
         return redirect()->back()->with(['success' => 'Deleted Successfully']);
 
@@ -91,6 +101,33 @@ class LeadController extends Controller
         $lead->save();
         $lead->Updates()->create($data)->save();
         return redirect()->back()->with(['success' => 'Updated Successfully']);
+
+    }
+
+    public function updateLeadRequest($request,$lead){
+        $request->validate([
+            "name" => "required|string|max:255",
+            "firstPhone" => "required|string|unique:leads,firstPhone,".$lead->id."|unique:leads,secondPhone,".$lead->id."|unique:employees,phone",
+            "secondPhone" => "required|string|unique:leads,firstPhone,".$lead->id."|unique:leads,secondPhone,".$lead->id."|unique:employees,phone",
+            "address" => "required|string",
+            "city" => "required|string",
+            "country" => "required|string",
+            "bestTime" => "required|integer",
+            "comment" => "required|string",
+            "developer" => "required|string|exists:developers,id",
+            "project" => "required|string|exists:projects,id",
+        ]);
+}
+    public function sendNotification($lead,$projectName = null,$userNotified){
+        Notification::send($userNotified,new AddNewLead($lead,auth()->user(),$projectName));
+
+    }
+    public function updateEventNotify($lead,$projectName = null,$userNotified){
+        Notification::send($userNotified,new UpdateLead($lead,auth()->user(),$projectName));
+
+    }
+    public function deleteEventNotify($lead,$projectName = null,$userNotified){
+        Notification::send($userNotified,new DeleteLead($lead,auth()->user(),$projectName));
 
     }
 
