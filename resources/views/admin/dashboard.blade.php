@@ -386,11 +386,13 @@
                     <div class="card-box">
                         <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
                         <script src="canvasjs.min.js"></script>
-                    </div></div>   <div class="col-lg-4">
+                    </div>
+                </div>
+                <div class="col-lg-4 h-auto">
                     <div class="card-box">
                         <h4 class="header-title mb-4">Last Comment</h4>
 
-                        <div class="inbox-widget slimscroll" style="max-height: 360px; overflow-y: scroll">
+                        <div class="inbox-widget slimscroll h-100" style="max-height: 360px; overflow-y: scroll">
 
                             @forelse($tickets as $ticket)
                                 <a href="#">
@@ -398,7 +400,7 @@
                                         <div class="inbox-item-img">
                                             <img src="{{$ticket->user->image}}" class="rounded-circle" alt="">
                                         </div>
-                                        <p class="inbox-item-author">{{ucfirst($ticket->name)}}</p>
+                                        <p class="inbox-item-author">{{ucfirst($ticket->user->name)}} ({{$ticket->name}} )</p>
                                         <p class="inbox-item-text font-12">{{$ticket->comment}}</p>
                                         <p class="inbox-item-date">{{$ticket->created_at->diffForHumans()}}</p>
                                     </div>

@@ -44,7 +44,7 @@ class DashboardController extends Controller
         $leads = $user->leads;
         $numberOfLeads = $leads->count();
         $invoices = $user->invoices;
-        $tickets = $user->tickets;
+        $tickets = Ticket::where('id',1)->orWhere('id',auth()->user()->id)->get();
         $projects = $user->projects()->pluck('projects.name','projects.id')->unique();
         $sumOfOthers=0;
         foreach ($projects as $key => $value){

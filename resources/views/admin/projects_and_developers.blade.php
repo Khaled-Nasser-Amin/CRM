@@ -151,66 +151,26 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title mt-0">EMPLYEE</h4>
+                                    <h4 class="modal-title mt-0">Add New Amenity</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                    <form action="{{route('amenities.store')}}" method="post" id="addNewAmenity">
+                                        @csrf
+                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="control-label"> AMINITIES Name</label>
-                                                <input type="text" class="form-control"  placeholder="NAME">
+                                                <input type="text" name="name" class="form-control w-100"  placeholder="NAME">
                                             </div>
                                         </div>
+                                    </form>
 
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-info waves-effect waves-light">Save changes</button>
+                                    <button type="button" class="btn btn-info waves-effect waves-light" onclick="$('#addNewAmenity').submit()">Save changes</button>
                                 </div>
                             </div>
                         </div>
@@ -248,6 +208,36 @@
                                                 </form>
                                             </td>
                                         </tr>
+                                            <div id="edit-amenity-{{$amenity->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title mt-0">Update Amenity</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="{{route('amenities.update',$amenity->id)}}" method="post" id="updateAmenity-{{$amenity->id}}">
+                                                                @csrf
+                                                                @method('put')
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label"> AMINITIES Name</label>
+                                                                        <input type="text" name="name" class="form-control w-100"  value="{{$amenity->name}}">
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-info waves-effect waves-light" onclick="$('#updateAmenity-{{$amenity->id}}').submit()">Save changes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         @empty
                                             <tr>No Amenities Added</tr>
                                         @endforelse

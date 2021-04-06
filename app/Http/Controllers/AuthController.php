@@ -26,6 +26,9 @@ class AuthController extends Controller
     public function login(Request $request){
         $password=$request->password;
         $email=$request->email;
+        $request->validate([
+            'email' => 'required|email|exists:users'
+        ]);
 
         $cred=[
             'email'=>$email,
@@ -36,7 +39,7 @@ class AuthController extends Controller
         {
             return redirect(RouteServiceProvider::HOME);
         }else{
-            return redirect('/');
+            return redirect()->back()->withErrors(['email'=>'does not match our records']);
 
         }
     }
@@ -52,6 +55,7 @@ class AuthController extends Controller
 
         $email=$request->email;
         session()->put('email',$email);
+
         Mail::to($email)->send(new ResetPasswordEmail(route('viewResetPassword',$request->_token)));
         return view('emails.messageAfterSendingEmail');
     }

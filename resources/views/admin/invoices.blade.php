@@ -56,7 +56,7 @@
                                                 <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label  class="control-label">Lead</label>
-                                                        <select class="selectpicker" data-live-search="true"  name="lead" data-style="btn-secondary">
+                                                        <select class="selectpicker" data-live-search="true"  name="lead" data-style="btn-secondary" required>
                                                             @forelse($leads as $lead)
                                                                 <option value="{{$lead->id}}" >{{$lead->name}}</option>
                                                             @empty
@@ -67,19 +67,19 @@
                                                     <div class="form-group ">
                                                         <label class="control-label" for="serial">Invoice Serial</label>
                                                         <div class="col-12">
-                                                            <input type="text" id="serial" name="invoiceSerial" class="form-control" placeholder="SERIAL">
+                                                            <input type="text" id="serial" name="invoiceSerial" class="form-control" placeholder="SERIAL" required>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Date Range</label>
                                                         <div>
                                                             <div class="input-daterange input-group" id="date-range">
-                                                                <input type="text" class="form-control" name="start" />
+                                                                <input type="text" class="form-control" name="start" required />
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text bg-secondary text-white b-0">to</span>
                                                                 </div>
 
-                                                                <input type="text" class="form-control" name="end" />
+                                                                <input type="text" class="form-control" name="end" required />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -100,14 +100,14 @@
                                                     <div class="form-group ">
                                                         <label class=" control-label">CURRENCY</label>
                                                         <div class="col-12">
-                                                            <input type="text" class="form-control" readonly="" value="L.E">
+                                                            <input type="text" class="form-control" readonly="" value="L.E" required>
                                                         </div>
                                                     </div>
 
 
                                                     <div class="form-group ">
                                                         <label class=" control-label">Payment Method</label>
-                                                        <select class="form-control" name="paymentMethodology">
+                                                        <select class="form-control" name="paymentMethodology" required>
                                                             <option value="Cash">Cash</option>
                                                             <option value="Bank">Bank</option>
                                                             <option value="Credit">Credit</option>
@@ -115,7 +115,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class=" control-label">notes</label>
-                                                        <textarea class="form-control w-100" name="notes"></textarea>
+                                                        <textarea class="form-control w-100" name="notes" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -136,16 +136,16 @@
                                                             <tbody>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="text" class="form-control" placeholder="Item" name="propertyName">
+                                                                    <input type="text" class="form-control" placeholder="Item" name="propertyName" required>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" placeholder="Description" name="description">
+                                                                    <input type="text" class="form-control" placeholder="Description" name="description" required>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" placeholder="Quantity" name="quantity">
+                                                                    <input type="text" class="form-control" placeholder="Quantity" name="quantity" required>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" placeholder="Cost" name="cost">
+                                                                    <input type="text" class="form-control" placeholder="Cost" name="cost" required>
                                                                 </td>
                                                             </tr>
                                                             </tbody>
@@ -160,7 +160,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="card-box table-responsive">
-                                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap custonName" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                                         <thead>
                                                         <tr>
                                                             <th>Item</th>
@@ -205,7 +205,7 @@
                                                                                     <div class="">
                                                                                         <div class="form-group">
                                                                                             <label  class="control-label">Lead</label>
-                                                                                            <select class="form-control" data-live-search="true"  name="lead" data-style="btn-secondary">
+                                                                                            <select class="form-control" data-live-search="true"  name="lead" data-style="btn-secondary" required>
                                                                                                 @forelse($leads as $lead)
                                                                                                     <option value="{{$lead->id}}" {{$lead->id == $invoice->lead->id ? 'selected':''}}>{{$lead->name}}</option>
                                                                                                 @empty
@@ -216,25 +216,25 @@
                                                                                         <div class="form-group">
                                                                                             <label class="control-label" for="serial">Invoice Serial</label>
                                                                                             <div class="col-12">
-                                                                                                <input type="text" id="serial" name="invoiceSerial" class="form-control" value="{{$invoice->invoiceSerial}}">
+                                                                                                <input type="text" id="serial" name="invoiceSerial" class="form-control" value="{{$invoice->invoiceSerial}}" required>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group">
                                                                                             <label>Date Range</label>
                                                                                             <div>
                                                                                                 <div class="input-daterange input-group" id="date-range">
-                                                                                                    <input type="text" class="form-control" name="start" value="{{$invoice->start}}"/>
+                                                                                                    <input type="text" class="form-control" name="start" value="{{$invoice->start}}" required/>
                                                                                                     <div class="input-group-append">
                                                                                                         <span class="input-group-text bg-secondary text-white b-0">to</span>
                                                                                                     </div>
 
-                                                                                                    <input type="text" class="form-control" name="end" value="{{$invoice->end}}"/>
+                                                                                                    <input type="text" class="form-control" name="end" value="{{$invoice->end}}" required/>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group">
                                                                                             <label  class="control-label">Broker</label>
-                                                                                            <select class="form-control" data-live-search="true"  name="broker" data-style="btn-secondary">
+                                                                                            <select class="form-control" data-live-search="true"  name="broker" data-style="btn-secondary" required>
                                                                                                 @forelse($users as $user)
                                                                                                     <option value="{{$user->id}}" {{$user->id == $invoice->user->id ? 'selected':''}}>{{$user->name}}</option>
                                                                                                 @empty
@@ -247,14 +247,14 @@
                                                                                         <div class="form-group">
                                                                                             <label class="control-label">CURRENCY</label>
                                                                                             <div class="col-12">
-                                                                                                <input type="text" class="form-control" readonly="" value="L.E">
+                                                                                                <input type="text" class="form-control" readonly="" value="L.E" required>
                                                                                             </div>
                                                                                         </div>
 
                                                                                         <div class="form-group">
                                                                                             <label class="control-label">Payment Method</label>
                                                                                             <div class="col-12">
-                                                                                                <select class="form-control" name="paymentMethodology">
+                                                                                                <select class="form-control" name="paymentMethodology" required>
                                                                                                     <option value="Cash" {{$invoice->paymentMethodology == 'Cash' ? "selected":''}}>Cash</option>
                                                                                                     <option value="Bank" {{$invoice->paymentMethodology == 'Bank' ? "selected":''}}>Bank</option>
                                                                                                     <option value="Credit" {{$invoice->paymentMethodology == 'Credit' ? "selected":''}}>Credit</option>
@@ -265,7 +265,7 @@
                                                                                                 <div class="form-group">
                                                                                                     <label class=" control-label">notes</label>
                                                                                                     <div class="col-12 w-100">
-                                                                                                        <textarea class="form-control w-100" name="notes">{{$invoice->notes}}</textarea>
+                                                                                                        <textarea class="form-control w-100" name="notes" required>{{$invoice->notes}}</textarea>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -273,18 +273,18 @@
 
                                                                                         <div class="form-group">
                                                                                             <lable for="ItemName">Item Name</lable>
-                                                                                            <input id="ItemName" class="form-control" type="text" name="propertyName" value="{{$invoice->propertyName}}">
+                                                                                            <input id="ItemName" class="form-control" type="text" name="propertyName" value="{{$invoice->propertyName}}" required>
                                                                                         </div>
                                                                                         <div class="form-group">
                                                                                             <lable for="description">Description</lable>
-                                                                                            <input id="description" class="form-control" type="text" name="description" value="{{$invoice->description}}">
+                                                                                            <input id="description" class="form-control" type="text" name="description" value="{{$invoice->description}}" required>
                                                                                         </div>
                                                                                         <div class="form-group">
                                                                                             <lable for="quantity">Quantity</lable>
-                                                                                            <input id="quantity" class="form-control" type="text" name="quantity" value="{{$invoice->quantity}}">
+                                                                                            <input id="quantity" class="form-control" type="text" name="quantity" value="{{$invoice->quantity}}" required>
                                                                                         </div><div class="form-group">
                                                                                             <lable for="cost">Cost</lable>
-                                                                                            <input id="cost" type="text" class="form-control" name="cost" value="{{$invoice->cost}}">
+                                                                                            <input id="cost" type="text" class="form-control" name="cost" value="{{$invoice->cost}}" required>
                                                                                         </div>
 
                                                                                     </div>
@@ -325,11 +325,6 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="hidden-print">
-                                            <div class="float-right d-print-none">
-                                                <a onclick="$('#printDiv').printThis()"  id=printInvoice" class="btn btn-dark waves-effect waves-light"><i class="fa fa-print"></i></a>
-                                            </div>
-                                        </div>
                                     </div>
 
                                 </div>
@@ -357,7 +352,6 @@
     <script src="{{asset('libs/clockpicker/bootstrap-clockpicker.min.js')}}"></script>
     <script src="{{asset('libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{asset('libs/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-    <script src="{{asset('libs/print/jquery.printThis.js')}}"></script>
 
     <!-- Init js-->
     <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>

@@ -26,11 +26,11 @@
             <!-- end page title -->
             <!-- Basic Form Wizard -->
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-sm-12">
                     <div class="card-box">
-                        <h4 class="header-title"></h4>
+                        <h4 class="header-title">Report  Your problem</h4>
 
-                        <form id="basic-form" action="#" method="post" class="formSteps" >
+                        <form id="wizard-validation-form" action="{{route('tickets.store')}}" method="post" class="formSteps">
                             @csrf
                             <div>
                                 <h3>Account</h3>
@@ -101,13 +101,21 @@
                                         </div>
                                     </div>
                                 </section>
+                                <h3>Step Final</h3>
+                                <section>
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <input id="acceptTerms-2" name="acceptTerms2" type="checkbox" class="required">
+                                            <label for="acceptTerms-2">I agree with the Terms and Conditions.</label>
+                                        </div>
+                                    </div>
+
+                                </section>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
-
             <!-- End row -->
         </div>
         <!-- End row -->
@@ -128,8 +136,9 @@
             $('span[name=firstName]').html(firstName);
             $('span[name=comment]').html(comment);
             $('span[name=project]').html(project);
-            console.log(email,'=',firstName,'=',comment,'=',project);
         })
+
+
     </script>
     <!--Form Wizard-->
     <script src="{{asset('libs/jquery-steps/jquery.steps.min.js')}}"></script>

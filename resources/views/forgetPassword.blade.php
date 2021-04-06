@@ -25,8 +25,12 @@
                             @csrf
                             <div class="form-group row">
                                 <div class="col-12">
-                                    <input class="form-control" type="email" required="" name="email" placeholder="Enter email">
+                                    <input class="form-control" type="email" required="" value="{{old('email')}}" name="email" placeholder="Enter email">
+                                    @error('email')
+                                    <span class=" alert-danger ">{{$message}}</span>
+                                    @enderror
                                 </div>
+
                             </div>
 
                             <div class="form-group account-btn text-center mt-2 row">

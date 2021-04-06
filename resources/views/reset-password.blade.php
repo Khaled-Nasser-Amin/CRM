@@ -26,6 +26,9 @@
                                 <div class="form-group row">
                                     <div class="col-12">
                                         <input class="form-control" type="password" name="password" required="" placeholder="password">
+                                        @error('password')
+                                        <span class=" alert-danger ">{{$message}}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group row">
