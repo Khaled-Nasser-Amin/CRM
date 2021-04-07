@@ -45,7 +45,7 @@ class ProjectController extends Controller
         $this->updateEventNotify($project,$project->developer->name);
         return redirect()->back()->with(['success' => 'Project Updated Successfully']);
     }
-    public function destroy(Project $project){
+    public function delete(Project $project){
         $project->leads()->update([
             'project_id' => null
         ]);

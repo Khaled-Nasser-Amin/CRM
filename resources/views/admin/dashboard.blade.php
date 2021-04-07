@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="wigdet-one-content">
                                     <p class="m-0 text-uppercase font-weight-bold text-muted  " title="Statistics"><span class="text-warning">All leads</span></p>
-                                    <h2><span class="text-warning" data-plugin="counterup">{{$leads->count()}}</span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
+                                    <h2><span class="text-warning" data-plugin="counterup">{{$leads->count()}}</span> </h2>
                                 </div>
                             </div>
                         </div>
@@ -56,8 +56,7 @@
                                 </div>
                                 <div class="wigdet-one-content">
                                     <p class="m-0 text-uppercase font-weight-bold text-muted" title="User This Month">New Leads</p>
-                                    <h2><span data-plugin="counterup">{{$leads->where('state',null)->count()}} </span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
-                                    <p class="text-muted m-0"><span class="font-weight-medium">Last:</span> 40.33k</p>
+                                    <h2><span data-plugin="counterup">{{$leads->where('state',null)->count()}} </span> </h2>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +72,7 @@
                                 </div>
                                 <div class="wigdet-one-content">
                                     <p class="m-0 text-uppercase font-weight-bold text-muted  " title="Statistics"><span class="text-warning">Interest</span></p>
-                                    <h2><span class="text-warning" data-plugin="counterup">{{$leads->where('state','Interest')->count()}}</span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
+                                    <h2><span class="text-warning" data-plugin="counterup">{{$leads->where('state','Interest')->count()}}</span> </h2>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +87,7 @@
                                 </div>
                                 <div class="wigdet-one-content">
                                     <p class="m-0 text-uppercase font-weight-bold text-muted" title="User This Month">Not Interest</p>
-                                    <h2><span data-plugin="counterup">{{$leads->where('state','Not interest')->count()}} </span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
+                                    <h2><span data-plugin="counterup">{{$leads->where('state','Not interest')->count()}} </span> </h2>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +103,7 @@
                                 </div>
                                 <div class="wigdet-one-content">
                                     <p class="m-0 text-uppercase font-weight-bold text-muted  " title="Statistics"><span class="text-warning">Meeting</span></p>
-                                    <h2><span class="text-warning" data-plugin="counterup">{{$leads->where('state','Meeting')->count()}}</span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
+                                    <h2><span class="text-warning" data-plugin="counterup">{{$leads->where('state','Meeting')->count()}}</span> </h2>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +118,7 @@
                                 </div>
                                 <div class="wigdet-one-content">
                                     <p class="m-0 text-uppercase font-weight-bold text-muted" title="User This Month">Deal Done</p>
-                                    <h2><span data-plugin="counterup">{{$leads->where('state','Deal Done')->count()}} </span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
+                                    <h2><span data-plugin="counterup">{{$leads->where('state','Deal Done')->count()}} </span> </h2>
                                 </div>
                             </div>
                         </div>
@@ -135,7 +134,7 @@
                                 </div>
                                 <div class="wigdet-one-content">
                                     <p class="m-0 text-uppercase font-weight-bold text-muted  " title="Statistics"><span class="text-warning">Follow Up</span></p>
-                                    <h2><span class="text-warning" data-plugin="counterup">{{$leads->where('state','Follow UP')->count()}}</span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
+                                    <h2><span class="text-warning" data-plugin="counterup">{{$leads->where('state','Follow UP')->count()}}</span> </h2>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +149,7 @@
                                 </div>
                                 <div class="wigdet-one-content">
                                     <p class="m-0 text-uppercase font-weight-bold text-muted" title="User This Month">Invoices</p>
-                                    <h2><span data-plugin="counterup">{{$invoices}} </span> <i class="mdi mdi-arrow-up text-success font-24"></i></h2>
+                                    <h2><span data-plugin="counterup">{{$invoices}} </span> </h2>
                                 </div>
                             </div>
                         </div>

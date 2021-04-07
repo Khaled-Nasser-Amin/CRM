@@ -10,21 +10,22 @@
             <div class="dropdown-menu dropdown-menu-right dropdown-lg">
 
                 <!-- item-->
-                <div class="dropdown-item noti-title">
-                    <h5 class="font-16 m-0">
-                        <span class="float-right">
+                <div class="dropdown-item noti-title row justify-content-between">
+                    <h5 class="font-16 m-0 d-inline">
+                        Notification
+                    </h5>
+                    <span class="float-right">
                             @if(auth()->user()->notifications->count())
-                            <a href="{{route('notification.DeleteNotifications')}}" class="text-dark">
+                            <a href="{{route('notification.DeleteNotifications')}}" class="text-dark DeleteButton">
                                 <small>Clear All</small>
                             </a>
-                            @endif
-                        </span>Notification
-                    </h5>
+                        @endif
+                    </span>
                 </div>
 
                 <div class="slimscroll noti-scroll" id="pushNotificationInNavbar">
                     @forelse(auth()->user()->notifications()->latest()->get() as $notification)
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <a href="javascript:void(0);" class="dropdown-item showAllNotifications notify-item">
                             <div class="notify-icon bg-secondary">
                                 <img src="{{$notification->user->image}}" class="rounded-circle w-100" alt="image">
                             </div>
@@ -43,7 +44,7 @@
                 <!-- All-->
                 @if(auth()->user()->notifications->count())
 
-                <a href="/Chat#notifications" class="dropdown-item text-center text-secondary notify-item notify-all">
+                <a href="/Chat" class="dropdown-item showAllNotifications text-center text-secondary notify-item notify-all">
                     See all Notification
                     <i class="fi-arrow-right"></i>
                 </a>

@@ -46,7 +46,7 @@ class InvoiceController extends Controller
         return redirect()->back()->with(['success' => 'Invoice Updated Successfully']);
 
     }
-    public function destroy(Invoice $Invoice){
+    public function delete(Invoice $Invoice){
         $Invoice->delete();
         return redirect()->back()->with(['success' => 'Invoice Deleted Successfully']);
     }

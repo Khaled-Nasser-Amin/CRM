@@ -40,7 +40,7 @@ class AmenitiesController extends Controller
 
 
     }
-    public function destroy(Amenity $amenity){
+    public function delete(Amenity $amenity){
         $ame=collect($amenity);;
         $this->deleteEventNotify($ame);
         $amenity->delete();

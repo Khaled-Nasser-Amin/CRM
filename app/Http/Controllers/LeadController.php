@@ -19,6 +19,7 @@ use Illuminate\Validation\Rule;
 class LeadController extends Controller
 {
     public function ViewLeads(){
+
         $projects=Project::all();
         $developers=Developer::all();
         if (auth()->user()->role == 1){

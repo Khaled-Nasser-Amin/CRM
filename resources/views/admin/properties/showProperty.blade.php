@@ -68,10 +68,16 @@
 
                             <h4 class="mt-4 mb-3">Location</h4>
 
-                            <div class="card-box">
-                                <div id="map-property"></div>
+                            <div class="mapouter">
+                                <div class="gmap_canvas">
+                                    <iframe width="800" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q={{$property->location}}&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                                    <a href="https://kissanime-ws.com"></a>
+                                    <br>
+                                    <style>.mapouter{position:relative;text-align:right;height:500px;width:600px;}</style>
+                                    <a href="https://www.embedgooglemap.net">how to get google map embed code</a>
+                                    <style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:600px;}</style>
+                                </div>
                             </div>
-
                         </div>
                         <!-- end m-t-30 -->
 
@@ -102,12 +108,13 @@
 
                                         <li class="list-inline-item ml-3">
                                             <h4>{{$user->properties->count()}}</h4>
-                                            <p>Sale Properties</p>
+                                            <p>Properties</p>
                                         </li>
                                     </ul>
                                 </div>
-
-                                <a href="/Chat#Chat{{$user->id}}" class="btn btn-brown btn-rounded waves-effect mb-3 waves-light">Send Message</a>
+                                @if(auth()->user()->id != $user->id)
+                                    <a href="/Chat#Chat{{$user->id}}" class="btn btn-brown btn-rounded waves-effect mb-3 waves-light">Send Message</a>
+                                @endif
 
                             </div>
                             <!-- end membar card -->
@@ -146,6 +153,8 @@
                                 </table>
                             </div>
                         </div>
+
+
                         <!-- end card-box -->
 
                     </div>
@@ -166,7 +175,6 @@
 @push('script')
     <script src="{{asset('libs/bxslider/jquery.bxslider.min.js')}}"></script>
     <script src="{{asset('js/pages/bxslider.init.js')}}"></script>
+
     <!-- google maps api -->
-    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-    <script src="{{asset('libs/gmaps/gmaps.min.js')}}"></script>
 @endpush

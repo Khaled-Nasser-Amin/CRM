@@ -113,9 +113,9 @@
                                         </a>
                                         @endcan
                                         @can('delete',$property)
-                                            <a href="{{route('deleteProperty',$property->id)}}">
-                                            <button type="button" class="btn btn-danger btn-sm btn-block waves-effect waves-light">Delete Property</button>
-                                        </a>
+                                            <a href="{{route('deleteProperty',$property->id)}}" class="DeleteButton">
+                                                <button type="button" class="btn btn-danger btn-sm btn-block waves-effect waves-light">Delete Property</button>
+                                            </a>
                                         @endcan
 
                                     </div>

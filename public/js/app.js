@@ -1862,12 +1862,12 @@ window.Echo.channel("Chat.".concat(id)).listen('ChatEvent', function (e) {
   $('#typing-' + e.message.sender_id).remove();
 
   if (e.message.type == 'text') {
-    element.append(' <div class="message mb-0 notMe">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '<div class="text-main">' + '<div class="text-group">' + '  <div class="text bg-info text-white">' + '    <p>' + e.message.text + '</p>' + '   </div>' + '</div>' + '<span>' + e.message.dateForHumans + '</span>' + '</div>' + '</div>');
+    element.append(' <div class="message mb-0 notMe" id="message-' + e.message.id + '">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '<div class="text-main">' + '<div class="text-group">' + '  <div class="text bg-info text-white">' + '    <p>' + e.message.text + '</p>' + '   </div>' + '</div>' + '<span>' + e.message.dateForHumans + '</span>' + '</div>' + '</div>');
   } else if (e.message.type == 'file') {
     var url = "/Chat/" + e.message.id;
-    element.append('<div class="message mb-0 notMe">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '   <div class="text-main">' + '       <div class="text-group">' + '          <div class="text">' + '               <div class="attachment">' + '                    <a href="' + url + '" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' + '                       <div class="file">' + '                            <h5>' + '                               <a href="' + url + '">' + e.message.name + '                               </a>' + '                            </h5>' + '                         <span>Document</span>' + '                    </div>' + '                </div>' + '             </div>' + '          </div>' + '       <span>' + e.message.dateForHumans + '</span>' + '   </div>' + ' </div>');
+    element.append('<div class="message mb-0 notMe" id="message-' + e.message.id + '">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '   <div class="text-main">' + '       <div class="text-group">' + '          <div class="text">' + '               <div class="attachment">' + '                    <a href="' + url + '" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' + '                       <div class="file">' + '                            <h5>' + '                               <a href="' + url + '">' + e.message.name + '                               </a>' + '                            </h5>' + '                         <span>Document</span>' + '                    </div>' + '                </div>' + '             </div>' + '          </div>' + '       <span>' + e.message.dateForHumans + '</span>' + '   </div>' + ' </div>');
   } else if (e.message.type == 'image') {
-    element.append('<div class="message mb-0 notMe">' + ' <img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '    <div class="text-main row flex-column">' + '       <div class="text-group">' + '             <div class="">' + '                   <img class="w-25 float-left" src="/chat_files/' + e.message.text + '" alt="' + e.message.text + '">' + '              </div>' + '     </div>' + '     <span>' + e.message.dateForHumans + '</span>' + '  </div>' + '</div>');
+    element.append('<div class="message mb-0 notMe" id="message-' + e.message.id + '">' + ' <img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '    <div class="text-main row flex-column">' + '       <div class="text-group">' + '             <div class="">' + '                   <img class="w-25 float-left" src="/chat_files/' + e.message.text + '" alt="' + e.message.text + '">' + '              </div>' + '     </div>' + '     <span>' + e.message.dateForHumans + '</span>' + '  </div>' + '</div>');
   }
 
   element.has('div .no-messages') ? element.children('div .no-messages').remove() : null;
@@ -1878,6 +1878,8 @@ window.Echo.channel("Chat.".concat(id)).listen('ChatEvent', function (e) {
   scrollToBottom(document.getElementById('content'));
 }).listen('ClearChatEvent', function (e) {
   $('#appendMessages-' + e.sender.id).children('.notMe').remove();
+}).listen('DeleteMessageEvent', function (e) {
+  $('#message-' + e.message_id).remove();
 });
 window.Echo.join("chat").here(function (users) {
   users.forEach(function (user) {
@@ -1975,18 +1977,38 @@ function pushMessageInNavbar(e) {
 }
 
 window.Echo["private"]('user.' + myId).notification(function (notification) {
-  window.VanillaToasts.create({
-    title: 'Message Title',
-    text: 'Notification text'
-  });
   pushNotificationInNavbar(notification);
   pushNotificationInAsideBar(notification);
   NumberOfUnreadNotifications();
+  addTicketInDashboard(notification);
+  popNotificationToWindow(notification);
+});
 
+function popNotificationToWindow(notification) {
+  var image = notification.userImage.slice(notification.userImage.search('/images'), notification.userImage.length);
+  setTimeout(function () {
+    window.VanillaToasts.create({
+      // notification title
+      title: notification.notification_text,
+      // notification message
+      text: notification.details,
+      // success, info, warning, error   / optional parameter
+      type: 'warning',
+      timeout: 5000,
+      // path to notification icon
+      icon: image,
+      // topRight, topLeft, topCenter, bottomRight, bottomLeft, bottomCenter
+      positionClass: 'topRight' // auto dismiss after 5000ms
+
+    });
+  }, 2000);
+}
+
+function addTicketInDashboard(notification) {
   if (notification.type == 'App\\Notifications\\AddNewTicket') {
     $('#tickets').prepend('<a href="#">' + '                                    <div class="inbox-item">' + '                                        <div class="inbox-item-img">' + '                                            <img src="' + notification.userImage + '" class="rounded-circle" alt="">' + '                                        </div>' + '                                        <p class="inbox-item-author">' + notification.userName + ' ( ' + notification.ticketName + ' )</p>' + '                                        <p class="inbox-item-text font-12">' + notification.details + '</p>' + '                                        <p class="inbox-item-date">' + notification.created_at + '</p>' + '                                    </div>' + '                                </a>');
   }
-});
+}
 
 function pushNotificationInNavbar(e) {
   var image = e.userImage.slice(e.userImage.search('/images'), e.userImage.length);
@@ -2020,7 +2042,44 @@ function scrollToBottom(el) {
   el.scrollTop = el.scrollHeight;
 }
 
-$('#toast-1').addClass('toasts-top-right');
+$('.showAllNotifications').on('click', function (e) {
+  e.preventDefault();
+
+  if (window.location.pathname.search('/Chat') < 0) {
+    window.location = '/Chat#notifications';
+  }
+
+  $('#menuSidebar a[href="#notifications"]').tab('show');
+  scrollToBottom(document.getElementById('content'));
+});
+var swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success mx-2',
+    cancelButton: 'btn btn-danger mx-2'
+  },
+  buttonsStyling: false
+});
+$(document).on('click', '.DeleteButton', function (e) {
+  e.preventDefault();
+  var url = $(this).attr('href');
+  swalWithBootstrapButtons.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true
+  }).then(function (result) {
+    if (result.dismiss !== Swal.DismissReason.cancel) {
+      window.location = url;
+    } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel) {
+      swalWithBootstrapButtons.fire('Cancelled', 'Your imaginary file is safe :)', 'error');
+    }
+  });
+});
 
 /***/ }),
 

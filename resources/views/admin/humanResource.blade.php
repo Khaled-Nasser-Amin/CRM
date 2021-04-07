@@ -57,13 +57,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="field-1" class="control-label">Name</label>
-                                                                <input type="text" class="form-control" id="field-1" name="name" placeholder="John">
+                                                                <input required type="text" class="form-control" id="field-1" name="name" placeholder="John">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="field-2" class="control-label"> Serial</label>
-                                                                <input type="text" class="form-control" id="field-2" name="serial" placeholder="Digla">
+                                                                <input required type="text" class="form-control" id="field-2" name="serial" placeholder="4 numbers">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -72,16 +72,15 @@
                                                             <div class="form-group">
                                                                 <label for="field-1" class="control-label">Phone number</label>
 
-                                                                <input type="text" class="form-control" id="field-1" name="phone" placeholder="01302533">
+                                                                <input required type="text" class="form-control" id="field-1" name="phone" placeholder="01302533">
 
-                                                                <input type="text" class="form-control" id="field-1" name="phoneNumber" placeholder="01302533">
 
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="field-2" class="control-label">Position</label>
-                                                                <input type="text" class="form-control" id="field-2" name="position" placeholder="position">
+                                                                <input required type="text" class="form-control" id="field-2" name="position" placeholder="position">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -89,13 +88,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="field-1" class="control-label">Area</label>
-                                                                <input type="text" class="form-control" id="field-1" name="area" placeholder="area">
+                                                                <input required type="text" class="form-control" id="field-1" name="area" placeholder="area">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="field-2" class="control-label">Experience</label>
-                                                                <input type="text" class="form-control" id="field-2" name="experience" placeholder="year">
+                                                                <input required type="text" class="form-control" id="field-2" name="experience" placeholder="year">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -103,13 +102,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="field-1" class="control-label">Email</label>
-                                                                <input type="text" class="form-control" id="field-1" name="email" placeholder="tracks@tracks.com">
+                                                                <input required type="text" class="form-control" id="field-1" name="email" placeholder="tracks@tracks.com">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="field-2" class="control-label">Academic Study</label>
-                                                                <input type="text" class="form-control" id="field-2" name="academicStudy" placeholder="Faculty">
+                                                                <input required type="text" class="form-control" id="field-2" name="academicStudy" placeholder="Faculty">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -117,7 +116,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label for="field-3" class="control-label">Address</label>
-                                                                <input type="text" class="form-control" id="field-3" name="address" placeholder="Address">
+                                                                <input required type="text" class="form-control" id="field-3" name="address" placeholder="Address">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -125,19 +124,19 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="field-4" class="control-label">City</label>
-                                                                <input type="text" class="form-control" id="field-4" name="city" placeholder="Boston">
+                                                                <input required type="text" class="form-control" id="field-4" name="city" placeholder="Boston">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="field-5" class="control-label">Country</label>
-                                                                <input type="text" class="form-control" id="field-5" name="country" placeholder="United States">
+                                                                <input required type="text" class="form-control" id="field-5" name="country" placeholder="United States">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="field-6" class="control-label">Zip</label>
-                                                                <input type="text" class="form-control" id="field-6" name="zip" placeholder="123456">
+                                                                <input required type="text" class="form-control" id="field-6" name="zip" placeholder="123456">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -146,25 +145,14 @@
                                                             <div class="form-group no-margin">
                                                                 <label for="field-7" class="control-label">comment</label>
                                                                 <textarea class="form-control autogrow" id="field-7" name="comment" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="field-6" class="control-label">Zip</label>
-                                                                <input type="text" class="form-control" id="field-6" name="zip" placeholder="123456">
-
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-group mb-4">
-                                                                <label>File Uploads</label>
-                                                                <input type="file" name="documentation" class="dropify" data-height="210" />
-                                                            </div>
-                                                            <div class="form-group no-margin">
-                                                                <label for="field-7" class="control-label">comment</label>
-                                                                <textarea class="form-control autogrow" id="field-7" name="comment" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+                                                                <label class="d-block">CV</label>
+                                                                <input required type="file" name="documentation" class="dropify" data-height="210" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -199,26 +187,26 @@
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
                                                 <label for="field-1" class="control-label">Position</label>
-                                                <input type="text" class="form-control" id="field-1" name="position" placeholder="Back-end developer" value="{{request()->query('position')}}">
+                                                <input required type="text" class="form-control" id="field-1" name="position" placeholder="Back-end developer" value="{{request()->query('position')}}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
                                                 <label for="field-1" class="control-label">Experience</label>
-                                                <input type="text" class="form-control" id="field-1" name="experience" placeholder="Number of Years" value="{{request()->query('experience')}}">
+                                                <input required type="text" class="form-control" id="field-1" name="experience" placeholder="Number of Years" value="{{request()->query('experience')}}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
                                                 <label for="field-1" class="control-label">Area</label>
-                                                <input type="text" class="form-control" id="field-1" name="area" placeholder="New Cairo" value="{{request()->query('area')}}">
+                                                <input required type="text" class="form-control" id="field-1" name="area" placeholder="New Cairo" value="{{request()->query('area')}}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
                                                 <label for="field-1" class="control-label">date</label>
                                                 <div class="input-group">
-                                                    <input type="text" name="date" class="form-control" placeholder="mm/dd/yyyy" id="datepicker" value="{{request()->query('date')}}">
+                                                    <input required type="text" name="date" class="form-control" placeholder="mm/dd/yyyy" id="datepicker" value="{{request()->query('date')}}">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text bg-secondary text-white b-0"><i class="mdi mdi-calendar"></i></span>
                                                     </div>
@@ -256,7 +244,7 @@
                                             @forelse($employees as $employee)
                                                 <tr>
                                                     <td>{{$employee->serial}}</td>
-                                                    <td><img src="{{asset('images/users/avatar-7.jpg')}}" alt="user" class="avatar-sm rounded-circle" /> {{$employee->name}}</td>
+                                                    <td>{{$employee->name}}</td>
                                                     <td>{{$employee->phone}}</td>
                                                     <td>{{$employee->position}}</td>
                                                     <td>{{$employee->area}}</td>
@@ -266,7 +254,7 @@
                                                     <td><a href="{{route('downloadDocumentation',$employee->id)}}" class="btn btn-secondary btn-rounded width-md waves-effect">Download</a></td>
                                                     <td>
                                                         <button class="btn btn-secondary btn-sm btn-rounded width-md waves-effect d-block" data-toggle="modal" data-target="#edit-employee-{{$employee->id}}">Edit</button>
-                                                        <a href="{{route('deleteEmployee',$employee->id)}}" class="btn btn-danger btn-sm btn-rounded width-md waves-effect">Delete</a>
+                                                        <a href="{{route('deleteEmployee',$employee->id)}}" class="btn btn-danger btn-sm btn-rounded width-md waves-effect DeleteButton">Delete</a>
                                                     </td>
                                                 <div id="edit-employee-{{$employee->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
                                                     <div class="modal-dialog">
@@ -285,13 +273,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="field-1" class="control-label">Name</label>
-                                                                                <input type="text" class="form-control" id="field-1" name="name" value="{{$employee->name}}">
+                                                                                <input required type="text" class="form-control" id="field-1" name="name" value="{{$employee->name}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="field-2" class="control-label"> Serial</label>
-                                                                                <input type="text" class="form-control" id="field-2" name="serial" value="{{$employee->serial}}">
+                                                                                <input required type="text" class="form-control" id="field-2" name="serial" value="{{$employee->serial}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -299,13 +287,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="field-1" class="control-label">Phone number</label>
-                                                                                <input type="text" class="form-control" id="field-1" name="phone" value="{{$employee->phone}}">
+                                                                                <input required type="text" class="form-control" id="field-1" name="phone" value="{{$employee->phone}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="field-2" class="control-label">Position</label>
-                                                                                <input type="text" class="form-control" id="field-2" name="position" value="{{$employee->position}}">
+                                                                                <input required type="text" class="form-control" id="field-2" name="position" value="{{$employee->position}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -313,13 +301,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="field-1" class="control-label">Area</label>
-                                                                                <input type="text" class="form-control" id="field-1" name="area" value="{{$employee->area}}">
+                                                                                <input required type="text" class="form-control" id="field-1" name="area" value="{{$employee->area}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="field-2" class="control-label">Experience</label>
-                                                                                <input type="text" class="form-control" id="field-2" name="experience" value="{{$employee->experience}}">
+                                                                                <input required type="text" class="form-control" id="field-2" name="experience" value="{{$employee->experience}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -327,13 +315,13 @@
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="field-1" class="control-label">Email</label>
-                                                                                <input type="text" class="form-control" id="field-1" name="email" value="{{$employee->email}}">
+                                                                                <input required type="text" class="form-control" id="field-1" name="email" value="{{$employee->email}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
                                                                                 <label for="field-2" class="control-label">Academic Study</label>
-                                                                                <input type="text" class="form-control" id="field-2" name="academicStudy" value="{{$employee->academicStudy}}">
+                                                                                <input required type="text" class="form-control" id="field-2" name="academicStudy" value="{{$employee->academicStudy}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -341,7 +329,7 @@
                                                                         <div class="col-md-12">
                                                                             <div class="form-group">
                                                                                 <label for="field-3" class="control-label">Address</label>
-                                                                                <input type="text" class="form-control" id="field-3" name="address" value="{{$employee->address}}">
+                                                                                <input required type="text" class="form-control" id="field-3" name="address" value="{{$employee->address}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -349,19 +337,19 @@
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label for="field-4" class="control-label">City</label>
-                                                                                <input type="text" class="form-control" id="field-4" name="city" value="{{$employee->city}}">
+                                                                                <input required type="text" class="form-control" id="field-4" name="city" value="{{$employee->city}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label for="field-5" class="control-label">Country</label>
-                                                                                <input type="text" class="form-control" id="field-5" name="country" value="{{$employee->country}}">
+                                                                                <input required type="text" class="form-control" id="field-5" name="country" value="{{$employee->country}}">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label for="field-6" class="control-label">Zip</label>
-                                                                                <input type="text" class="form-control" id="field-6" name="zip" value="{{$employee->zip}}">
+                                                                                <input required type="text" class="form-control" id="field-6" name="zip" value="{{$employee->zip}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -376,8 +364,8 @@
                                                                     <div class="row">
                                                                         <div class="col-md-12">
                                                                             <div class="form-group mb-4">
-                                                                                <label>File Uploads</label>
-                                                                                <input type="file" name="documentation" class="dropify" data-height="210" />
+                                                                                <label class="d-block">CV</label>
+                                                                                <input required  type="file" name="documentation" class="dropify" data-height="210" />
                                                                             </div>
                                                                         </div>
                                                                     </div>

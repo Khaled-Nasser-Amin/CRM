@@ -20,8 +20,8 @@ class LeadRequest extends FormRequest
     {
         return [
           "name" => "required|string|max:255",
-          "firstPhone" => "required|string|unique:leads,firstPhone|unique:leads,secondPhone",
-          "secondPhone" => "required|string|unique:leads,firstPhone|unique:leads,secondPhone",
+          "firstPhone" => "required|numeric|unique:leads,firstPhone|unique:leads,secondPhone",
+          "secondPhone" => "|unique:leads,firstPhone|unique:leads,secondPhone",
           "address" => "required|string",
           "city" => "required|string",
           "country" => "required|string",

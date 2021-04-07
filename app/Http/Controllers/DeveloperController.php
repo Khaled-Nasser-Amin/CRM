@@ -41,7 +41,7 @@ class DeveloperController extends Controller
 
 
     }
-    public function destroy(Developer $developer){
+    public function delete(Developer $developer){
         $dev=collect($developer);
         $this->deleteEventNotify($dev);
         $developer->projects()->update([

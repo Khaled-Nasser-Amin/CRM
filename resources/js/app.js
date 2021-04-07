@@ -223,6 +223,8 @@ window.Echo.private('user.' + myId)
     });
 
 function popNotificationToWindow(notification){
+
+    let image=notification.userImage.slice(notification.userImage.search('/images'),notification.userImage.length)
     setTimeout(function(){
         window.VanillaToasts.create({
 
@@ -237,7 +239,7 @@ function popNotificationToWindow(notification){
             timeout:5000,
 
             // path to notification icon
-            icon: notification.userImage,
+            icon: image,
 
             // topRight, topLeft, topCenter, bottomRight, bottomLeft, bottomCenter
             positionClass: 'topRight',
@@ -317,5 +319,49 @@ function NumberOfUnreadNotifications(){
 function scrollToBottom(el)
 { el.scrollTop = el.scrollHeight; }
 
+
+$('.showAllNotifications').on('click',function(e) {
+    e.preventDefault();
+    if(window.location.pathname.search('/Chat') < 0){
+        window.location='/Chat#notifications'
+    }
+    $('#menuSidebar a[href="#notifications"]').tab('show');
+    scrollToBottom(document.getElementById('content'));
+});
+const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger mx-2'
+    },
+    buttonsStyling: false
+})
+
+$(document).on('click','.DeleteButton',function(e){
+    e.preventDefault();
+    let url = $(this).attr('href');
+    swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.dismiss !== Swal.DismissReason.cancel) {
+
+           window.location=url;
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+                'Cancelled',
+                'Your imaginary file is safe :)',
+                'error'
+            )
+        }
+    })
+})
 
 

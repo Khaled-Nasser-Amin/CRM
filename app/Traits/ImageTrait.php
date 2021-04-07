@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Traits;
+namespace App\Traits;
 
-use App\Models\Images;
+use App\Models\Image;
 
 trait ImageTrait
 {

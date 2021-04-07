@@ -181,11 +181,7 @@
                                                                 <td>{{$invoice->total}}</td>
                                                                 <td class="row">
                                                                     <button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#edit-invoice-{{$invoice->id}}">Edit</button>
-                                                                    <button type="button" onclick="document.getElementById('deleteInvoice-{{$invoice->id}}').submit()"  class="btn btn-danger waves-effect waves-light" >Delete</button>
-                                                                    <form method="post" action="{{route('Invoices.destroy',$invoice->id)}}" id="deleteInvoice-{{$invoice->id}}">
-                                                                        @csrf
-                                                                        @method('delete')
-                                                                    </form>
+                                                                    <a href="{{route('deleteInvoice',$invoice->id)}}"  class="btn btn-danger waves-effect waves-light DeleteButton" >Delete</a>
                                                                 </td>
                                                             </tr>
 

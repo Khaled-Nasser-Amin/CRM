@@ -47,12 +47,12 @@
                             data: [{
                                 type: "pie",
                                 showInLegend: true,
-                                toolTipContent: "{name}: <strong>{y}%</strong>",
+                                toolTipContent: "{name}: <strong>{y}</strong>",
                                 indexLabel: "{name} - {y}",
                                 dataPoints: [
 
                                         @forelse($statistic as $name => $percent )
-                                            { y: {{$percent}}, name: "{{$name}}",{{$loop->index == 0 ?  'exploded: true' : ''}} },
+                                            { y : {{$percent}}, name: "{{$name}}",{{$loop->index == 0 ?  'exploded: true' : ''}} },
 
                                         @empty
                                         @endforelse
@@ -276,7 +276,7 @@
                                                 <td>{{$lead->secondPhone}}</td>
                                                 <td>{{$lead->project->name}}</td>
                                                 @can('create',App\Models\User::class)
-                                                    <td><img src="{{asset('images/users/avatar-7.jpg')}}" alt="user" class="avatar-sm rounded-circle" />{{$lead->user->email}}</td>
+                                                        <td><img src="{{$lead->user->image}}" alt="user" class="avatar-sm rounded-circle" />{{$lead->user->email}}</td>
                                                 @endcan
                                                 <td>{{$lead->stageDate}} <span class="badge badge-primary rounded-circle noti-icon-badge">{{$lead->time}}&nbsp;&nbsp;&nbsp;</span></td>
                                                 <td>{{$lead->state}}</td>
@@ -288,10 +288,8 @@
                                                         Edit
                                                     </button>
                                                 </td>
-                                                <td> <a href="#" onclick="event.preventDefault();document.getElementById('deleteLead').submit()" class="btn btn-danger waves-effect waves-light btn-sm" id="sa-params">Delete</a></td>
-                                                <form method="post" action="{{route('deleteLead',$lead->id)}}" id="deleteLead">
-                                                    @csrf
-                                                </form>
+                                                <td> <a href="{{route('deleteLead',$lead->id)}}" class="btn btn-danger waves-effect waves-light btn-sm DeleteButton" id="sa-params">Delete</a></td>
+
                                             </tr>
 
                                             <div id="custom-width-modal-{{$lead->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">

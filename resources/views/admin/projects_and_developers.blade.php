@@ -82,12 +82,9 @@
                                                     <td>{{$developer->projects->count()}}</td>
                                                     <td class="row justify-content-center">
                                                         <button class="btn btn-primary waves-effect waves-light mr-2 btn-sm" data-toggle="modal" data-target="#edit-developer-{{$developer->id}}">Edit</button>
-                                                        <button type="button" onclick="document.getElementById('deleteDeveloper{{$developer->id}}').submit()"  class="btn btn-danger waves-effect waves-light btn-sm " >Delete</button>
+                                                        <a href="{{route('deleteDeveloper',$developer->id)}}"   class="btn btn-danger waves-effect waves-light btn-sm DeleteButton" >Delete</a>
                                                     </td>
-                                                    <form method="post" action="{{route('developers.destroy',$developer->id)}}"  id="deleteDeveloper{{$developer->id}}">
-                                                        @csrf
-                                                        @method('delete')
-                                                    </form>
+
                                                 </tr>
 
                                                 <div id="edit-developer-{{$developer->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -201,11 +198,7 @@
                                             <td>{{$amenity->name}}</td>
                                             <td class="row justify-content-center">
                                                 <button class="btn btn-primary waves-effect waves-light mr-2 btn-sm" data-toggle="modal" data-target="#edit-amenity-{{$amenity->id}}">Edit</button>
-                                                <button type="button" onclick="document.getElementById('deleteAmenity{{$amenity->id}}').submit()"  class="btn btn-danger waves-effect waves-light btn-sm" >Delete</button>
-                                                <form method="post" action="{{route('amenities.destroy',$amenity->id)}}" id="deleteAmenity{{$amenity->id}}">
-                                                    @csrf
-                                                    @method('delete')
-                                                </form>
+                                                <a href="{{route('deleteAmenity',$amenity->id)}}"  class="btn btn-danger waves-effect waves-light btn-sm DeleteButton" >Delete</a>
                                             </td>
                                         </tr>
                                             <div id="edit-amenity-{{$amenity->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -367,11 +360,7 @@
                                                 <td>{{$project->developer->name ?? ''}}</td>
                                                 <td>{{$project->amenities->count()}}</td>
                                                 <td class="row justify-content-center"><button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#edit-project-{{$project->id}}">Edit</button>
-                                                    <button type="button" onclick="document.getElementById('deleteProject-{{$project->id}}').submit()"  class="btn btn-danger waves-effect waves-light" >Delete</button>
-                                                    <form method="post" action="{{route('projects.destroy',$project->id)}}" id="deleteProject-{{$project->id}}">
-                                                        @csrf
-                                                        @method('delete')
-                                                    </form>
+                                                    <a href="{{route('deleteProject',$project->id)}}" class="btn btn-danger waves-effect waves-light DeleteButton" >Delete</a>
                                                 </td>
                                             </tr>
                                             <div id="edit-project-{{$project->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -411,15 +400,16 @@
                                                                     </div>
                                                                     <div class="row w-100" >
                                                                         <div class="col-12">
-                                                                            <div class="form-group row flex-column justify-content-center align-items-center">
+                                                                            <div class="form-group w-100 row flex-column justify-content-center align-items-center">
                                                                                 <label class="control-label">Amenities</label>
-                                                                                <select name="amenities[]" class="multi-select"  multiple="multiple"  id="my_multi_select1"  data-plugin="multiselect">
+                                                                                <select name="amenities[]" class="multi-select w-100"  multiple="multiple"  id="my_multi_select1"  data-plugin="multiselect">
                                                                                     @forelse($amenities as $amenity)
                                                                                         <option value="{{$amenity->id}}" {{in_array($amenity->id,$project->amenities->pluck('id')->toArray()) ? 'selected':''}}>{{$amenity->name}}</option>
                                                                                     @empty
                                                                                         <p class="text-muted">No amenities added</p>
                                                                                     @endforelse
                                                                                 </select>
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -463,8 +453,8 @@
 @push('script')
     <script>
         $('table.custonName').DataTable();
-
-
+        $('#ms-my_multi_select1').addClass('w-75')
+        $('.ms-container').addClass('w-75')
     </script>
     <script src="{{asset('libs/multiselect/jquery.multi-select.js')}}"></script>
     <script src="{{asset('libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>

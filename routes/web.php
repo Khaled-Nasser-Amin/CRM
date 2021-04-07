@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('/ViewLeads',[LeadController::class,'ViewLeads'])->name('ViewLeads');
     Route::post('/addNewLead',[LeadController::class,'addNewLead'])->name('addNewLead');
     Route::post('/updateLead/{lead}',[LeadController::class,'updateLead'])->name('updateLead');
-    Route::post('/deleteLead/{lead}',[LeadController::class,'deleteLead'])->name('deleteLead');
+    Route::get('/deleteLead/{lead}',[LeadController::class,'deleteLead'])->name('deleteLead');
     Route::post('/lastConnection/{lead}',[LeadController::class,'lastConnection'])->name('lastConnection');
 
     Route::get('/ViewUser',[UserController::class,'ViewUser'])->name('ViewUser');
@@ -65,16 +65,21 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('/full-calender/action', [FullCalenderController::class, 'action']);
 
     Route::get('events','CalenderController@index')->name('calender');
-    Route::resource('Invoices','InvoiceController')->except(['show','edit','create']);
+    Route::resource('Invoices','InvoiceController')->except(['show','destroy','edit','create']);
+    Route::get('/Invoices/delete/{Invoice}','InvoiceController@delete')->name('deleteInvoice');
     Route::get('Tickets','TicketController@index')->name('tickets');
     Route::post('Tickets','TicketController@store')->name('tickets.store');
 
     Route::get('/showProject/{project}',[ProjectController::class,'showProject'])->name('showProject');
     Route::resource('/projects','ProjectController');
+    Route::get('/projects/delete/{project}','ProjectController@delete')->name('deleteProject');
 
 
-    Route::resource('/developers','DeveloperController')->except(['index','show','edit']);
-    Route::resource('/amenities','AmenitiesController')->except(['index','show','edit']);
+
+    Route::resource('/developers','DeveloperController')->except(['index','show','edit','destroy']);
+    Route::get('/developers/delete/{developer}','DeveloperController@delete')->name('deleteDeveloper');
+    Route::resource('/amenities','AmenitiesController')->except(['index','show','edit','destroy']);
+    Route::get('/amenities/delete/{amenity}','AmenitiesController@delete')->name('deleteAmenity');
 
     //start chat routes
     Route::name('chat.')->group(function(){

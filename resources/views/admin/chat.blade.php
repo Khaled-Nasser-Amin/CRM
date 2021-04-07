@@ -540,24 +540,20 @@
 
         });
         $('.userChat').on('click',function() {
-            activeTab();
             let href=$(this).attr('href');
             let hash=href.slice(href.search('#'),href.length);
             $('#chats a[href="'+hash+'"]').tab('show');
-            console.log(hash);
-
-
+            $('#menuSidebar a[href="#discussions"]').tab('show');
             scrollToBottom(document.getElementById('content'));
 
         });
         function activeTab(){
             var hash =window.location.hash ;
-            if(hash == '#notifications'){
-                $('#menuSidebar a[href="'+hash+'"]').tab('show');
-            }
 
             if (hash != "")
                 $('#chats a[href="'+hash +'"]').tab('show');
+            if(hash == '#notifications')
+                $('#menuSidebar a[href="#notifications"]').tab('show');
             else
                 $('#chats a:first').tab('show');
         }

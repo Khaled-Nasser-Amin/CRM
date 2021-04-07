@@ -20,11 +20,8 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=> 'required|string|max:255|exists:employees,name',
-            'email'=> 'required|email|max:255|unique:users|exists:employees,email',
-            'phone'=> 'required|string|unique:users|exists:employees,phone',
-            'serial'=> 'required|digits:4|integer|unique:users|exists:employees,serial',
-            'password' => 'required|min:8',
+            'password' => 'required|min:8|confirmed',
+            'broker' => 'required|exists:employees,id',
         ];
     }
 }
