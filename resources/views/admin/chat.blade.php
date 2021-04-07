@@ -167,9 +167,15 @@
 
                                                         @if($message->type == 'text')
                                                             @if($message->sender_id == auth()->user()->id)
-                                                                <div class="message me mb-0">
-                                                                    <div class="text-main">
-                                                                        <div class="text-group me">
+                                                                <div class="message me mb-0" id="message-{{$message->id}}">
+                                                                    <div class="text-main ">
+                                                                        <div class="dropleft d-inline">
+                                                                            <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
+                                                                            <div class="dropdown-menu dropdown-menu-left" >
+                                                                                <button class="dropdown-item deleteMessage" data-message="{{$message->id}}"><i class="material-icons">clear</i>Delete Message</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="text-group me d-inline">
                                                                             <div class="text me">
                                                                                 <p>{{$message->text}}</p>
                                                                             </div>
@@ -192,9 +198,15 @@
                                                             @endif
                                                         @elseif($message->type == 'file')
                                                             @if($message->sender_id == auth()->user()->id)
-                                                                <div class="message me mb-0">
+                                                                <div class="message me mb-0" id="message-{{$message->id}}">
                                                                     <div class="text-main">
-                                                                        <div class="text-group me">
+                                                                        <div class="dropleft d-inline">
+                                                                            <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
+                                                                            <div class="dropdown-menu dropdown-menu-left" >
+                                                                                <button class="dropdown-item deleteMessage" data-message="{{$message->id}}"><i class="material-icons">clear</i>Delete Message</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="text-group me d-inline">
                                                                             <div class="text me">
                                                                                 <div class="attachment">
                                                                                     <a href="{{route('chat.downloadDocumentation',$message->id)}}" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>
@@ -238,9 +250,15 @@
                                                             @endif
                                                         @elseif($message->type == 'image')
                                                             @if($message->sender_id == auth()->user()->id)
-                                                                <div class="message me mb-0">
+                                                                <div class="message me mb-0" id="message-{{$message->id}}">
                                                                     <div class="text-main">
-                                                                        <div class="text-group me">
+                                                                        <div class="dropleft d-inline">
+                                                                            <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
+                                                                            <div class="dropdown-menu dropdown-menu-left" >
+                                                                                <button class="dropdown-item deleteMessage" data-message="{{$message->id}}"><i class="material-icons">clear</i>Delete Message</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="text-group me d-inline">
                                                                             <div>
                                                                                 <img class="w-25 float-right" src="{{asset('chat_files/'.$message->text)}}" alt="{{$message->text}}">
                                                                             </div>
@@ -340,7 +358,14 @@
                 success:function (result){
                     let element= $('#appendMessages-'+receiver_id);
                     if (result.type == 'file'){
-                        element.append('<div class="message me mb-0"><div class="text-main"><div class="text-group me"> <div class="text me"><div class="attachment">'
+                        element.append('<div class="message me mb-0" id="message-'+result.id+'"><div class="text-main">' +
+                            '<div class="dropleft d-inline">' +
+                            ' <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>' +
+                            '                                                                            <div class="dropdown-menu dropdown-menu-left" >' +
+                            '                                                                                <button class="dropdown-item deleteMessage" data-message="'+result.id+'"><i class="material-icons">clear</i>Delete Message</button>' +
+                            '                                                                            </div>' +
+                            '                                                                        </div>' +
+                            '                                                                        <div class="text-group me d-inline"> <div class="text me"><div class="attachment">'
                             +'   <a href="Chat/'+result.id+'" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>'
                             +' <div class="file"><h5>'
                             +'    <a href="Chat/'+result.id+'">'+result.name +'  </a>' +' </h5>' +' <span>Document</span>' +'</div> </div> </div></div>' +
@@ -349,7 +374,14 @@
                         let url="{{asset('chat_files/'.':name')}}";
                         let name=result.text;
                         url=url.replace(':name',name);
-                        element.append(' <div class="message me mb-0"> <div class="text-main"> <div class="text-group me"> <div>'
+                        element.append('<div class="message me mb-0" id="message-'+result.id+'"><div class="text-main">' +
+                            '<div class="dropleft d-inline">' +
+                            ' <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>' +
+                            '                                                                            <div class="dropdown-menu dropdown-menu-left" >' +
+                            '                                                                                <button class="dropdown-item deleteMessage" data-message="'+result.id+'"><i class="material-icons">clear</i>Delete Message</button>' +
+                            '                                                                            </div>' +
+                            '                                                                        </div>' +
+                            '                                                                        <div class="text-group me d-inline">  <div>'
                             +'<img class="w-25 float-right" src="'+url+'" alt="'+result.text+'"> </div></div>'
                             +'<span>'+result.dateForHumans+'</span></div></div> ')
                     }
@@ -375,9 +407,14 @@
                 data:data,
                 success:function (result){
                     let element= $('#appendMessages-'+receiver_id);
-                    element.append('<div class="message me mb-0">'
-                        +'<div class="text-main">'
-                        +'<div class="text-group me">'
+                    element.append('<div class="message me mb-0" id="message-'+result.id+'"><div class="text-main">' +
+                        '<div class="dropleft d-inline">' +
+                        ' <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>' +
+                        '                                                                            <div class="dropdown-menu dropdown-menu-left" >' +
+                        '                                                                                <button class="dropdown-item deleteMessage" data-message="'+result.id+'"><i class="material-icons">clear</i>Delete Message</button>' +
+                        '                                                                            </div>' +
+                        '                                                                        </div>' +
+                        '                                                                        <div class="text-group me d-inline"> '
                         +'<div class="text me">'
                         +'<p>'+result.text+'</p>'
                         +'</div>'
@@ -535,6 +572,20 @@
                 },
                 success:function (result){
                     $('#appendMessages-'+userId).children('.me').remove();
+                }
+            })
+        })
+
+        $(document).on('click','.deleteMessage',function (){
+            let messageId=$(this).data('message');
+            $.ajax({
+                method:"post",
+                url:'Chat/deleteMessage/'+messageId,
+                data:{
+                    '_token':$('meta[name=csrf-token]').attr('content')
+                },
+                success:function (){
+                    $('#message-'+messageId).remove()
                 }
             })
         })

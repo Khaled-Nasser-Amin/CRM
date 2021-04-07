@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ChatEvent;
 use App\Events\ClearChatEvent;
+use App\Events\DeleteMessageEvent;
 use App\Http\Traits\ImageTrait;
 use App\Models\Message;
 use App\Models\User;
@@ -68,14 +69,18 @@ class MessageController extends Controller
     }
 
     public function downloadDocumentation(Message $message){
-        $headers = array(
-            'Content-Type: application/pdf',
-        );
-        $array=explode('.',$message->text);
-        $extension=end($array);
-        $array=explode('_',$message->text);
-        $name=end($array);
-        return response()->download(public_path('chat_files').'/'.$message->text, $name , $headers);
+        if($message->sender_id == auth()->user()->id  || $message->receiver_id ==  auth()->user()->id){
+            $headers = array(
+                'Content-Type: application/pdf',
+            );
+            $array=explode('.',$message->text);
+            $extension=end($array);
+            $array=explode('_',$message->text);
+            $name=end($array);
+            return response()->download(public_path('chat_files').'/'.$message->text, $name , $headers);
+        }else{
+            return abort(404);
+        }
 
     }
 
@@ -119,4 +124,21 @@ class MessageController extends Controller
         return redirect()->back()->with(['success' => 'deleted successfully']);
 
     }
+
+    public function deleteMessage(Message $message){
+        if($message->sender_id == auth()->user()->id ) {
+            $receiverId=$message->receiver_id;
+            $messageId=$message->id;
+            dispatch(function () use($message,$receiverId,$messageId){
+                broadcast(new DeleteMessageEvent(auth()->user(),$receiverId,$messageId))->toOthers();
+            })->afterResponse();
+            $message->delete();
+            return redirect()->back();
+
+        }else{
+            return abort(404);
+        }
+
+    }
+
 }

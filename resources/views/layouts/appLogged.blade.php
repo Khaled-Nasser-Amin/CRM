@@ -44,31 +44,6 @@
 
     <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
     <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
-    <script>
-        setTimeout(function(){
-            window.VanillaToasts.create({
-
-                // notification title
-                title: 'HEllo World',
-
-                // notification message
-                text: 'This toast will hide after 5000ms or when you click it',
-
-                // success, info, warning, error   / optional parameter
-                type: 'warning',
-
-                // path to notification icon
-                icon: '/images/22.jpg',
-
-                // topRight, topLeft, topCenter, bottomRight, bottomLeft, bottomCenter
-                positionClass: 'topRight',
-
-                // auto dismiss after 5000ms
-
-            });
-
-        },3000)
-    </script>
 
 </head>
 <body>

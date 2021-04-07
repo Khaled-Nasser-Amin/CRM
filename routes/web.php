@@ -86,6 +86,7 @@ Route::group(['middleware' => 'auth'],function(){
         Route::post('Chat/getUnReadMessages/{id}','MessageController@getUnReadMessages')->name('getUnReadMessages');
         Route::post('Chat/getAllUnreadMessages','MessageController@getAllUnreadMessages')->name('getAllUnreadMessages');
         Route::post('Chat/clearChat/{userId}','MessageController@deleteMessages')->name('deleteMessages');
+        Route::post('Chat/deleteMessage/{message}','MessageController@deleteMessage')->name('deleteMessage');
     });
     Route::name('notification.')->group(function(){
         Route::post('NumberOfNotifications','NotificationsController@NumberOfUnreadNotifications')->name('NumberOfUnreadNotifications');
