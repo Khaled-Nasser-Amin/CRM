@@ -67,7 +67,7 @@
                                                     <div class="form-group ">
                                                         <label class="control-label" for="serial">Invoice Serial</label>
                                                         <div class="col-12">
-                                                            <input type="text" id="serial" name="invoiceSerial" class="form-control" placeholder="SERIAL" required>
+                                                            <input type="text"  name="invoiceSerial" class="form-control" placeholder="SERIAL" required>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -122,12 +122,12 @@
                                             <!-- end row -->
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <div class="table-responsive">
+                                                    <div class="">
                                                         <table class="table mt-4">
                                                             <thead>
                                                             <tr>
 
-                                                                <th>Item </th>
+                                                                <th>Property Name </th>
                                                                 <th>Description</th>
                                                                 <th>Quantity</th>
                                                                 <th>Unit Cost</th>
@@ -136,8 +136,14 @@
                                                             <tbody>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="text" class="form-control" placeholder="Item" name="propertyName" required>
-                                                                </td>
+                                                                    <select class="selectpicker propertyName" data-index="00" data-live-search="true"  name="propertyName" data-style="btn-secondary" id="propertyName">
+                                                                        <option value="" disabled>Name  /  location   /   square feet</option>
+                                                                    @forelse($properties as $property)
+                                                                            <option value="{{$property->id}}" data-price="{{$property->price}}">{{$property->name .' / '. $property->location.' / '. $property->square }}</option>
+                                                                        @empty
+                                                                            <option value="" disabled>No Properties Yet</option>
+                                                                        @endforelse
+                                                                    </select>
                                                                 <td>
                                                                     <input type="text" class="form-control" placeholder="Description" name="description" required>
                                                                 </td>
@@ -145,7 +151,7 @@
                                                                     <input type="text" class="form-control" placeholder="Quantity" name="quantity" required>
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control" placeholder="Cost" name="cost" required>
+                                                                    <input type="text" id="cost00" class="form-control" placeholder="Cost" name="cost" disabled>
                                                                 </td>
                                                             </tr>
                                                             </tbody>
@@ -153,17 +159,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-secondary waves-effect waves-light float-right">Submit</button>
+                                            <button type="submit" class="btn btn-secondary waves-effect waves-light float-right invoiceButton">Submit</button>
                                         </div>
                                     </form>
                                     <div id="printDiv">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="card-box table-responsive">
-                                                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                    <table id="datatable-custom" class="text-center table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                                         <thead>
                                                         <tr>
-                                                            <th>Item</th>
+                                                            <th>Property</th>
+                                                            <th>Lead</th>
+                                                            <th>Broker</th>
                                                             <th>Description</th>
                                                             <th>Quantity</th>
                                                             <th>Unit Cost</th>
@@ -174,12 +182,14 @@
                                                         <tbody>
                                                         @forelse($invoices as $invoice)
                                                             <tr>
-                                                                <td>{{$invoice->propertyName}}</td>
+                                                                <td>{{$invoice->property->name}}</td>
+                                                                <td>{{$invoice->lead->name}}</td>
+                                                                <td>{{$invoice->user->name}}</td>
                                                                 <td>{{$invoice->description}}</td>
                                                                 <td>{{$invoice->quantity}}</td>
                                                                 <td>{{$invoice->cost}}</td>
                                                                 <td>{{$invoice->total}}</td>
-                                                                <td class="row">
+                                                                <td class="row justify-content-center">
                                                                     <button class="btn btn-primary waves-effect waves-light mr-2" data-toggle="modal" data-target="#edit-invoice-{{$invoice->id}}">Edit</button>
                                                                     <a href="{{route('deleteInvoice',$invoice->id)}}"  class="btn btn-danger waves-effect waves-light DeleteButton" >Delete</a>
                                                                 </td>
@@ -212,7 +222,7 @@
                                                                                         <div class="form-group">
                                                                                             <label class="control-label" for="serial">Invoice Serial</label>
                                                                                             <div class="col-12">
-                                                                                                <input type="text" id="serial" name="invoiceSerial" class="form-control" value="{{$invoice->invoiceSerial}}" required>
+                                                                                                <input type="text"  name="invoiceSerial" class="form-control" value="{{$invoice->invoiceSerial}}" required>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="form-group">
@@ -268,19 +278,25 @@
                                                                                         </div>
 
                                                                                         <div class="form-group">
-                                                                                            <lable for="ItemName">Item Name</lable>
-                                                                                            <input id="ItemName" class="form-control" type="text" name="propertyName" value="{{$invoice->propertyName}}" required>
+                                                                                            <lable for="ItemName{{$loop->index}}">Property Name</lable></div>
+                                                                                            <select id="ItemName{{$loop->index}}" class="form-control propertyName" data-index="{{$loop->index}}" data-live-search="true"  name="propertyName" data-style="btn-secondary" >
+                                                                                                <option value="" disabled>Name  /  location   /   square feet</option>
+                                                                                                @forelse($properties as $property)
+                                                                                                    <option value="{{$property->id}}" {{$property->id == $invoice->property->id ? 'selected' : ''}} data-price="{{$property->price}}">{{$property->name .' / '. $property->location.' / '. $property->square }}</option>
+                                                                                                @empty
+                                                                                                    <option value="" disabled>No Properties Yet</option>
+                                                                                                @endforelse
+                                                                                            </select>
+                                                                                        <div class="form-group">
+                                                                                            <lable for="description{{$loop->index}}">Description</lable>
+                                                                                            <input id="description{{$loop->index}}" class="form-control" type="text" name="description" value="{{$invoice->description}}" required>
                                                                                         </div>
                                                                                         <div class="form-group">
-                                                                                            <lable for="description">Description</lable>
-                                                                                            <input id="description" class="form-control" type="text" name="description" value="{{$invoice->description}}" required>
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                            <lable for="quantity">Quantity</lable>
-                                                                                            <input id="quantity" class="form-control" type="text" name="quantity" value="{{$invoice->quantity}}" required>
+                                                                                            <lable for="quantity{{$loop->index}}">Quantity</lable>
+                                                                                            <input id="quantity{{$loop->index}}" class="form-control" type="text" name="quantity" value="{{$invoice->quantity}}" required>
                                                                                         </div><div class="form-group">
-                                                                                            <lable for="cost">Cost</lable>
-                                                                                            <input id="cost" type="text" class="form-control" name="cost" value="{{$invoice->cost}}" required>
+                                                                                            <lable for="cost{{$loop->index}}">Cost</lable>
+                                                                                            <input id="cost{{$loop->index}}" type="text" class="form-control" name="cost" value="{{$invoice->cost}}" disabled>
                                                                                         </div>
 
                                                                                     </div>
@@ -288,7 +304,7 @@
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
-                                                                            <button type="button" onclick="document.getElementById('update-invoice-{{$invoice->id}}').submit()" class="btn btn-info waves-effect waves-light">Save changes</button>
+                                                                            <button type="button" onclick="$('input:disabled').removeAttr('disabled');document.getElementById('update-invoice-{{$invoice->id}}').submit()" class="btn btn-info waves-effect waves-light invoiceButton">Save changes</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -353,6 +369,30 @@
     <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
     <script src="{{asset('libs/custombox/custombox.min.js')}}"></script>
     <script>
+        $(document).ready(function (){
+            $('#cost00').val($('option:selected',$('#propertyName')).data('price'))
+        })
+        $('.propertyName').on('change',function (){
+            let index=$(this).data('index');
+            let propertyPrice=$('option:selected',$(this)).data('price');
+            $('#cost'+index).val(propertyPrice);
+        })
+        $('form').on('click',function(e) {
+            $('input:disabled').removeAttr('disabled')
+        });
 
+
+        $("#datatable-custom").DataTable(
+            {
+                dom:"Bfrtip",
+                buttons:[
+                    {extend:"copy",className:"btn-sm",exportOptions: {columns: [ 0, 1, 2,3,4,5,6 ]},messageTop:'Invoices',messageBottom: 'Total :: {{$invoices->pluck('total')->sum()}}'},
+                    {extend:"csv",className:"btn-sm",exportOptions: {columns: [0, 1, 2,3,4,5,6 ]},messageTop:'Invoices',messageBottom: 'Total :: {{$invoices->pluck('total')->sum()}}'},
+                    {extend:"excel",className:"btn-sm",exportOptions: {columns: [ 0, 1, 2,3,4,5,6 ]},messageTop:'Invoices',messageBottom: 'Total :: {{$invoices->pluck('total')->sum()}}'},
+                    {extend:"pdf",className:"btn-sm",exportOptions: {columns: [ 0, 1, 2,3,4,5,6 ]},messageTop:'Invoices',messageBottom: 'Total :: {{$invoices->pluck('total')->sum()}}'},
+                    {extend:"print",className:"btn-sm",exportOptions: {columns: [ 0, 1, 2,3,4,5,6 ]},messageTop:'<h1 class="text-center">Invoices</h1>',messageBottom: '<div class="row justify-content-around"><h1>Total</h1><h1>{{$invoices->pluck('total')->sum()}}</h1></div>'}
+                    ],
+                responsive:!0
+            })
     </script>
 @endpush

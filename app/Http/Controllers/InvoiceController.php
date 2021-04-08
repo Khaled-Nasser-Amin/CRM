@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InvoicesRequest;
 use App\Models\Invoice;
 use App\Models\Lead;
+use App\Models\Properties;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -20,31 +21,42 @@ class InvoiceController extends Controller
     public function index(){
         $invoices=Invoice::all();
         $leads=Lead::all();
+        $properties=Properties::all();
         $users=User::where('id','!=',1)->get();
-        return view('admin.invoices',compact('invoices','leads','users'));
+        return view('admin.invoices',compact('invoices','leads','users','properties'));
     }
     public function store(InvoicesRequest $request){
         $request->validate(['invoiceSerial'=>'required|numeric|unique:invoices']);
-        $data=$request->except(['lead','broker','start','end']);
-        $data=$this->convertDateFormat($request,$data);
-        $data=$this->total($request,$data);
-        $invoice=Invoice::create($data);
-        $invoice->lead()->associate($request->lead)->save();
-        $invoice->user()->associate($request->broker)->save();
+        $property=Properties::find($request->propertyName);
+        if ($property->price == $request->cost){
+            $data=$request->except(['lead','broker','start','end','propertyName']);
+            $data=$this->convertDateFormat($request,$data);
+            $data=$this->total($request,$data);
+            $invoice=Invoice::create($data);
+            $property->invoices()->save($invoice);
+            $invoice->lead()->associate($request->lead)->save();
+            $invoice->user()->associate($request->broker)->save();
+            return redirect()->back()->with(['success' => 'Invoice Created Successfully']);
 
-        return redirect()->back()->with(['success' => 'Invoice Created Successfully']);
+        }else{
+            return redirect()->back()->withErrors('cost does not match the property');
+        }
     }
-    public function update(InvoicesRequest $request,Invoice $Invoice){
+    public function update(Request $request,Invoice $Invoice){
         $request->validate(['invoiceSerial'=>['required' , Rule::unique('invoices')->ignore($Invoice->id)]]);
-        $data=$request->except(['lead','broker','start','end']);
-        $data=$this->convertDateFormat($request,$data);
-        $data=$this->total($request,$data);
-        $Invoice->update($data);
-        $Invoice->save();
-        $Invoice->lead()->associate($request->lead)->save();
-        $Invoice->user()->associate($request->broker)->save();
+        $property=Properties::find($request->propertyName);
+        if ($property->price == $request->cost){
+            $data=$request->except(['lead','broker','start','end','propertyName']);
+            $data=$this->convertDateFormat($request,$data);
+            $data=$this->total($request,$data);
+            $Invoice->update($data);
+            $Invoice->save();
+            $Invoice->lead()->associate($request->lead)->save();
+            $Invoice->user()->associate($request->broker)->save();
         return redirect()->back()->with(['success' => 'Invoice Updated Successfully']);
-
+        }else{
+            return redirect()->back()->withErrors('cost does not match the property');
+        }
     }
     public function delete(Invoice $Invoice){
         $Invoice->delete();

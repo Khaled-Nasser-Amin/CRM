@@ -22,9 +22,9 @@ class InvoicesRequest extends FormRequest
             'broker'=>'required|exists:users,id',
             'paymentMethodology'=>['required' , Rule::in(['Cash', 'Credit','Bank'])],
             'notes'=>'required|string|max:255',
-            'propertyName'=>'required|string|max:255',
+            'propertyName'=>'required|exists:properties,id|integer|max:255',
             'description'=>'required|string|max:255',
-            'cost'=>'required|integer',
+            'cost'=>'required|integer|exists:properties,price',
             'quantity'=>'required|integer',
         ];
     }

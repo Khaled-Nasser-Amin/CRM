@@ -65,6 +65,9 @@ class PropertiesController extends Controller
     }
     public function deleteProperty(Properties $property){
         $this->authorize('delete',$property);
+        $property->invoices()->update([
+            'property_id' => null
+        ]);
         foreach ($property->images as $image){
             unlink('images/properties/'.$image->name);
         }

@@ -12,9 +12,11 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lead_id')->nullable();
-            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
+            $table->foreign('lead_id')->references('id')->on('leads');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
+             $table->unsignedBigInteger('property_id')->nullable();
+            $table->foreign('property_id')->references('id')->on('properties');
             $table->integer('invoiceSerial')->unique();
             $table->date('start');
             $table->date('end');

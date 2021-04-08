@@ -81,6 +81,9 @@ class LeadController extends Controller
     }
     public function deleteLead(Lead $lead){
         $this->authorize('delete',$lead);
+        $lead->invoices()->update([
+            'lead_id' => null
+        ]);
         $user=auth()->user()->id == 1 ? $lead->user : User::where('id',1)->first();
         $this->deleteEventNotify($lead->name,$lead->project->name,$user);
         Lead::find($lead->id)->delete();

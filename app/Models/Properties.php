@@ -23,5 +23,8 @@ class Properties extends Model
     public function images(){
         return $this->hasMany(Image::class,'property_id');
     }
+    public function invoices(){
+        return $this->hasMany(Invoice::class,'property_id');
+    }
 
 }

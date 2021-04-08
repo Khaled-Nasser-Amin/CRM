@@ -70,6 +70,9 @@ class UserController extends Controller
         $user->properties()->update([
             'user_id' => null
         ]);
+        $user->invoices()->update([
+            'user_id' => null
+        ]);
         $arr = explode('/',$user->image);
         $imageName=end($arr);
         $this->unlinkImage(public_path('images\\users\\'.$imageName));        User::find($user->id)->delete();
