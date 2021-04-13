@@ -16,14 +16,14 @@
                         </div>
 
                         <div class="card-body">
-
+                            @error('email')
+                            <div class="alert alert-danger ">{{$message}}</div>
+                            @enderror
                             <form action="{{route('login')}}" method='post'>
                                 @csrf
                                 <div class="form-group">
                                     <input class="form-control" type="text" placeholder="Username"  name='email' value="{{old('email')}}" id="username" required="" >
-                                    @error('email')
-                                        <span class=" alert-danger ">{{$message}}</span>
-                                    @enderror
+
                                 </div>
 
                                 <div class="form-group">
@@ -32,7 +32,7 @@
 
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox checkbox-success">
-                                        <input type="checkbox" class="custom-control-input" id="checkbox-signin" checked>
+                                        <input type="checkbox" name="remember_me" class="custom-control-input" id="checkbox-signin" checked>
                                         <label class="custom-control-label" for="checkbox-signin">Remember me</label>
                                     </div>
                                 </div>

@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Mail\ResetPasswordEmail;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
+    use ThrottlesLogins;
+
     public function __construct()
     {
         $this->middleware('guest')->except(['logout']);
@@ -23,6 +26,8 @@ class AuthController extends Controller
         session()->flush();
         return view('logout');
     }
+
+    //login
     public function login(Request $request){
         $password=$request->password;
         $email=$request->email;
@@ -34,16 +39,24 @@ class AuthController extends Controller
             'email'=>$email,
             'password'=>$password
         ];
+        $user=User::where('email',$request->email)->first();
+        if ($user->active == 1){
+            if(Auth::guard('web')->attempt($cred,$request->remember_me ? 1 : 0))
+            {
+                return redirect(RouteServiceProvider::HOME);
+            }else{
+                return redirect()->back()->withErrors(['email'=>'does not match our records']);
 
-        if(Auth::guard('web')->attempt($cred,1))
-        {
-            return redirect(RouteServiceProvider::HOME);
+            }
         }else{
-            return redirect()->back()->withErrors(['email'=>'does not match our records']);
-
+            return redirect()->back()->withErrors(['email'=>'This email is expired']);
         }
+
     }
 
+
+
+    //forget password
     public function viewForget(){
         return view('forgetPassword');
     }

@@ -24,14 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+         $schedule->command('logout:all')->dailyAt('23:59');
     }
 
-    /**
-     * Register the commands for the application.
-     *
-     * @return void
-     */
+
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');

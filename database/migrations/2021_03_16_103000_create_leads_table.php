@@ -12,6 +12,7 @@ class CreateLeadsTable extends Migration
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 

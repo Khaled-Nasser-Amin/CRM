@@ -19,15 +19,16 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(AdminSeeder::class);
-   /*     Employee::factory()->count(30)->create();
+
+        Employee::factory()->count(50)->create();
         User::factory()->has(
-            Lead::factory()->count(5)
+            Lead::factory()->count(100)
         )->has(
-            Properties::factory()->has(Image::factory()->count(5))->count(5)
-        )->count(10)->create();
+            Properties::factory()->has(Image::factory()->count(5))->count(40)
+        )->count(25)->create();
         Developer::factory()->has(
-            Project::factory()->count(2)
-        )->count(5)->create();
+            Project::factory()->count(5)
+        )->count(10)->create();
 
         $amenities= Amenity::factory()->count(30)->create();
 
@@ -53,7 +54,7 @@ class DatabaseSeeder extends Seeder
             $project=Project::all()->random();
             $lead->project()->associate($project)->save();
             $lead->developer()->associate($project->developer->id)->save();
-        });*/
+        });
 
 
 

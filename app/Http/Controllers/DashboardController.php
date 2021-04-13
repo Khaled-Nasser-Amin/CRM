@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\Lead;
 use App\Models\Project;
 use App\Models\Ticket;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,12 +24,11 @@ class DashboardController extends Controller
     }
 
     public function DashboardForAdmin(){
-
             $leads = Lead::all();
             $numberOfLeads = $leads->count();
             $invoices = Invoice::count();
             $tickets = Ticket::latest()->get();
-            $projects = Project::withCount('leads')->orderBy('leads_count', 'DESC')->pluck('name', 'leads_count')->take(5)->toArray();
+            $projects = Project::withCount('leads')->orderBy('leads_count', 'DESC')->pluck('name', 'leads_count')->toArray();
             $dataStatistic=[];
             $sumOfOthers=0;
             foreach ($projects as $key =>$value){
@@ -39,6 +39,7 @@ class DashboardController extends Controller
             }
             $sumOfOthers =100-$sumOfOthers;
             $dataStatistic=collect($dataStatistic)->collapse();
+
             return view('admin.dashboard', compact('leads', 'invoices', 'tickets','dataStatistic','sumOfOthers'));
     }
     public function DashboardForUser(){
@@ -59,7 +60,8 @@ class DashboardController extends Controller
         }
         if($numberOfLeads) {
             $sumOfOthers =100-collect($precent)->sum();
-            $dataStatistic=collect($projectsName)->combine($precent);
+            $dataStatistic=collect($projectsName)->combine($precent)->sortDesc();
+
         }
 
         return view('admin.dashboard', compact('leads', 'invoices', 'tickets','dataStatistic','sumOfOthers'));

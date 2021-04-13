@@ -19,7 +19,7 @@ Route::get('/', function () {
 })->middleware('guest');
 
 Route::get('/login',[AuthController::class,'index'])->name('index');
-Route::post('/login',[AuthController::class,'login'])->name('login');
+Route::post('/login',[AuthController::class,'login'])->name('login')->middleware("throttle:5,2");
 Route::get('/ForgetPassword',[AuthController::class,'viewForget'])->name('viewForget');
 Route::post('/ForgetPassword',[AuthController::class,'sendEmailToResetPassword'])->name('sendEmail');
 Route::get('/reset-password/{_token}',[AuthController::class,'viewResetPassword'])->name('viewResetPassword');
@@ -64,7 +64,6 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('/full-calender', [FullCalenderController::class, 'index'])->name('calendar');
     Route::post('/full-calender/action', [FullCalenderController::class, 'action']);
 
-    Route::get('events','CalenderController@index')->name('calender');
     Route::resource('Invoices','InvoiceController')->except(['show','destroy','edit','create']);
     Route::get('/Invoices/delete/{Invoice}','InvoiceController@delete')->name('deleteInvoice');
     Route::get('Tickets','TicketController@index')->name('tickets');

@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
             $table->string('phone');
             $table->string('serial');
             $table->tinyInteger('role')->default(0);
+            $table->tinyInteger('active')->default(1);
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();

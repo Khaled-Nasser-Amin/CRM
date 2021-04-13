@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Notifications\AddNewLead;
 use App\Notifications\DeleteLead;
 use App\Notifications\UpdateLead;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -18,10 +19,10 @@ use Illuminate\Validation\Rule;
 
 class LeadController extends Controller
 {
-    public function ViewLeads(){
+    public function ViewLeads(Request $request){
 
-        $projects=Project::all();
-        $developers=Developer::all();
+        $projects=Project::latest()->paginate(10);
+        $developers=Developer::latest()->paginate(10);
         if (auth()->user()->role == 1){
             $statistic=Lead::select('state',DB::raw('count(*) as total'))->groupBy('state')->get();
             $statistic=collect($statistic->pluck('state')->toArray())->combine($statistic->pluck('total')->toArray());
@@ -29,13 +30,46 @@ class LeadController extends Controller
             $statistic=Lead::select('state',DB::raw('count(*) as total'))->where('user_id',auth()->user()->id)->groupBy('state')->get();
             $statistic=collect($statistic->pluck('state')->toArray())->combine($statistic->pluck('total')->toArray());
         }
-       if (auth()->user()->role == 0){
-            $leads=auth()->user()->leads;
+       if (auth()->user()->role == 0) {
+         $leads=  auth()->user()->leads()->when($request->search,function ($q) use($request){
+               return $q->where('name','LIKE','%'.$request->search.'%')
+                   ->orWhere('firstPhone','LIKE','%'.$request->search.'%')
+                   ->orWhere('secondPhone','LIKE','%'.$request->search.'%')
+                   ->orWhere('address','LIKE','%'.$request->search.'%')
+                   ->orWhere('city','LIKE','%'.$request->search.'%')
+                   ->orWhere('state','LIKE','%'.$request->search.'%')
+                   ->orWhere('country','LIKE','%'.$request->search.'%')
+                   ->orWhere('time','LIKE','%'.$request->search.'%')
+                   ->orWhere('stageDate','LIKE','%'.$request->search.'%')
+                   ->orWhere('comment','LIKE','%'.$request->search.'%');
+           })->orderByDesc('created_at')->paginate(10);
+          }
+       else{
+           $leads=Lead::join('users','leads.user_id','=','users.id')
+               ->join('developers','leads.developer_id','=','developers.id')
+               ->join('projects','leads.project_id','=','projects.id')
+               ->when($request->search,function ($q) use($request){
+                   return $q->where('leads.name','LIKE','%'.$request->search.'%')
+                       ->orWhere('leads.firstPhone','LIKE','%'.$request->search.'%')
+                       ->orWhere('leads.secondPhone','LIKE','%'.$request->search.'%')
+                       ->orWhere('leads.address','LIKE','%'.$request->search.'%')
+                       ->orWhere('leads.city','LIKE','%'.$request->search.'%')
+                       ->orWhere('leads.state','LIKE','%'.$request->search.'%')
+                       ->orWhere('leads.country','LIKE','%'.$request->search.'%')
+                       ->orWhere('leads.time','LIKE','%'.$request->search.'%')
+                       ->orWhere('leads.stageDate','LIKE','%'.$request->search.'%')
+                       ->orWhere('leads.comment','LIKE','%'.$request->search.'%')
+                       ->orWhere('projects.name','LIKE','%'.$request->search.'%')
+                       ->orWhere('developers.name','LIKE','%'.$request->search.'%')
+                       ->orWhere('users.email','LIKE','%'.$request->search.'%');
+               })->orderByDesc('leads.created_at')->paginate(10);
+       }
 
-        }else{
-            $leads=Lead::latest()->get();
-        }
         return view('admin.leads',compact('projects','developers','leads','statistic'));
+    }
+    public function search($q,$request){
+
+
     }
     public function addNewLead(LeadRequest $request){
         if ($this->authorize('create',User::class)){
@@ -94,13 +128,13 @@ class LeadController extends Controller
     public function lastConnection(Request $request,Lead $lead){
         $this->authorize('update',$lead);
         $request->validate([
-            'state' => ['required',Rule::in(['Not interest','Meeting','Deal Done','Follow UP','Reservation'])],
+            'state' => ['required',Rule::in(['Not interest','Interest','Meeting','Deal Done','Follow UP','Reservation'])],
             'stageDate' => 'required|date|after:yesterday',
             'time' => 'required'
         ]);
         $data=$request->except('_token');
         $lead->state=$request->state;
-        $lead->stageDate=$request->stateDate;
+        $lead->stageDate=$request->stageDate;
         $lead->time=$request->time;
         $lead->save();
         $lead->Updates()->create($data)->save();
