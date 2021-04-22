@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\FullCalenderController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\Profile\UserProfileController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TwoFactorAuthenticatedSessionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -15,16 +17,17 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('login');
+    return view('auth.login');
 })->middleware('guest');
 
 Route::get('/login',[AuthController::class,'index'])->name('index');
 Route::post('/login',[AuthController::class,'login'])->name('login')->middleware("throttle:5,2");
 Route::get('/ForgetPassword',[AuthController::class,'viewForget'])->name('viewForget');
-Route::post('/ForgetPassword',[AuthController::class,'sendEmailToResetPassword'])->name('sendEmail');
+Route::post('/check_your_inbox',[AuthController::class,'messageAfterSendingEmailToResetPassword'])->name('sendEmail');
 Route::get('/reset-password/{_token}',[AuthController::class,'viewResetPassword'])->name('viewResetPassword');
 Route::post('/reset-password',[AuthController::class,'changePassword'])->name('changePassword');
 
+Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])->middleware(array_filter(['guest', 'throttle:6,2']))->name('two-factor.login');
 
 //logged in
 Route::group(['middleware' => 'auth'],function(){
@@ -32,6 +35,10 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('/calculator', function () {
         return view('admin.calculator');
     })->name('viewCalculator');
+
+    Route::get('/user/profile', [UserProfileController::class, 'show'])->name('profile.show');
+
+
     Route::get('/ViewLeads',[LeadController::class,'ViewLeads'])->name('ViewLeads');
     Route::post('/addNewLead',[LeadController::class,'addNewLead'])->name('addNewLead');
     Route::post('/updateLead/{lead}',[LeadController::class,'updateLead'])->name('updateLead');

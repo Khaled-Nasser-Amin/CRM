@@ -115,7 +115,7 @@
                                     <tbody>
                                     @forelse($users as $user)
                                     <tr>
-                                        <td><img src="{{$user->image}}" class="rounded-circle" style="width: 50px;height: 50px" alt="user-image"></td>
+                                        <td><img src="{{ $user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&color=7F9CF5&background=EBF4FF' }}" class="rounded-circle" style="width: 50px;height: 50px" alt="user-image"></td>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->serial}}</td>
                                         <td>{{$user->phone}}</td>

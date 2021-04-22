@@ -396,7 +396,7 @@
                                 <a href="#">
                                     <div class="inbox-item">
                                         <div class="inbox-item-img">
-                                            <img src="{{$ticket->user->image}}" class="rounded-circle" alt="">
+                                            <img src="{{ $ticket->user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($ticket->user->name).'&color=7F9CF5&background=EBF4FF' }}" class="rounded-circle" alt="">
                                         </div>
                                         <p class="inbox-item-author">{{ucfirst($ticket->user->name)}} ({{$ticket->name}} )</p>
                                         <p class="inbox-item-text font-12">{{$ticket->comment}}</p>

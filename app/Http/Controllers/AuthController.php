@@ -8,7 +8,9 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -19,12 +21,12 @@ class AuthController extends Controller
         $this->middleware('guest')->except(['logout']);
     }
     public function index(){
-        return view('login');
+        return view('auth.login');
     }
     public function logout(){
         auth()->logout();
         session()->flush();
-        return view('logout');
+        return view('auth.logout');
     }
 
     //login
@@ -41,12 +43,20 @@ class AuthController extends Controller
         ];
         $user=User::where('email',$request->email)->first();
         if ($user->active == 1){
-            if(Auth::guard('web')->attempt($cred,$request->remember_me ? 1 : 0))
-            {
-                return redirect(RouteServiceProvider::HOME);
+            if (Hash::check($request->password,$user->password) && $user->two_factor_secret != null && $user->two_factor_recovery_codes != null){
+                $request->session()->put([
+                    'login.id' => $user->getKey(),
+                    'login.remember' => $request->filled('remember'),
+                ]);
+                return view('auth.two-factor-challenge');
             }else{
-                return redirect()->back()->withErrors(['email'=>'does not match our records']);
+                if(Auth::guard('web')->attempt($cred,$request->remember_me ? 1 : 0))
+                {
+                    return redirect(RouteServiceProvider::HOME);
+                }else{
+                    return redirect()->back()->withErrors(['email'=>'does not match our records']);
 
+                }
             }
         }else{
             return redirect()->back()->withErrors(['email'=>'This email is expired']);
@@ -58,24 +68,25 @@ class AuthController extends Controller
 
     //forget password
     public function viewForget(){
-        return view('forgetPassword');
+        return view('auth.forgetPassword');
     }
 
-    public function sendEmailToResetPassword(Request $request){
+    public function messageAfterSendingEmailToResetPassword(Request $request){
         $request->validate([
             'email'=>'required|email|exists:users'
         ]);
-
+        $key=Str::random();
         $email=$request->email;
         session()->put('email',$email);
+        session()->put('key',$key);
 
-        Mail::to($email)->send(new ResetPasswordEmail(route('viewResetPassword',$request->_token)));
+        Mail::to($email)->send(new ResetPasswordEmail(route('viewResetPassword',$request->_token.$key)));
         return view('emails.messageAfterSendingEmail');
     }
 
     public function viewResetPassword(Request $request,$token){
-        if(session()->get('_token') == $token){
-            return view('reset-password');
+        if(session()->has('_token') && session()->has('key') && session()->get('_token').session()->get('key') == $token){
+            return view('auth.reset-password');
         }
         else{
             return abort(404);
@@ -88,7 +99,7 @@ class AuthController extends Controller
         ]);
         if (session()->has('email')){
             $user=User::where('email',session()->get('email'))->first();
-            $password=bcrypt($request->pasword);
+            $password=bcrypt($request->password);
             $user->update(['password' => $password]);
             $user->save();
             session()->forget('email');
@@ -98,4 +109,5 @@ class AuthController extends Controller
             return abort(404);
         }
     }
+
 }

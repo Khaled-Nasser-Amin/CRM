@@ -22,7 +22,7 @@
                                 <div class="container">
                                     <div class="inside">
                                         <div class="nav nav-tab menu" id="menuSidebar">
-                                            <button class="btn"><img class="avatar-xl" src="{{auth()->user()->image}}" alt="avatar"></button>
+                                            <button class="btn"><img class="avatar-xl" src="{{ auth()->user()->image ?? 'https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name).'&color=7F9CF5&background=EBF4FF' }}" alt="avatar"></button>
                                             <a href="#discussions" data-toggle="tab" class="active"><i class="material-icons active">chat_bubble_outline</i></a>
                                             <a href="#notifications" data-toggle="tab" class=""><i class="material-icons">notifications_none</i></a>
                                             <button class="btn power" onclick="event.preventDefault(); document.getElementById('form-logout').submit()"><i class="material-icons">power_settings_new</i></button>
@@ -61,7 +61,7 @@
 
                                                         @forelse($users as $user)
                                                             <a href="#Chat{{$user->id}}" id="list-chat-{{$user->id}}" data-toggle="list" role="tab" data-receiver="{{$user->id}}" class="filterDiscussions all {{  $user->messagesAsSender->where('receiver_id',auth()->user()->id)->last() ? ($user->messagesAsSender->where('receiver_id',auth()->user()->id)->last()->state == 0 ? 'unread' :'read'):''}} single" >
-                                                                <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+                                                                <img class="avatar-md" src="{{ $user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&color=7F9CF5&background=EBF4FF' }}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
                                                                 <div class="status d-none">
                                                                     <i class="material-icons online">fiber_manual_record</i>
                                                                 </div>
@@ -72,8 +72,8 @@
 
                                                                 <div class="data">
                                                                     <h5>{{$user->name}}</h5>
-                                                                    <span id="timeOnSidebarMessage{{$user->id}}">{{ messagesForAuthenticatedUser($user->id)->last() ? messagesForAuthenticatedUser($user->id)->last()->created_at->diffForHumans() :''}}</span>
-                                                                    <p id="textOnSidebarMessage{{$user->id}}">{{messagesForAuthenticatedUser($user->id)->last()->text ?? 'Start Conversation'}}</p>
+                                                                    <span id="timeOnSidebarMessage{{$user->id}}">{{ lastMessage($user->id) ? lastMessage($user->id)->created_at->diffForHumans() :''}}</span>
+                                                                    <p id="textOnSidebarMessage{{$user->id}}">{{lastMessage($user->id)->text ?? 'Start Conversation'}}</p>
                                                                 </div>
                                                             </a>
                                                         @empty
@@ -81,6 +81,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <!-- End of Discussions -->
                                             <div id="notifications" class="tab-pane fade">
                                                 <div class="search">
@@ -105,7 +106,7 @@
                                                     <div class="list-group pushNotificationInAsideBar" id="alerts" role="tablist" id="">
                                                         @forelse(auth()->user()->notifications as $notification)
                                                             <a href="#"  class="notificationAuthor-{{$notification->user->id}} filterNotifications all {{date_format($notification->created_at,'Y-m-d') == date_format(now(),'Y-m-d') ? 'latest' :'oldest'}} notification {{$notification->read_at == null ? 'bg-warning' : ''}}" data-toggle="list">
-                                                                <img class="avatar-md" src="{{$notification->user->image}}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
+                                                                <img class="avatar-md" src="{{ $notification->user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($notification->user->name).'&color=7F9CF5&background=EBF4FF' }}" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">
                                                                 <div class="status d-none">
                                                                     <i class="material-icons online">fiber_manual_record</i>
                                                                 </div>
@@ -140,7 +141,7 @@
                                                     <div class="container">
                                                         <div class="col-md-12">
                                                             <div class="inside" id="inside{{$user->id}}">
-                                                                <a href="#"><img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar"></a>
+                                                                <a href="#"><img class="avatar-md" src="{{ $user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&color=7F9CF5&background=EBF4FF' }}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar"></a>
                                                                 <div class="status d-none">
                                                                     <i class="material-icons online">fiber_manual_record</i>
                                                                 </div>
@@ -162,133 +163,138 @@
 
                                                 <div class="content" id="content" >
                                                     <div class="container">
-                                                        <div class="col-md-12" id="appendMessages-{{$user->id}}">
-                                                    @forelse(messagesForAuthenticatedUser($user->id) as $message)
-
-                                                        @if($message->type == 'text')
-                                                            @if($message->sender_id == auth()->user()->id)
-                                                                <div class="message me mb-0" id="message-{{$message->id}}">
-                                                                    <div class="text-main ">
-                                                                        <div class="dropleft d-inline">
-                                                                            <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
-                                                                            <div class="dropdown-menu dropdown-menu-left" >
-                                                                                <button class="dropdown-item deleteMessage" data-message="{{$message->id}}"><i class="material-icons">clear</i>Delete Message</button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="text-group me d-inline">
-                                                                            <div class="text me">
-                                                                                <p>{{$message->text}}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span><i class="material-icons">{{$loop->last ? ($message->state == 1 ? 'check':'') : ''}}</i>{{$message->created_at->diffForHumans()}}</span>
-                                                                    </div>
-                                                                </div>
-                                                            @else
-                                                                <div class="message mb-0 notMe">
-                                                                    <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
-                                                                    <div class="text-main">
-                                                                        <div class="text-group">
-                                                                            <div class="text bg-info text-white">
-                                                                                <p> {{$message->text}} </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <span>{{$message->created_at->diffForHumans()}}</span>
-                                                                    </div>
-                                                                </div>
+                                                        <div class="col-md-12" id="appendMessages-{{$user->id}}" data-current-page="{{messagesForAuthenticatedUser($user->id)->currentPage()}}">
+                                                            @if (messagesForAuthenticatedUser($user->id)->lastPage() != messagesForAuthenticatedUser($user->id)->currentPage() && $user->id == messagesForAuthenticatedUser($user->id)['user_id'])
+                                                                <a href="#" class="clearfix d-block text-center showMore" data-user="{{$user->id}}" data-current-page="{{messagesForAuthenticatedUser($user->id)->currentPage()}}">Show More</a>
                                                             @endif
-                                                        @elseif($message->type == 'file')
-                                                            @if($message->sender_id == auth()->user()->id)
-                                                                <div class="message me mb-0" id="message-{{$message->id}}">
-                                                                    <div class="text-main">
-                                                                        <div class="dropleft d-inline">
-                                                                            <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
-                                                                            <div class="dropdown-menu dropdown-menu-left" >
-                                                                                <button class="dropdown-item deleteMessage" data-message="{{$message->id}}"><i class="material-icons">clear</i>Delete Message</button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="text-group me d-inline">
-                                                                            <div class="text me">
-                                                                                <div class="attachment">
-                                                                                    <a href="{{route('chat.downloadDocumentation',$message->id)}}" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>
-                                                                                    <div class="file">
-                                                                                        <h5>
-                                                                                            <a href="{{route('chat.downloadDocumentation',$message->id)}}">
-                                                                                               {{collect(explode('_',$message->text))->last()}}
-                                                                                            </a>
-                                                                                        </h5>
-                                                                                        <span>Document</span>
+                                                            @forelse(collect(messagesForAuthenticatedUser($user->id)->items()['data'])->reverse() as $message)
+                                                                @if($message['type'] == 'text')
+                                                                    @if($message['sender_id'] == auth()->user()->id)
+                                                                        <div class="message me mb-0" id="message-{{$message['id']}}">
+                                                                            <div class="text-main ">
+                                                                                <div class="dropleft d-inline">
+                                                                                    <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
+                                                                                    <div class="dropdown-menu dropdown-menu-left" >
+                                                                                        <button class="dropdown-item deleteMessage" data-message="{{$message['id']}}"><i class="material-icons">clear</i>Delete Message</button>
                                                                                     </div>
                                                                                 </div>
+                                                                                <div class="text-group me d-inline">
+                                                                                    <div class="text me">
+                                                                                        <p>{{$message['text']}}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <span><i class="material-icons">{{$loop->last ? ($message['state'] == 1 ? 'check':'') : ''}}</i>{{\Carbon\Carbon::create($message['created_at'])->diffForHumans()}}</span>
                                                                             </div>
                                                                         </div>
-                                                                        <span>{{$message->created_at->diffForHumans()}}</span>
-                                                                    </div>
-                                                                </div>
-                                                            @else
-                                                                <div class="message mb-0 notMe">
-                                                                    <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
-                                                                    <div class="text-main">
-                                                                        <div class="text-group">
-                                                                            <div class="text">
-                                                                                <div class="attachment">
-                                                                                    <a href="{{route('chat.downloadDocumentation',$message->id)}}" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>
-                                                                                    <div class="file">
-                                                                                        <h5>
-                                                                                            <a href="{{route('chat.downloadDocumentation',$message->id)}}">
-                                                                                                {{collect(explode('_',$message->text))->last()}}
-                                                                                            </a>
-                                                                                        </h5>
-                                                                                        <span>Document</span>
+                                                                    @else
+                                                                        <div class="message mb-0 notMe">
+                                                                            <img class="avatar-md" src="{{ $user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&color=7F9CF5&background=EBF4FF' }}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
+                                                                            <div class="text-main">
+                                                                                <div class="text-group">
+                                                                                    <div class="text bg-info text-white">
+                                                                                        <p> {{$message['text']}} </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <span>{{\Carbon\Carbon::create($message['created_at'])->diffForHumans()}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                @elseif($message['type'] == 'file')
+                                                                    @if($message['sender_id'] == auth()->user()->id)
+                                                                        <div class="message me mb-0" id="message-{{$message['id']}}">
+                                                                            <div class="text-main">
+                                                                                <div class="dropleft d-inline">
+                                                                                    <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
+                                                                                    <div class="dropdown-menu dropdown-menu-left" >
+                                                                                        <button class="dropdown-item deleteMessage" data-message="{{$message['id']}}"><i class="material-icons">clear</i>Delete Message</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="text-group me d-inline">
+                                                                                    <div class="text me">
+                                                                                        <div class="attachment">
+                                                                                            <a href="{{route('chat.downloadDocumentation',$message['id'])}}" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>
+                                                                                            <div class="file">
+                                                                                                <h5>
+                                                                                                    <a href="{{route('chat.downloadDocumentation',$message['id'])}}">
+                                                                                                       {{collect(explode('_',$message['text']))->last()}}
+                                                                                                    </a>
+                                                                                                </h5>
+                                                                                                <span>Document</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <span>{{\Carbon\Carbon::create($message['created_at'])->diffForHumans()}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="message mb-0 notMe">
+                                                                            <img class="avatar-md" src="{{ $user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&color=7F9CF5&background=EBF4FF' }}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
+                                                                            <div class="text-main">
+                                                                                <div class="text-group">
+                                                                                    <div class="text">
+                                                                                        <div class="attachment">
+                                                                                            <a href="{{route('chat.downloadDocumentation',$message['id'])}}" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>
+                                                                                            <div class="file">
+                                                                                                <h5>
+                                                                                                    <a href="{{route('chat.downloadDocumentation',$message['id'])}}">
+                                                                                                        {{collect(explode('_',$message['text']))->last()}}
+                                                                                                    </a>
+                                                                                                </h5>
+                                                                                                <span>Document</span>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <span>{{\Carbon\Carbon::create($message['created_at'])->diffForHumans()}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                @elseif($message['type'] == 'image')
+                                                                    @if($message['sender_id'] == auth()->user()->id)
+                                                                        <div class="message me mb-0" id="message-{{$message['id']}}">
+                                                                            <div class="text-main">
+                                                                                <div class="row flex-row justify-content-end">
+                                                                                    <div class="dropleft row flex-column justify-content-center mr-3">
+                                                                                        <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
+                                                                                        <div class="dropdown-menu dropdown-menu-left" >
+                                                                                            <button class="dropdown-item deleteMessage" data-message="{{$message['id']}}"><i class="material-icons">clear</i>Delete Message</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="text-group me w-50">
+                                                                                        <img class="w-100 float-right" src="{{asset('chat_files/'.$message['text'])}}" alt="{{$message['text']}}">
                                                                                     </div>
                                                                                 </div>
 
+                                                                                <span >{{\Carbon\Carbon::create($message['created_at'])->diffForHumans()}}</span>
                                                                             </div>
                                                                         </div>
-                                                                        <span>{{$message->created_at->diffForHumans()}}</span>
-                                                                    </div>
+                                                                    @else
+                                                                        <div class="message mb-0 notMe">
+                                                                            <img class="avatar-md" src="{{ $user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&color=7F9CF5&background=EBF4FF' }}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
+                                                                            <div class="text-main row flex-column">
+                                                                                <div class="text-group">
+                                                                                    <div class="">
+                                                                                        <img class="w-25 float-left" src="{{asset('chat_files/'.$message['text'])}}" alt="{{$message['text']}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <span>{{\Carbon\Carbon::create($message['created_at'])->diffForHumans()}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+
+                                                                @endif
+
+                                                            @empty
+                                                                <div class="no-messages">
+                                                                    <i class="material-icons md-48">forum</i>
+                                                                    <p>Seems people are shy to start the chat. Break the ice send the first message.</p>
                                                                 </div>
+                                                            @endforelse
+                                                            @if (!messagesForAuthenticatedUser($user->id)->onFirstPage()  && $user->id == messagesForAuthenticatedUser($user->id)['user_id'])
+                                                                <a href="#"  class="clearfix d-block text-center showLess" data-user="{{$user->id}}" data-current-page="{{messagesForAuthenticatedUser($user->id)->currentPage()}}">Show Less</a>
                                                             @endif
-                                                        @elseif($message->type == 'image')
-                                                            @if($message->sender_id == auth()->user()->id)
-                                                                <div class="message me mb-0" id="message-{{$message->id}}">
-                                                                    <div class="text-main">
-                                                                        <div class="dropleft d-inline">
-                                                                            <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>
-                                                                            <div class="dropdown-menu dropdown-menu-left" >
-                                                                                <button class="dropdown-item deleteMessage" data-message="{{$message->id}}"><i class="material-icons">clear</i>Delete Message</button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="text-group me d-inline">
-                                                                            <div>
-                                                                                <img class="w-25 float-right" src="{{asset('chat_files/'.$message->text)}}" alt="{{$message->text}}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <span>{{$message->created_at->diffForHumans()}}</span>
-                                                                    </div>
-                                                                </div>
-                                                            @else
-                                                                <div class="message mb-0 notMe">
-                                                                    <img class="avatar-md" src="{{$user->image}}" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">
-                                                                    <div class="text-main row flex-column">
-                                                                        <div class="text-group">
-                                                                            <div class="">
-                                                                                <img class="w-25 float-left" src="{{asset('chat_files/'.$message->text)}}" alt="{{$message->text}}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <span>{{$message->created_at->diffForHumans()}}</span>
-                                                                    </div>
-                                                                </div>
-                                                            @endif
-
-                                                        @endif
-
-                                                    @empty
-                                                        <div class="no-messages">
-                                                            <i class="material-icons md-48">forum</i>
-                                                            <p>Seems people are shy to start the chat. Break the ice send the first message.</p>
-                                                        </div>
-                                                    @endforelse
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -336,261 +342,12 @@
 
 @push('script')
     <script>
-        scrollToBottom(document.getElementById('content'));
-
-        //sending file or image
-        $('.attachFile').on('change',function(){
-            var form = new FormData();
-            form.append('fileName',$(this).get(0).files[0])
-            let token=$('meta[name=csrf-token]').attr('content');
-            let receiver_id=$(this).data('receiver');
-            form.append('_token',token);
-            form.append('receiver_id',receiver_id);
-            readMessages(receiver_id,$('#list-chat-'+receiver_id));
-            getAllUnreadMessages();
-            $.ajax({
-                url:'/Chat',
-                method:'post',
-                data:form,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success:function (result){
-                    let element= $('#appendMessages-'+receiver_id);
-                    if (result.type == 'file'){
-                        element.append('<div class="message me mb-0" id="message-'+result.id+'"><div class="text-main">' +
-                            '<div class="dropleft d-inline">' +
-                            ' <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>' +
-                            '                                                                            <div class="dropdown-menu dropdown-menu-left" >' +
-                            '                                                                                <button class="dropdown-item deleteMessage" data-message="'+result.id+'"><i class="material-icons">clear</i>Delete Message</button>' +
-                            '                                                                            </div>' +
-                            '                                                                        </div>' +
-                            '                                                                        <div class="text-group me d-inline"> <div class="text me"><div class="attachment">'
-                            +'   <a href="Chat/'+result.id+'" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>'
-                            +' <div class="file"><h5>'
-                            +'    <a href="Chat/'+result.id+'">'+result.name +'  </a>' +' </h5>' +' <span>Document</span>' +'</div> </div> </div></div>' +
-                            ' <span>'+result.dateForHumans+'</span></div></div>')
-                    }else if(result.type == 'image'){
-                        let url="{{asset('chat_files/'.':name')}}";
-                        let name=result.text;
-                        url=url.replace(':name',name);
-                        element.append('<div class="message me mb-0" id="message-'+result.id+'"><div class="text-main">' +
-                            '<div class="dropleft d-inline">' +
-                            ' <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>' +
-                            '                                                                            <div class="dropdown-menu dropdown-menu-left" >' +
-                            '                                                                                <button class="dropdown-item deleteMessage" data-message="'+result.id+'"><i class="material-icons">clear</i>Delete Message</button>' +
-                            '                                                                            </div>' +
-                            '                                                                        </div>' +
-                            '                                                                        <div class="text-group me d-inline">  <div>'
-                            +'<img class="w-25 float-right" src="'+url+'" alt="'+result.text+'"> </div></div>'
-                            +'<span>'+result.dateForHumans+'</span></div></div> ')
-                    }
-                    element.has('div .no-messages') ? element.children('div .no-messages').remove(): null;
-                    changeListChatItem(result);
-                    pushMessageInNavbar(result);
-                    scrollToBottom(document.getElementById('content'));
-
-                }
-            })
-        });
-        //click button to send message
-        $('.btnChat').on('click',function(e){
-            e.preventDefault();
-            let form=$(this).parent();
-            let receiver_id=$(this).data('receiver');
-            let data=form.serialize()+'&receiver_id='+receiver_id;
-            readMessages(receiver_id,$('#list-chat-'+receiver_id));
-            getAllUnreadMessages();
-            $.ajax({
-                url:'/Chat/store' ,
-                type:'post',
-                data:data,
-                success:function (result){
-                    let element= $('#appendMessages-'+receiver_id);
-                    element.append('<div class="message me mb-0" id="message-'+result.id+'"><div class="text-main">' +
-                        '<div class="dropleft d-inline">' +
-                        ' <a  class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="material-icons md-30">more_vert</i></a>' +
-                        '                                                                            <div class="dropdown-menu dropdown-menu-left" >' +
-                        '                                                                                <button class="dropdown-item deleteMessage" data-message="'+result.id+'"><i class="material-icons">clear</i>Delete Message</button>' +
-                        '                                                                            </div>' +
-                        '                                                                        </div>' +
-                        '                                                                        <div class="text-group me d-inline"> '
-                        +'<div class="text me">'
-                        +'<p>'+result.text+'</p>'
-                        +'</div>'
-                        +'</div>'
-                        +'<span><i class="material-icons"></i>'+result.dateForHumans+'</span>'
-                        +'</div>'
-                        +'</div>')
-                    element.has('div .no-messages') ? element.children('div .no-messages').remove(): null;
-                    $('textarea[name=message]').val('');
-                    changeListChatItem(result);
-                    pushMessageInNavbar(result);
-                    scrollToBottom(document.getElementById('content'));
-
-                }
-
-
-        })
-            scrollToBottom(document.getElementById('content'));
-
-        })
-
-        //press enter to send message
-        $('textarea[name=message]').on('keyup',function(e){
-            if (e.keyCode == 13){
-                e.preventDefault();
-                $(this).parent().children('button').click();
-                $(this).val('');
-                scrollToBottom(document.getElementById('content'));
-            }
-        })
-        $('textarea[name=message]').on('click',function(e){
-            scrollToBottom(document.getElementById('content'));
-            let receiver_id=$(this).data('receiver');
-            readMessages(receiver_id,$('#list-chat-'+receiver_id));
-            getAllUnreadMessages();
-            scrollToBottom(document.getElementById('content'));
-
-        });
-
-        $('.filterDiscussions').on('click',function (){
-
-            let receiver_id = $(this).data('receiver');
-            readMessages(receiver_id,$(this));
-            getAllUnreadMessages();
-            scrollToBottom(document.getElementById('content'));
-        })
-
-        function readMessages(receiver_id,item){
-            $.ajax({
-                url:"/Chat/readMessages/"+receiver_id,
-                method:"post",
-                data:{
-                    '_token':$('meta[name=csrf-token]').attr('content')
-                }
-            })
-
-            item.hasClass('unread') ? item.removeClass('unread').addClass('read') : null;
-            item.children('div .new').addClass('d-none');
-        }
-        function changeListChatItem(message){
-            let element=$('#textOnSidebarMessage'+message.receiver_id);
-            switch (message.type){
-                case 'text': element.html(message.text);break;
-                case 'file':
-                case 'image':element.html(message.name);break;
-            }
-            $('#timeOnSidebarMessage'+message.receiver_id).html(message.dateForHumans);
-
-        }
-        function getAllUnreadMessages(){
-            $.ajax({
-                url:'/Chat/getAllUnreadMessages',
-                method:'post',
-                data:{
-                    '_token':$('meta[name=csrf-token]').attr('content')
-                },
-                success:function(result){
-                    let element=$('#navBarBadgeMessages');
-                    element.hasClass('d-none') ? element.removeClass('d-none'): null;
-                    element.html(result);
-                    result == 0 ? element.addClass('d-none') : null;
-                }
-            })
-        }
-
-        function pushMessageInNavbar(e){
-            let parentDiv = $('#parentForUserChatInNavbar');
-            parentDiv.has('.no-messages') ? parentDiv.children('.no-messages').remove(): null;
-            parentDiv.has('#userChatInNavbar-'+e.receiver_id) ? $('#userChatInNavbar-'+e.receiver_id).remove() :null;
-            parentDiv.prepend('' +
-                '<a href="#" id="userChatInNavbar-'+e.receiver_id+'">' +
-                '   <div class="inbox-item" >' +
-                '       <div class="inbox-item-img"><img src="'+e.receiverImage+'" class="rounded-circle" alt=""></div>' +
-                '       <p class="inbox-item-author">'+e.receiverName+'</p>' +
-                '       <p class="inbox-item-text text-truncate text-black-50">'+e.lastMessage+'</p>' +
-                '    </div>' +
-                ' </a>')
-
-        }
-
-        $('#markAllAsRead').on('click',function (){
-            $.ajax({
-                method:'post',
-                url:'{{route('notification.markAllAsRead')}}',
-                data:{
-                    '_token':$('meta[name=csrf-token]').attr('content')
-                },
-                success:function(){
-                    $('.filterNotifications').removeClass('bg-warning')
-                    $('#badgeSidebarNotifications').addClass('d-none')
-
-                }
-            })
-
-        })
-        //scroll function
-        function scrollToBottom(el)
-        { el.scrollTop = el.scrollHeight; }
-
-        $(document).ready(function() {
-            activeTab();
-            scrollToBottom(document.getElementById('content'));
-
-        });
-        $('.userChat').on('click',function() {
-            let href=$(this).attr('href');
-            let hash=href.slice(href.search('#'),href.length);
-            $('#chats a[href="'+hash+'"]').tab('show');
-            $('#menuSidebar a[href="#discussions"]').tab('show');
-            scrollToBottom(document.getElementById('content'));
-
-        });
-        function activeTab(){
-            var hash =window.location.hash ;
-
-            if (hash != "")
-                $('#chats a[href="'+hash +'"]').tab('show');
-            if(hash == '#notifications')
-                $('#menuSidebar a[href="#notifications"]').tab('show');
-            else
-                $('#chats a:first').tab('show');
-        }
-
-        $('.clearChat').on('click',function (){
-            let userId=$(this).data('receiver');
-            $.ajax({
-                'method':'post',
-                url:'/Chat/clearChat/'+userId,
-                data:{
-                    '_token': $('meta[name=csrf-token]').attr('content')
-                },
-                success:function (result){
-                    $('#appendMessages-'+userId).children('.me').remove();
-                }
-            })
-        })
-
-        $(document).on('click','.deleteMessage',function (){
-            let messageId=$(this).data('message');
-            $.ajax({
-                method:"post",
-                url:'Chat/deleteMessage/'+messageId,
-                data:{
-                    '_token':$('meta[name=csrf-token]').attr('content')
-                },
-                success:function (){
-                    $('#message-'+messageId).remove()
-                }
-            })
-        })
 
     </script>
+
+    <script src="{{asset('js/chat.js')}}"></script>
     <script src="{{asset('dist/js/vendor/popper.min.js')}}"></script>
     <script src="{{asset('dist/js/swipe.min.js')}}"></script>
-
-
 
 @endpush
 

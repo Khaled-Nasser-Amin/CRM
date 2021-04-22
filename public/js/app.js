@@ -1862,12 +1862,18 @@ window.Echo.channel("Chat.".concat(id)).listen('ChatEvent', function (e) {
   $('#typing-' + e.message.sender_id).remove();
 
   if (e.message.type == 'text') {
-    element.append(' <div class="message mb-0 notMe" id="message-' + e.message.id + '">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '<div class="text-main">' + '<div class="text-group">' + '  <div class="text bg-info text-white">' + '    <p>' + e.message.text + '</p>' + '   </div>' + '</div>' + '<span>' + e.message.dateForHumans + '</span>' + '</div>' + '</div>');
+    var _e$message$senderImag;
+
+    element.append(' <div class="message mb-0 notMe" id="message-' + e.message.id + '">' + '<img class="avatar-md" src="' + ((_e$message$senderImag = e.message.senderImage) !== null && _e$message$senderImag !== void 0 ? _e$message$senderImag : "https://ui-avatars.com/api/?name=" + encodeURI(e.sender.name) + "&color=7F9CF5&background=EBF4FF") + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '<div class="text-main">' + '<div class="text-group">' + '  <div class="text bg-info text-white">' + '    <p>' + e.message.text + '</p>' + '   </div>' + '</div>' + '<span>' + e.message.dateForHumans + '</span>' + '</div>' + '</div>');
   } else if (e.message.type == 'file') {
+    var _e$message$senderImag2;
+
     var url = "/Chat/" + e.message.id;
-    element.append('<div class="message mb-0 notMe" id="message-' + e.message.id + '">' + '<img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '   <div class="text-main">' + '       <div class="text-group">' + '          <div class="text">' + '               <div class="attachment">' + '                    <a href="' + url + '" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' + '                       <div class="file">' + '                            <h5>' + '                               <a href="' + url + '">' + e.message.name + '                               </a>' + '                            </h5>' + '                         <span>Document</span>' + '                    </div>' + '                </div>' + '             </div>' + '          </div>' + '       <span>' + e.message.dateForHumans + '</span>' + '   </div>' + ' </div>');
+    element.append('<div class="message mb-0 notMe" id="message-' + e.message.id + '">' + '<img class="avatar-md" src="' + ((_e$message$senderImag2 = e.message.senderImage) !== null && _e$message$senderImag2 !== void 0 ? _e$message$senderImag2 : "https://ui-avatars.com/api/?name=" + encodeURI(e.sender.name) + "&color=7F9CF5&background=EBF4FF") + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' + '   <div class="text-main">' + '       <div class="text-group">' + '          <div class="text">' + '               <div class="attachment">' + '                    <a href="' + url + '" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' + '                       <div class="file">' + '                            <h5>' + '                               <a href="' + url + '">' + e.message.name + '                               </a>' + '                            </h5>' + '                         <span>Document</span>' + '                    </div>' + '                </div>' + '             </div>' + '          </div>' + '       <span>' + e.message.dateForHumans + '</span>' + '   </div>' + ' </div>');
   } else if (e.message.type == 'image') {
-    element.append('<div class="message mb-0 notMe" id="message-' + e.message.id + '">' + ' <img class="avatar-md" src="' + e.message.senderImage + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '    <div class="text-main row flex-column">' + '       <div class="text-group">' + '             <div class="">' + '                   <img class="w-25 float-left" src="/chat_files/' + e.message.text + '" alt="' + e.message.text + '">' + '              </div>' + '     </div>' + '     <span>' + e.message.dateForHumans + '</span>' + '  </div>' + '</div>');
+    var _e$message$senderImag3;
+
+    element.append('<div class="message mb-0 notMe" id="message-' + e.message.id + '">' + ' <img class="avatar-md" src="' + ((_e$message$senderImag3 = e.message.senderImage) !== null && _e$message$senderImag3 !== void 0 ? _e$message$senderImag3 : "https://ui-avatars.com/api/?name=" + encodeURI(e.sender.name) + "&color=7F9CF5&background=EBF4FF") + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '    <div class="text-main row flex-column">' + '       <div class="text-group">' + '             <div class="">' + '                   <img class="w-25 float-left" src="/chat_files/' + e.message.text + '" alt="' + e.message.text + '">' + '              </div>' + '     </div>' + '     <span>' + e.message.dateForHumans + '</span>' + '  </div>' + '</div>');
   }
 
   element.has('div .no-messages') ? element.children('div .no-messages').remove() : null;
@@ -1901,10 +1907,13 @@ window.Echo.join("chat").here(function (users) {
 }); //listen for event
 
 var myId = $('meta[name=user_id]').attr('content');
+var userName = $('meta[name=user_name]').attr('content');
 var userImage = $('#userImage-' + myId).attr('src');
 window.Echo["private"]("whisper-".concat(myId)).listenForWhisper('typing', function (e) {
   if (!$('#typing-' + e.id).length) {
-    $('#appendMessages-' + e.id).append('<div id="typing-' + e.id + '" class="message mb-0 ">' + ' <img class="avatar-md" src="' + e.image + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '                                                            <div class="text-main">' + '                                                                <div class="text-group">' + '                                                                    <div class="text typing">' + '                                                                        <div class="wave">' + '                                                                            <span class="dot"></span>' + '                                                                            <span class="dot"></span>' + '                                                                            <span class="dot"></span>' + '                                                                        </div>' + '                                                                    </div>' + '                                                                </div>' + '                                                            </div>' + '                                                        </div>');
+    var _e$image;
+
+    $('#appendMessages-' + e.id).append('<div id="typing-' + e.id + '" class="message mb-0 ">' + ' <img class="avatar-md" src="' + ((_e$image = e.image) !== null && _e$image !== void 0 ? _e$image : "https://ui-avatars.com/api/?name=" + encodeURI(e.name) + "&color=7F9CF5&background=EBF4FF") + '" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' + '                                                            <div class="text-main">' + '                                                                <div class="text-group">' + '                                                                    <div class="text typing">' + '                                                                        <div class="wave">' + '                                                                            <span class="dot"></span>' + '                                                                            <span class="dot"></span>' + '                                                                            <span class="dot"></span>' + '                                                                        </div>' + '                                                                    </div>' + '                                                                </div>' + '                                                            </div>' + '                                                        </div>');
     setTimeout(function () {
       $('#typing-' + e.id).remove();
     }, 4000);
@@ -1917,7 +1926,8 @@ $(document).on('keydown', '.textarea', function () {
   setTimeout(function () {
     window.Echo["private"]("whisper-".concat(receiver_id)).whisper('typing', {
       id: myId,
-      image: userImage
+      image: userImage,
+      name: userName
     });
   }, 1000);
 });
@@ -1970,10 +1980,12 @@ function getAllUnreadMessages() {
 }
 
 function pushMessageInNavbar(e) {
+  var _e$message$senderImag4;
+
   var parentDiv = $('#parentForUserChatInNavbar');
   parentDiv.has('.no-messages') ? parentDiv.children('.no-messages').remove() : null;
   parentDiv.has('#userChatInNavbar-' + e.message.sender_id) ? $('#userChatInNavbar-' + e.message.sender_id).remove() : null;
-  parentDiv.prepend('' + '<a href="#" id="userChatInNavbar-' + e.message.sender_id + '">' + '   <div class="inbox-item" >' + '       <div class="inbox-item-img"><img src="' + e.message.senderImage + '" class="rounded-circle" alt=""></div>' + '       <p class="inbox-item-author">' + e.sender.name + '</p>' + '       <p class="inbox-item-text text-truncate text-black-50">' + e.lastMessage + '</p>' + '    </div>' + ' </a>');
+  parentDiv.prepend('' + '<a href="#" id="userChatInNavbar-' + e.message.sender_id + '">' + '   <div class="inbox-item" >' + '       <div class="inbox-item-img"><img src="' + ((_e$message$senderImag4 = e.message.senderImage) !== null && _e$message$senderImag4 !== void 0 ? _e$message$senderImag4 : "https://ui-avatars.com/api/?name=" + encodeURI(e.sender.name) + "&color=7F9CF5&background=EBF4FF") + '" class="rounded-circle" alt=""></div>' + '       <p class="inbox-item-author">' + e.sender.name + '</p>' + '       <p class="inbox-item-text text-truncate text-black-50">' + e.lastMessage + '</p>' + '    </div>' + ' </a>');
 }
 
 window.Echo["private"]('user.' + myId).notification(function (notification) {
@@ -1985,7 +1997,7 @@ window.Echo["private"]('user.' + myId).notification(function (notification) {
 });
 
 function popNotificationToWindow(notification) {
-  var image = notification.userImage.slice(notification.userImage.search('/images'), notification.userImage.length);
+  var image = notification.userImage ? notification.userImage.slice(notification.userImage.search('/images'), notification.userImage.length) : "https://ui-avatars.com/api/?name=" + encodeURI(notification.userName) + "&color=7F9CF5&background=EBF4FF";
   setTimeout(function () {
     window.VanillaToasts.create({
       // notification title
@@ -2006,18 +2018,20 @@ function popNotificationToWindow(notification) {
 
 function addTicketInDashboard(notification) {
   if (notification.type == 'App\\Notifications\\AddNewTicket') {
-    $('#tickets').prepend('<a href="#">' + '                                    <div class="inbox-item">' + '                                        <div class="inbox-item-img">' + '                                            <img src="' + notification.userImage + '" class="rounded-circle" alt="">' + '                                        </div>' + '                                        <p class="inbox-item-author">' + notification.userName + ' ( ' + notification.ticketName + ' )</p>' + '                                        <p class="inbox-item-text font-12">' + notification.details + '</p>' + '                                        <p class="inbox-item-date">' + notification.created_at + '</p>' + '                                    </div>' + '                                </a>');
+    var _notification$userIma;
+
+    $('#tickets').prepend('<a href="#">' + '                                    <div class="inbox-item">' + '                                        <div class="inbox-item-img">' + '                                            <img src="' + ((_notification$userIma = notification.userImage) !== null && _notification$userIma !== void 0 ? _notification$userIma : "https://ui-avatars.com/api/?name=" + encodeURI(notification.userName) + "&color=7F9CF5&background=EBF4FF") + '" class="rounded-circle" alt="">' + '                                        </div>' + '                                        <p class="inbox-item-author">' + notification.userName + ' ( ' + notification.ticketName + ' )</p>' + '                                        <p class="inbox-item-text font-12">' + notification.details + '</p>' + '                                        <p class="inbox-item-date">' + notification.created_at + '</p>' + '                                    </div>' + '                                </a>');
   }
 }
 
 function pushNotificationInNavbar(e) {
-  var image = e.userImage.slice(e.userImage.search('/images'), e.userImage.length);
-  $('#pushNotificationInNavbar').prepend('<a href="/Chat#notifications" class="dropdown-item notify-item">' + '                            <div class="notify-icon bg-secondary">' + '                                <img src="' + image + '" class="rounded-circle w-100" alt="image">' + '                            </div>\n' + '                            <p class="notify-details ml-1">' + '                                ' + e.userName + '' + '                                <span class="text-info">' + e.notification_text + '</span>' + '                                <small class="text-muted">' + e.created_at + '</small>\n' + '                            </p>\n' + '                        </a>');
+  var image = e.userImage ? e.userImage.slice(e.userImage.search('/images'), e.userImage.length) : e.userImage;
+  $('#pushNotificationInNavbar').prepend('<a href="/Chat#notifications" class="dropdown-item notify-item">' + '                            <div class="notify-icon bg-secondary">' + '                                <img src="' + (image !== null && image !== void 0 ? image : "https://ui-avatars.com/api/?name=" + encodeURI(e.userName) + "&color=7F9CF5&background=EBF4FF") + '" class="rounded-circle w-100" alt="image">' + '                            </div>\n' + '                            <p class="notify-details ml-1">' + '                                ' + e.userName + '' + '                                <span class="text-info">' + e.notification_text + '</span>' + '                                <small class="text-muted">' + e.created_at + '</small>\n' + '                            </p>\n' + '                        </a>');
 }
 
 function pushNotificationInAsideBar(e) {
-  var image = e.userImage.slice(e.userImage.search('/images'), e.userImage.length);
-  $('.pushNotificationInAsideBar').prepend('<a href="#"  class="notificationAuthor-' + e.userId + ' filterNotifications all latest notification bg-warning" data-toggle="list">' + '                                                                <img class="avatar-md" src="' + image + '" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">' + '                                                                <div class="status">' + '                                                                    <i class="material-icons online">fiber_manual_record</i>' + '                                                                </div>' + '                                                                <div class="data">' + '                                                                    <p> <b>' + e.userName + ' </b><b class="text-info">' + e.notification_text + '</b> </p>' + '                                                                    <p>' + e.details + '</p>' + '                                                                    <span>' + e.created_at + '</span>' + '                                                                </div>' + '                                                            </a>');
+  var image = e.userImage ? e.userImage.slice(e.userImage.search('/images'), e.userImage.length) : "https://ui-avatars.com/api/?name=" + encodeURI(e.userName) + "&color=7F9CF5&background=EBF4FF";
+  $('.pushNotificationInAsideBar').prepend('<a href="#"  class="notificationAuthor-' + e.userId + ' filterNotifications all latest notification bg-warning" data-toggle="list">' + '                                                                <img class="avatar-md" src="' + (image !== null && image !== void 0 ? image : "https://ui-avatars.com/api/?name=" + encodeURI(e.userName) + "&color=7F9CF5&background=EBF4FF") + '" data-toggle="tooltip" data-placement="top" title="Janette" alt="avatar">' + '                                                                <div class="status">' + '                                                                    <i class="material-icons online">fiber_manual_record</i>' + '                                                                </div>' + '                                                                <div class="data">' + '                                                                    <p> <b>' + e.userName + ' </b><b class="text-info">' + e.notification_text + '</b> </p>' + '                                                                    <p>' + e.details + '</p>' + '                                                                    <span>' + e.created_at + '</span>' + '                                                                </div>' + '                                                            </a>');
 }
 
 function NumberOfUnreadNotifications() {

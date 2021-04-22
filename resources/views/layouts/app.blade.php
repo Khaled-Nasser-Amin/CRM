@@ -13,7 +13,7 @@
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
     <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
-
+@stack('css')
 </head>
 <body>
 <div id="wrapper">
@@ -24,6 +24,6 @@
 <!-- App js -->
 <script src="{{asset('js/app.min.js')}}"></script>
 <script src="{{asset('js/vendor.min.js')}}"></script>
-
+@stack('script')
 </body>
 </html>

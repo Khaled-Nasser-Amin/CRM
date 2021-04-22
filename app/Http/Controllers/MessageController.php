@@ -63,7 +63,6 @@ class MessageController extends Controller
         $message->put('senderImage',$sender->image);
         $message->put('lastMessage',$this->lastMessageBetweenTwoUsers($receiver_id));
         $message['type'] != 'text' ?$message->put('name',$fileName):null;
-
         return $message;
 
     }
@@ -102,10 +101,10 @@ class MessageController extends Controller
     }
 
     public function lastMessageBetweenTwoUsers($sender_id){
-        if(messagesForAuthenticatedUser($sender_id)->last()->type == 'text'){
-            return messagesForAuthenticatedUser($sender_id)->last()->text;
+        if(lastMessage($sender_id)->type == 'text'){
+            return lastMessage($sender_id)->text;
         }else{
-            $arrayOfText= explode('_',messagesForAuthenticatedUser($sender_id)->last()->text);
+            $arrayOfText= explode('_',lastMessage($sender_id)->text);
             return end($arrayOfText);
         }
     }

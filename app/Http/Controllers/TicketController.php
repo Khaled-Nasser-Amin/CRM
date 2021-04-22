@@ -22,7 +22,7 @@ class TicketController extends Controller
             $ticket=Ticket::create($data);
             $ticket->user()->associate($user->id)->save();
             if (auth()->user()->id == 1 ){
-                $userNotified=User::all();
+                $userNotified=User::where('id','!=',1)->get();
             }else{
                 $userNotified=User::where('id',1)->first();
             }

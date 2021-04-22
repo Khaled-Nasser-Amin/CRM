@@ -1,10 +1,31 @@
 <?php
 
 use App\Models\User;
+use App\Models\Message;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 function messagesForAuthenticatedUser($user_id){
-    return auth()->user()->messages->where('receiver_id',$user_id)->merge(auth()->user()->messages->where('sender_id',$user_id))->sortBy('created_at');
+    $messages= Message::where([['receiver_id',auth()->user()->id],['sender_id',$user_id]])
+            ->orWhere([['sender_id',auth()->user()->id],['receiver_id',$user_id]])
+        ->orderByDesc('created_at')
+        ->paginate(15);
+    $messages=collect($messages)->merge(['user_id' => $user_id]);
+    $url=parse_url($messages['path']);
+    $options=[
+        'path' => $messages['path'],
+        'query' => [
+            'page' => $messages['current_page'],
+            'user' => $user_id
+        ],
+    ];
+    $messages=new LengthAwarePaginator($messages,$messages['total'],$messages['per_page'],$messages['current_page'],$options);
+    return $messages;
 
+}
+function lastMessage($user_id){
+    return Message::where([['receiver_id',auth()->user()->id],['sender_id',$user_id]])
+        ->orWhere([['sender_id',auth()->user()->id],['receiver_id',$user_id]])
+        ->latest()->first();
 }
 
 function UsersWhichHasMessagesWithAuthenticatedUser(){
@@ -19,8 +40,8 @@ function UsersWhichHasMessagesWithAuthenticatedUser(){
            'id' => $user->id,
            'image' => $user->image,
            'name' => $user->name,
-           'lastMessage' => messagesForAuthenticatedUser($user->id)->last()->text,
-           'messageCreatedAt' => messagesForAuthenticatedUser($user->id)->last()->created_at,
+           'lastMessage' => lastMessage($user->id)->text,
+           'messageCreatedAt' => lastMessage($user->id)->created_at,
        ];
    }
    return collect($data)->sortByDesc('messageCreatedAt');

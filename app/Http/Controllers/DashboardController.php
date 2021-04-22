@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller

@@ -23,11 +23,11 @@
                     </span>
                 </div>
 
-                <div class="slimscroll noti-scroll" id="pushNotificationInNavbar">
+                <div class="slimscroll noti-scroll" id="pushNotificationInNavbar" style="max-height: 350px!important; min-height: 350px!important;">
                     @forelse(auth()->user()->notifications()->latest()->get() as $notification)
                         <a href="javascript:void(0);" class="dropdown-item showAllNotifications notify-item">
                             <div class="notify-icon bg-secondary">
-                                <img src="{{$notification->user->image}}" class="rounded-circle w-100" alt="image">
+                                <img src="{{ $notification->user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($notification->user->name).'&color=7F9CF5&background=EBF4FF' }}" class="rounded-circle w-100" alt="image">
                             </div>
                             <p class="notify-details ml-1">
                                 {{$notification->user->name}}
@@ -57,14 +57,14 @@
                 <i class="mdi mdi-email noti-icon"></i>
                 <span class="badge badge-danger rounded-circle noti-icon-badge {{auth()->user()->messagesAsReceiver->where('state',0)->count() == 0 ? 'd-none' : ''}}" id="navBarBadgeMessages">{{auth()->user()->messages->where('state',0)->count()}}</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+            <div class="dropdown-menu dropdown-menu-right dropdown-lg" >
                 <div class="slimscroll noti-scroll">
 
-                    <div class="inbox-widget" id="parentForUserChatInNavbar">
+                    <div  class="inbox-widget" id="parentForUserChatInNavbar" style="max-height: 350px!important; min-height: 350px!important;">
                         @forelse(UsersWhichHasMessagesWithAuthenticatedUser() as $user)
                             <a class="userChat" href="/Chat#Chat{{$user['id']}}" id="userChatInNavbar-{{$user['id']}}">
                                 <div class="inbox-item" >
-                                    <div class="inbox-item-img"><img src="{{$user['image']}}" class="rounded-circle" alt=""></div>
+                                    <div class="inbox-item-img"><img src="{{ $user['image']?? 'https://ui-avatars.com/api/?name='.urlencode($user['name']).'&color=7F9CF5&background=EBF4FF' }}" class="rounded-circle" alt=""></div>
                                     <p class="inbox-item-author">{{$user['name']}}</p>
                                     <p class="inbox-item-text text-truncate">{{$user['lastMessage']}}</p>
                                 </div>
@@ -93,7 +93,7 @@
 
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img id="userImage-{{auth()->user()->id}}" src="{{auth()->user()->image}}" alt="user-image" class="rounded-circle">
+                <img id="userImage-{{auth()->user()->id}}" src="{{ auth()->user()->image ?? 'https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name).'&color=7F9CF5&background=EBF4FF' }}" alt="user-image" class="rounded-circle">
                 <span class="d-none d-sm-inline-block ml-1">{{auth()->user()->name}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -101,11 +101,14 @@
                 <div class="dropdown-header noti-title">
                     <h6 class="text-overflow m-0">Welcome !</h6>
                 </div>
+                <a href="{{route('profile.show')}}" class="dropdown-item mdi mdi-account-key">
+                    <span>Profile</span>
+                </a>
 
                 <div class="dropdown-divider"></div>
 
                 <!-- item-->
-                <a  onclick="event.preventDefault(); document.getElementById('form-logout').submit()" class="dropdown-item notify-item">
+                <a href="#" onclick="event.preventDefault(); document.getElementById('form-logout').submit()" class="dropdown-item notify-item">
                     <i class="mdi mdi-logout-variant"></i>
                     <span>Logout</span>
                 </a>

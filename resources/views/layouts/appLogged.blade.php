@@ -8,6 +8,7 @@
     <meta content="Coderthemes" name="author" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="user_id" content="{{ auth()->user()->id }}" />
+    <meta name="user_name" content="{{ auth()->user()->name }}" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
 
@@ -44,6 +45,8 @@
 
     <link href="{{asset('css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
     <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css" id="app-stylesheet" />
+
+
 
 </head>
 <body>
@@ -93,12 +96,12 @@
 <!-- Init js-->
 <script src="{{asset('js/pages/form-pickers.init.js')}}"></script>
 
-@stack('script')
-
 <!-- App js -->
+
+
+@stack('script')
 <script src="{{asset('js/app.min.js')}}"></script>
 <script src="{{asset('js/app.js')}}"></script>
-
 
 </body>
 </html>
