@@ -1,14 +1,11 @@
 <?php
 
 use App\Http\Controllers\FullCalenderController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\PropertiesController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
