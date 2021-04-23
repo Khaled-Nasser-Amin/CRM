@@ -290,7 +290,7 @@
                                                 <td>{{$lead->developer->name}}</td>
 
                                             @can('create',App\Models\User::class)
-                                                    <td><img src="{{$lead->user->image}}" alt="user" class="avatar-sm rounded-circle" />{{$lead->user->email}}</td>
+                                                    <td><img src="{{ $lead->user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($lead->user->name).'&color=7F9CF5&background=EBF4FF' }}" alt="user" class="avatar-sm rounded-circle" />{{$lead->user->email}}</td>
                                                 @endcan
                                                 <td><!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit-lead-{{$lead->id}}">

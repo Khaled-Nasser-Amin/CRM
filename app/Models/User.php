@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,TwoFactorAuthenticatable;
 
     protected $guarded=['role'];
     protected $fillable = [
@@ -57,7 +58,7 @@ class User extends Authenticatable
     }
 
     public function getImageAttribute($value){
-        return asset('images/users/'.$value);
+        return $value? asset('images/users/'.$value):$value;
     }
 
     public function receivesBroadcastNotificationsOn()

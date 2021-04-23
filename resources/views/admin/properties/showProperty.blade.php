@@ -91,7 +91,7 @@
                             </div>
                             <div class="member-card">
                                 <div class="avatar-xl member-thumb mb-2 mx-auto d-block">
-                                    <img src="{{$user->image}}" class="rounded-circle img-thumbnail" alt="profile-image">
+                                    <img src="{{ $user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&color=7F9CF5&background=EBF4FF' }}" class="rounded-circle img-thumbnail" alt="profile-image">
                                     <i class="mdi mdi-star-circle member-star text-success" title="Featured Agent"></i>
                                 </div>
 
