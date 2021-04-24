@@ -109,6 +109,8 @@ class MessageController extends Controller
         }
     }
 
+
+    //clear chat
     public function deleteMessages($id){
 
         $files=auth()->user()->messagesAsSender()->where('receiver_id',$id)->where('type','file')->orWhere('type','image')->get();
@@ -124,6 +126,7 @@ class MessageController extends Controller
 
     }
 
+    //delete specific message
     public function deleteMessage(Message $message){
         if($message->sender_id == auth()->user()->id ) {
             $receiverId=$message->receiver_id;
@@ -132,7 +135,7 @@ class MessageController extends Controller
                 broadcast(new DeleteMessageEvent(auth()->user(),$receiverId,$messageId))->toOthers();
             })->afterResponse();
             $message->delete();
-            return redirect()->back();
+            return $receiverId;
 
         }else{
             return abort(404);

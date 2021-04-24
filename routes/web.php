@@ -21,7 +21,7 @@ Route::get('/', function () {
 })->middleware('guest');
 
 Route::get('/login',[AuthController::class,'index'])->name('index');
-Route::post('/login',[AuthController::class,'login'])->name('login')->middleware("throttle:5,2");
+Route::post('/login',[AuthController::class,'login'])->name('login')->middleware("throttle:6,2");
 Route::get('/ForgetPassword',[AuthController::class,'viewForget'])->name('viewForget');
 Route::post('/check_your_inbox',[AuthController::class,'messageAfterSendingEmailToResetPassword'])->name('sendEmail');
 Route::get('/reset-password/{_token}',[AuthController::class,'viewResetPassword'])->name('viewResetPassword');

@@ -404,7 +404,7 @@
                                     </div>
                                 </a>
                             @empty
-                                <p class="text-muted">there are no comments</p>
+                                <p class="text-muted" id="noTickets">there are no comments</p>
                             @endforelse
 
 

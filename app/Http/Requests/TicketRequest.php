@@ -16,7 +16,6 @@ class TicketRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|exists:users',
             'password' =>'required|alpha_num|confirmed',
             'name' => 'required|max:255|string',
             'comment' => 'required|max:255|string',

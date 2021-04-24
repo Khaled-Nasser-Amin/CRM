@@ -16,68 +16,70 @@ let id=$('meta[name=user_id]').attr('content');
 window.Echo.channel(`Chat.${id}`)
     .listen('ChatEvent', (e) => {
         let element =$('#appendMessages-'+e.message.sender_id);
-        $('#typing-'+e.message.sender_id).remove();
-        if(e.message.type == 'text'){
-            element.append(' <div class="message mb-0 notMe" id="message-'+e.message.id+'">' +
-                '<img class="avatar-md" src="'+
-                (e.message.senderImage  ?? "https://ui-avatars.com/api/?name="+encodeURI(e.sender.name)+"&color=7F9CF5&background=EBF4FF")
+        if(element.data('current-page') == 1){
+            $('#typing-'+e.message.sender_id).remove();
+            if(e.message.type == 'text'){
+                element.append(' <div class="message mb-0 notMe" id="message-'+e.message.id+'">' +
+                    '<img class="avatar-md" src="'+
+                    (e.message.senderImage  ?? "https://ui-avatars.com/api/?name="+encodeURI(e.sender.name)+"&color=7F9CF5&background=EBF4FF")
 
-                +'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
-                '<div class="text-main">' +
-                '<div class="text-group">' +
-                '  <div class="text bg-info text-white">' +
-                '    <p>'+e.message.text+'</p>'+
-                '   </div>' +
-                '</div>' +
-                '<span>'+e.message.dateForHumans+'</span>' +
-                '</div>' +
-                '</div>')
+                    +'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
+                    '<div class="text-main">' +
+                    '<div class="text-group">' +
+                    '  <div class="text bg-info text-white">' +
+                    '    <p>'+e.message.text+'</p>'+
+                    '   </div>' +
+                    '</div>' +
+                    '<span>'+e.message.dateForHumans+'</span>' +
+                    '</div>' +
+                    '</div>')
+
+            }
+            else if(e.message.type == 'file'){
+                let url = "/Chat/"+e.message.id;
+                element.append('<div class="message mb-0 notMe" id="message-'+e.message.id+'">' +
+                    '<img class="avatar-md" src="'+
+                    (e.message.senderImage  ?? "https://ui-avatars.com/api/?name="+encodeURI(e.sender.name)+"&color=7F9CF5&background=EBF4FF")
+                    +'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
+                    '   <div class="text-main">' +
+                    '       <div class="text-group">' +
+                    '          <div class="text">' +
+                    '               <div class="attachment">' +
+                    '                    <a href="'+url+'" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' +
+                    '                       <div class="file">' +
+                    '                            <h5>' +
+                    '                               <a href="'+url+'">' +
+                    e.message.name  +
+                    '                               </a>' +
+                    '                            </h5>' +
+                    '                         <span>Document</span>' +
+                    '                    </div>' +
+                    '                </div>' +
+                    '             </div>' +
+                    '          </div>' +
+                    '       <span>'+e.message.dateForHumans+'</span>' +
+                    '   </div>' +
+                    ' </div>')
+
+            }else if(e.message.type == 'image'){
+                element.append('<div class="message mb-0 notMe" id="message-'+e.message.id+'">' +
+                    ' <img class="avatar-md" src="'+
+                    (e.message.senderImage  ?? "https://ui-avatars.com/api/?name="+encodeURI(e.sender.name)+"&color=7F9CF5&background=EBF4FF")
+
+                    +'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' +
+                    '    <div class="text-main row flex-column">' +
+                    '       <div class="text-group">' +
+                    '             <div class="">' +
+                    '                   <img class="w-25 float-left" src="/chat_files/'+e.message.text+'" alt="'+e.message.text+'">' +
+                    '              </div>' +
+                    '     </div>' +
+                    '     <span>'+e.message.dateForHumans+'</span>' +
+                    '  </div>' +
+                    '</div>')
+            }
+            element.has('div .no-messages') ? element.children('div .no-messages').remove(): null;
 
         }
-        else if(e.message.type == 'file'){
-            let url = "/Chat/"+e.message.id;
-            element.append('<div class="message mb-0 notMe" id="message-'+e.message.id+'">' +
-                '<img class="avatar-md" src="'+
-                (e.message.senderImage  ?? "https://ui-avatars.com/api/?name="+encodeURI(e.sender.name)+"&color=7F9CF5&background=EBF4FF")
-                +'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">' +
-                '   <div class="text-main">' +
-                '       <div class="text-group">' +
-                '          <div class="text">' +
-                '               <div class="attachment">' +
-                '                    <a href="'+url+'" class="btn attach"><i class="material-icons md-18">insert_drive_file</i></a>' +
-                '                       <div class="file">' +
-                '                            <h5>' +
-                '                               <a href="'+url+'">' +
-                                                  e.message.name  +
-                '                               </a>' +
-                '                            </h5>' +
-                '                         <span>Document</span>' +
-                '                    </div>' +
-                '                </div>' +
-                '             </div>' +
-                '          </div>' +
-                '       <span>'+e.message.dateForHumans+'</span>' +
-                '   </div>' +
-                ' </div>')
-
-        }else if(e.message.type == 'image'){
-            element.append('<div class="message mb-0 notMe" id="message-'+e.message.id+'">' +
-                ' <img class="avatar-md" src="'+
-                (e.message.senderImage  ?? "https://ui-avatars.com/api/?name="+encodeURI(e.sender.name)+"&color=7F9CF5&background=EBF4FF")
-
-                +'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' +
-                '    <div class="text-main row flex-column">' +
-                '       <div class="text-group">' +
-                '             <div class="">' +
-                '                   <img class="w-25 float-left" src="/chat_files/'+e.message.text+'" alt="'+e.message.text+'">' +
-                '              </div>' +
-                '     </div>' +
-                '     <span>'+e.message.dateForHumans+'</span>' +
-                '  </div>' +
-                '</div>')
-        }
-        element.has('div .no-messages') ? element.children('div .no-messages').remove(): null;
-
         changeListChatItem(e.message);
         getUnReadMessages(e.message.sender_id);
         getAllUnreadMessages();
@@ -91,7 +93,7 @@ window.Echo.channel(`Chat.${id}`)
     .listen('DeleteMessageEvent',(e)=>{
         $('#message-'+e.message_id).remove();
     });
-
+//active or not active (active now )
 window.Echo.join(`chat`)
     .here((users) => {
         users.forEach(function (user){
@@ -121,8 +123,9 @@ let userName=$('meta[name=user_name]').attr('content');
 let userImage=$('#userImage-'+myId).attr('src');
 window.Echo.private(`whisper-${myId}`)
     .listenForWhisper('typing', (e) => {
-        if(!$('#typing-'+e.id).length){
-            $('#appendMessages-'+e.id).append('<div id="typing-'+e.id+'" class="message mb-0 ">' +
+        let element= $('#appendMessages-'+e.id);
+        if(!$('#typing-'+e.id).length && element.data('current-page') == 1){
+            element.append('<div id="typing-'+e.id+'" class="message mb-0 ">' +
                 ' <img class="avatar-md" src="'+
                 (e.image  ?? "https://ui-avatars.com/api/?name="+encodeURI(e.name)+"&color=7F9CF5&background=EBF4FF")
                 +'" data-toggle="tooltip" data-placement="top" title="Keith" alt="avatar">\n' +
@@ -250,7 +253,7 @@ function popNotificationToWindow(notification){
 
             // success, info, warning, error   / optional parameter
             type: 'warning',
-            timeout:5000,
+            timeout:10000,
 
             // path to notification icon
             icon: image,
@@ -266,6 +269,7 @@ function popNotificationToWindow(notification){
 }
 function addTicketInDashboard(notification){
     if (notification.type == 'App\\Notifications\\AddNewTicket'){
+        $('#tickets').has('#noTickets') ? $('#noTickets').remove():null;
         $('#tickets').prepend('<a href="#">' +
             '                                    <div class="inbox-item">' +
             '                                        <div class="inbox-item-img">' +
@@ -385,8 +389,3 @@ $(document).on('click','.DeleteButton',function(e){
 })
 
 
-function updateMessageForCurrentPage(user_id,viewResult){
-    let element=$('#appendMessages-'+user_id).parent();
-    element.empty();
-    element.html($('#appendMessages-'+user_id,viewResult).parent().html());
-}

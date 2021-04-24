@@ -39,7 +39,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 control-label " for="email">Email *</label>
                                         <div class="col-lg-10">
-                                            <input id="email" name="email" type="text" class="required email form-control">
+                                            <input id="email" name="email" type="text" value="{{auth()->user()->email}}" class="email form-control " disabled>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -95,7 +95,7 @@
                                             <ul class="list-unstyled w-list">
                                                 <li><b>First Name :</b> <span name="firstName"></span> </li>
                                                 <li><b>Comment :</b> <span name="comment"></span> </li>
-                                                <li><b>Emial:</b> <span name="email"></span></li>
+                                                <li><b>Emial:</b> <span name="email">{{auth()->user()->email}}</span></li>
                                                 <li><b>Project:</b> <span name="project"></span> </li>
                                             </ul>
                                         </div>
@@ -127,12 +127,10 @@
 
     <script>
         $('.formSteps').on('change',function(){
-            let email=$('input[name=email]').val();
             let firstName=$('input[name=name]').val();
             let comment=$('input[name=comment]').val();
             let project=$('input[name=project]').val();
-
-            $('span[name=email]').html(email);
+            $('span[name=email]').html('{{auth()->user()->email}}');
             $('span[name=firstName]').html(firstName);
             $('span[name=comment]').html(comment);
             $('span[name=project]').html(project);

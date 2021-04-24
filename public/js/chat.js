@@ -20,6 +20,7 @@ $('.attachFile').on('change',function(){
         success:function (result){
             let element= $('#appendMessages-'+receiver_id);
             if (element.data('current-page') == 1) {
+
                 if (result.type == 'file'){
                     element.append('<div class="message me mb-0" id="message-'+result.id+'"><div class="text-main">' +
                         '<div class="dropleft d-inline">' +
@@ -53,6 +54,9 @@ $('.attachFile').on('change',function(){
                         '</div>' +
                         '</div> ')
                 }
+
+
+                getMessagesView(1,receiver_id)
 
             }
             element.has('div .no-messages') ? element.children('div .no-messages').remove(): null;
@@ -93,6 +97,7 @@ $('.btnChat').on('click',function(e){
                     +'<span><i class="material-icons"></i>'+result.dateForHumans+'</span>'
                     +'</div>'
                     +'</div>')
+                getMessagesView(1,receiver_id)
             }
 
             element.has('div .no-messages') ? element.children('div .no-messages').remove(): null;
@@ -130,6 +135,7 @@ $('textarea[name=message]').on('click',function(e){
 $('.filterDiscussions').on('click',function (){
 
     let receiver_id = $(this).data('receiver');
+    getMessagesView(1,receiver_id)
     readMessages(receiver_id,$(this));
     getAllUnreadMessages();
     scrollToBottom(document.getElementById('content'));
@@ -268,8 +274,10 @@ $(document).on('click','.deleteMessage',function (){
         data:{
             '_token':$('meta[name=csrf-token]').attr('content')
         },
-        success:function (result){
+        success:function (receiverId){
             $('#message-'+messageId).remove()
+            let currentPage=$('#appendMessages-'+receiverId).data('current-page')
+            getMessagesView(currentPage,receiverId)
         }
     })
 })
@@ -279,28 +287,31 @@ $(document).on('click','.showMore',function (e){
     e.preventDefault();
     let currentPage=$(this).data('current-page');
     let user_id=$(this).data('user')
+    getMessagesView((currentPage+1),user_id)
+    scrollToBottom(document.getElementById('content'));
+
+})
+
+
+//get messages for specific user by ajax
+function getMessagesView(currentPage,user_id){
     $.ajax({
         'method':'get',
-        'url':'/Chat?page='+(currentPage+1)+'&user='+user_id,
+        'url':'/Chat?page='+currentPage+'&user='+user_id,
         success:function (e){
             updateMessageForCurrentPage(user_id,e)
         }
     })
-})
-
-
+}
 //show less paginate ajax
 $(document).on('click','.showLess',function (e){
     e.preventDefault();
     let currentPage=$(this).data('current-page')
     let user_id=$(this).data('user')
-    $.ajax({
-        'method':'get',
-        'url':'/Chat?page='+(currentPage-1)+'&user='+user_id,
-        success:function (e){
-            updateMessageForCurrentPage(user_id,e)
-        }
-    })
+    getMessagesView((currentPage-1),user_id)
+    scrollToBottom(document.getElementById('content'));
+
+
 })
 //update message for current page
 function updateMessageForCurrentPage(user_id,viewResult){

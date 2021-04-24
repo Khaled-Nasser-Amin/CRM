@@ -10,7 +10,7 @@
             <div class="dropdown-menu dropdown-menu-right dropdown-lg">
 
                 <!-- item-->
-                <div class="dropdown-item noti-title row justify-content-between">
+                <div class="dropdown-item noti-title row justify-content-between" style="margin: -8px 0">
                     <h5 class="font-16 m-0 d-inline">
                         Notification
                     </h5>
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="slimscroll noti-scroll" id="pushNotificationInNavbar" style="max-height: 350px!important; min-height: 350px!important;">
-                    @forelse(auth()->user()->notifications()->latest()->get() as $notification)
+                    @forelse(auth()->user()->notifications()->latest()->take(15)->get() as $notification)
                         <a href="javascript:void(0);" class="dropdown-item showAllNotifications notify-item">
                             <div class="notify-icon bg-secondary">
                                 <img src="{{ $notification->user->image ?? 'https://ui-avatars.com/api/?name='.urlencode($notification->user->name).'&color=7F9CF5&background=EBF4FF' }}" class="rounded-circle w-100" alt="image">
@@ -93,7 +93,7 @@
 
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <img id="userImage-{{auth()->user()->id}}" src="{{ auth()->user()->image ?? 'https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name).'&color=7F9CF5&background=EBF4FF' }}" alt="user-image" class="rounded-circle">
+                <img id="userImage-{{auth()->user()->id}}" src="{{ auth()->user()->image ?? 'https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name).'&color=7F9CF5&background=EBF4FF' }}" alt="user-image" class="rounded-circle " style="height: 50px;width: 50px">
                 <span class="d-none d-sm-inline-block ml-1">{{auth()->user()->name}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
