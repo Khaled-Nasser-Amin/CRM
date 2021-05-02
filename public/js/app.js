@@ -1992,7 +1992,7 @@ function pushMessageInNavbar(e) {
   var parentDiv = $('#parentForUserChatInNavbar');
   parentDiv.has('.no-messages') ? parentDiv.children('.no-messages').remove() : null;
   parentDiv.has('#userChatInNavbar-' + e.message.sender_id) ? $('#userChatInNavbar-' + e.message.sender_id).remove() : null;
-  parentDiv.prepend('' + '<a href="#" id="userChatInNavbar-' + e.message.sender_id + '">' + '   <div class="inbox-item" >' + '       <div class="inbox-item-img"><img src="' + ((_e$message$senderImag4 = e.message.senderImage) !== null && _e$message$senderImag4 !== void 0 ? _e$message$senderImag4 : "https://ui-avatars.com/api/?name=" + encodeURI(e.sender.name) + "&color=7F9CF5&background=EBF4FF") + '" class="rounded-circle" alt=""></div>' + '       <p class="inbox-item-author">' + e.sender.name + '</p>' + '       <p class="inbox-item-text text-truncate text-black-50">' + e.lastMessage + '</p>' + '    </div>' + ' </a>');
+  parentDiv.prepend('' + '<a href="/Chat#Chat' + e.message.sender_id + '" id="userChatInNavbar-' + e.message.sender_id + '">' + '   <div class="inbox-item" >' + '       <div class="inbox-item-img"><img src="' + ((_e$message$senderImag4 = e.message.senderImage) !== null && _e$message$senderImag4 !== void 0 ? _e$message$senderImag4 : "https://ui-avatars.com/api/?name=" + encodeURI(e.sender.name) + "&color=7F9CF5&background=EBF4FF") + '" class="rounded-circle" alt=""></div>' + '       <p class="inbox-item-author">' + e.sender.name + '</p>' + '       <p class="inbox-item-text text-truncate text-black-50">' + e.lastMessage + '</p>' + '    </div>' + ' </a>');
 }
 
 window.Echo["private"]('user.' + myId).notification(function (notification) {

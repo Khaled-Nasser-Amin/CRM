@@ -1,13 +1,32 @@
 #vanillatoasts-container {
   position: fixed;
+    top: 30 !important;
   width: 320px;
   font-family: 'Helvetica';
   pointer-events: none;
+    margin-top: 52px;
 }
 .toasts-top-right{
-  top: 0;
-  right: 0;
+  top: 30 !important;
+  right: 0 !important;
 }
+.vanillatoasts-toast {
+    position: relative;
+    padding: 20px 17px;
+    margin: 20px;
+    border-radius: 10px;
+    background: #F5F5F5;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    -webkit-animation-duration:  .3s;
+            animation-duration:  .3s;
+    -webkit-animation-name: VanillaToasts;
+            animation-name: VanillaToasts;
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    pointer-events: all;
+}
+
 .toasts-top-left{
   left:0;
   top:0;
@@ -32,22 +51,7 @@
   left: 50%;
   transform: translateX(-50%);
 }
-.vanillatoasts-toast {
-  position: relative;
-  padding: 20px 17px;
-  margin: 20px;
-  border-radius: 10px;
-  background: #F5F5F5;
-  cursor: pointer;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  -webkit-animation-duration:  .3s;
-          animation-duration:  .3s;
-  -webkit-animation-name: VanillaToasts;
-          animation-name: VanillaToasts;
-  -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-          animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-  pointer-events: all;
-}
+
 
 .vanillatoasts-fadeOut {
   -webkit-animation-name: VanillaToastsFadeOut;

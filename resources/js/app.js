@@ -216,7 +216,7 @@ function pushMessageInNavbar(e){
     parentDiv.has('.no-messages') ? parentDiv.children('.no-messages').remove(): null;
     parentDiv.has('#userChatInNavbar-'+e.message.sender_id) ? $('#userChatInNavbar-'+e.message.sender_id).remove() :null;
     parentDiv.prepend('' +
-        '<a href="#" id="userChatInNavbar-'+e.message.sender_id+'">' +
+        '<a href="/Chat#Chat'+e.message.sender_id+'" id="userChatInNavbar-'+e.message.sender_id+'">' +
         '   <div class="inbox-item" >' +
         '       <div class="inbox-item-img"><img src="'+
 

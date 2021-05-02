@@ -55,7 +55,7 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle  waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="mdi mdi-email noti-icon"></i>
-                <span class="badge badge-danger rounded-circle noti-icon-badge {{auth()->user()->messagesAsReceiver->where('state',0)->count() == 0 ? 'd-none' : ''}}" id="navBarBadgeMessages">{{auth()->user()->messages->where('state',0)->count()}}</span>
+                <span class="badge badge-danger rounded-circle noti-icon-badge {{auth()->user()->messagesAsReceiver->where('state',0)->count() == 0 ? 'd-none' : ''}}" id="navBarBadgeMessages">{{auth()->user()->messagesAsReceiver->where('state',0)->count()}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-lg" >
                 <div class="slimscroll noti-scroll">
