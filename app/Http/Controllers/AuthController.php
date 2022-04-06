@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Mail\ResetPasswordEmail;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +13,6 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    use ThrottlesLogins;
 
     public function __construct()
     {
